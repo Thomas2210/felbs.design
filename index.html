@@ -95,12 +95,12 @@ main.active { display:block; }
 }
 .steps-container .step p { 
   margin:0; 
-  font-family:'Roboto', sans-serif; /* Haupttext Roboto */
+  font-family:'Roboto', sans-serif; 
 }
 .steps-container .step-title {
-  font-family: 'Ubuntu', sans-serif; /* Nur Titel in Ubuntu */
+  font-family: 'Ubuntu', sans-serif; 
   font-weight:500;
-  display:block; /* neue Zeile nach Doppelpunkt */
+  display:block; 
   margin-bottom:5px;
 }
 
@@ -142,7 +142,7 @@ main.active { display:block; }
 /* ====== KONTAKT ====== */
 #kontakt section {
   width:100%;
-  background-color:#ffffff; /* Weiß */
+  background-color:#ffffff; 
   padding:40px 20px;
   text-align:center;
   color:#000;
@@ -163,6 +163,17 @@ main.active { display:block; }
 }
 #kontakt a:hover { text-decoration:underline; }
 
+/* ====== FOOTER ====== */
+#main-footer {
+  background-color:#98a8cd;
+  padding:15px 20px;
+  text-align:center;
+  font-size:0.9rem;
+  color:white;
+  display:none;
+}
+#main-footer a { color:white; text-decoration:underline; }
+
 /* ====== RESPONSIVE ====== */
 @media(max-width:1024px){
   .portfolio-slider img { width:calc((100% - 20px)/2); }
@@ -171,26 +182,13 @@ main.active { display:block; }
 }
 
 @media(max-width:768px){
-  /* Quadrate untereinander und zentriert */
   #intro {
     flex-direction: column;
     gap:15px;
     align-items: center;
   }
-  .square {
-    width:130px;
-    height:130px; /* quadratisch */
-    font-size:1.2rem;
-  }
-
-  /* Portfolio-Bilder größer */
-  .portfolio-slider img {
-    width:90%;
-    max-width:400px;
-    flex:0 0 auto;
-    margin:auto;
-  }
-
+  .square { width:130px; height:130px; font-size:1.2rem; }
+  .portfolio-slider img { width:90%; max-width:400px; flex:0 0 auto; margin:auto; }
   header { flex-direction:column; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
@@ -221,26 +219,17 @@ main.active { display:block; }
   </nav>
 </header>
 
-<!-- GRAFIK -->
+<!-- CONTENT SECTIONS -->
 <main id="grafik">
   <section class="text-section">
     <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
     <div class="steps-container">
-      <div class="step">
-        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst (Flyer, Logo, Plakat...). Wir klären Ziele, Zielgruppe & Look.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten, Änderungen möglich.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck. Alles professionell.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
-      </div>
+      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Ziele, Zielgruppe & Look klären wir.</p></div>
+      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten, Änderungen möglich.</p></div>
+      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck. Alles professionell.</p></div>
+      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
     </div>
   </section>
-
   <div style="background-color:#fff; padding:20px 0;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
@@ -257,23 +246,14 @@ main.active { display:block; }
   </div>
 </main>
 
-<!-- PRINT -->
 <main id="print">
   <section class="text-section">
     <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
     <div class="steps-container">
-      <div class="step">
-        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst (Flyer, Logo, Plakat...). Wir klären Ziele, Zielgruppe & Look.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten, Änderungen möglich.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck. Alles professionell.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
-      </div>
+      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Ziele, Zielgruppe & Look klären wir.</p></div>
+      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten, Änderungen möglich.</p></div>
+      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck. Alles professionell.</p></div>
+      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
     </div>
   </section>
   <div style="background-color:#fff; padding:20px 0;">
@@ -292,7 +272,6 @@ main.active { display:block; }
   </div>
 </main>
 
-<!-- WEB -->
 <main id="web">
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
@@ -310,7 +289,6 @@ main.active { display:block; }
   </div>
 </main>
 
-<!-- MEDIEN -->
 <main id="medien">
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
@@ -328,38 +306,33 @@ main.active { display:block; }
   </div>
 </main>
 
-<!-- KONTAKT -->
 <main id="kontakt">
   <section>
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
     <p>Thomas Felber</p>
-    <p>Standorte: <a>Linz, Meggenhofen</a></p>
-    <p>Adresse: <a>Pfarrhofsberg 37, 4714 Meggenhofen</a></p>
+    <p>Standorte: Linz, Meggenhofen</p>
+    <p>Adresse: Pfarrhofsberg 37, 4714 Meggenhofen</p>
     <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
     <p>Website: <a href="https://www.felbsdesign.at" target="_blank">www.felbsdesign.at</a></p>
     <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
   </section>
 </main>
-  
+
 <!-- FOOTER -->
-<footer id="main-footer" style="background-color:#98a8cd; padding:15px 20px; text-align:center; font-size:0.9rem; color:white; display:none;">
+<footer id="main-footer">
   &copy; 2025 Thomas Felber – felbs.design | 
-  <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt / Impressum</a>
+  <a href="#" onclick="openPage('kontakt');">Kontakt / Impressum</a>
 </footer>
 
-
 <script>
-/* Intro → Seite */
+function showPage(page){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('main-header').style.display='flex';
+  document.getElementById('main-footer').style.display='block';
+  openPage(page);
+}
 
-  function showPage(page){
-    document.getElementById('intro').style.display='none';
-    document.getElementById('main-header').style.display='flex';
-    document.getElementById('main-footer').style.display='block'; // Footer anzeigen
-    openPage(page);
-  }
-
-/* Menü → Seite */
 function openPage(page){
   const mains=document.querySelectorAll('main');
   mains.forEach(m=>m.classList.remove('active'));
@@ -370,7 +343,6 @@ function openPage(page){
   if(navLink) navLink.classList.add('active');
 }
 
-/* Pfeil-Scroll */
 function slideLeft(section){
   const container=document.getElementById('container-'+section);
   container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
@@ -380,10 +352,9 @@ function slideRight(section){
   container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
 }
 
-/* Drag-to-scroll */
 const sliders = document.querySelectorAll('.slider-container');
 sliders.forEach(container => {
-  let isDown = false; let startX; let scrollLeft;
+  let isDown = false, startX, scrollLeft;
   container.addEventListener('mousedown', (e) => {
     isDown = true; container.classList.add('active');
     startX = e.pageX - container.offsetLeft;
