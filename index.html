@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>felbs.design</title>
+<meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt.">
+<link rel="icon" href="bildzeichen.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&family=Roboto&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Roboto', sans-serif; color: #000; background-color: #fff; }
+
+/* ====== INTRO ====== */
+#intro {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background-color:#fff;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.square {
+  background-color:#98a8cd;
+  color:white;
+  font-family:'Ubuntu',sans-serif;
+  font-size:1.5rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:150px;
+  height:150px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  transform-origin:center center;
+  text-transform: capitalize;
+}
+.square:hover { transform:scale(1.2); background-color:#8794b8; }
+
+/* ====== HEADER / NAV ====== */
+header {
+  background-color:#ffffff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:15px 20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.logo img { height:50px; width:auto; margin-bottom:10px; }
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+nav a {
+  text-decoration:none;
+  color:#000;
+  font-weight:500;
+  font-family:'Ubuntu',sans-serif;
+  padding:6px 12px;
+  transition:all 0.3s ease;
+}
+nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
+
+/* ====== CONTENT SECTIONS ====== */
+main { display:none; padding:0; min-height:100vh; position:relative; }
+main.active { display:block; }
+
+/* ====== BLAUER BALKEN MIT TEXT ====== */
+.text-section {
+  background-color:#98a8cd;
+  padding:40px 20px;
+  color:white;
+  line-height:1.5;
+}
+.text-section h2 {
+  font-family:'Ubuntu',sans-serif;
+  font-size:1.8rem;
+  text-align:center;
+  margin-bottom:30px;
+}
+.steps-container {
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:20px;
+  max-width:1200px;
+  margin:0 auto;
+  text-align:left;
+}
+.steps-container .step p { 
+  margin:0; 
+  font-family:'Roboto', sans-serif; /* Haupttext Roboto */
+}
+.steps-container .step-title {
+  font-family: 'Ubuntu', sans-serif; /* Nur Titel in Ubuntu */
+  font-weight:500;
+  display:block; /* neue Zeile nach Doppelpunkt */
+  margin-bottom:5px;
+}
+
+/* ====== PORTFOLIO SLIDER ====== */
+.portfolio-slider {
+  display:flex;
+  align-items:center;
+  position:relative;
+  gap:10px;
+  padding:20px 10px;
+}
+.slider-container { overflow:hidden; flex:1; }
+.slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
+.slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
+.portfolio-slider img {
+  flex:0 0 auto;
+  width:calc((100% - 40px)/3);
+  height:auto;
+  object-fit:cover;
+  border-radius:4px;
+  transition:transform 0.3s ease;
+}
+.portfolio-slider img:hover { transform:scale(1.03); }
+
+/* ====== Pfeile ====== */
+.arrow {
+  font-size:2rem;
+  background: rgba(0,0,0,0.3);
+  color:#fff;
+  border:none;
+  padding:10px;
+  cursor:pointer;
+  z-index:5;
+  border-radius:50%;
+  user-select:none;
+}
+.arrow:hover { background: rgba(0,0,0,0.6); }
+
+/* ====== KONTAKT ====== */
+#kontakt section {
+  width:100%;
+  background-color:#ffffff; /* Weiß */
+  padding:40px 20px;
+  text-align:center;
+  color:#000;
+}
+#kontakt h2 {
+  font-family:'Ubuntu',sans-serif;
+  margin-bottom:20px;
+  font-size:2rem;
+}
+#kontakt p {
+  margin:10px 0;
+  font-size:1rem;
+}
+#kontakt a {
+  color:#98a8cd;
+  text-decoration:none;
+  font-weight:500;
+}
+#kontakt a:hover { text-decoration:underline; }
+
+/* ====== RESPONSIVE ====== */
+@media(max-width:1024px){
+  .portfolio-slider img { width:calc((100% - 20px)/2); }
+  .square { width:130px; height:130px; font-size:1.3rem; }
+  .steps-container { grid-template-columns:repeat(2, 1fr); }
+}
+
+@media(max-width:768px){
+  /* Quadrate untereinander und zentriert */
+  #intro {
+    flex-direction: column;
+    gap:15px;
+    align-items: center;
+  }
+  .square {
+    width:130px;
+    height:130px; /* quadratisch */
+    font-size:1.2rem;
+  }
+
+  /* Portfolio-Bilder größer */
+  .portfolio-slider img {
+    width:90%;
+    max-width:400px;
+    flex:0 0 auto;
+    margin:auto;
+  }
+
+  header { flex-direction:column; }
+  nav ul { gap:10px; }
+  .steps-container { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="square" onclick="showPage('grafik')">Grafik</div>
+  <div class="square" onclick="showPage('print')">Print</div>
+  <div class="square" onclick="showPage('web')">Web</div>
+  <div class="square" onclick="showPage('medien')">Medien</div>
+</div>
+
+<!-- HEADER -->
+<header id="main-header" style="display:none;">
+  <div class="logo"><img src="logo.png" alt="Website-Logo"></div>
+  <nav>
+    <ul>
+      <li><a href="#" id="nav-grafik" onclick="openPage('grafik')">Grafik</a></li>
+      <li><a href="#" id="nav-print" onclick="openPage('print')">Print</a></li>
+      <li><a href="#" id="nav-web" onclick="openPage('web')">Web</a></li>
+      <li><a href="#" id="nav-medien" onclick="openPage('medien')">Medien</a></li>
+      <li><a href="#" id="nav-kontakt" onclick="openPage('kontakt')">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- GRAFIK -->
+<main id="grafik">
+  <section class="text-section">
+    <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
+    <div class="steps-container">
+      <div class="step">
+        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst (Flyer, Logo, Plakat...). Wir klären Ziele, Zielgruppe & Look.</p>
+      </div>
+      <div class="step">
+        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten, Änderungen möglich.</p>
+      </div>
+      <div class="step">
+        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck. Alles professionell.</p>
+      </div>
+      <div class="step">
+        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="background-color:#fff; padding:20px 0;">
+    <div class="portfolio-slider">
+      <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
+      <div class="slider-container" id="container-grafik">
+        <div class="slider-track" id="track-grafik">
+          <img src="Grafik1.png" alt="Grafik1" loading="lazy">
+          <img src="Grafik2.png" alt="Grafik2" loading="lazy">
+          <img src="Grafik3.png" alt="Grafik3" loading="lazy">
+          <img src="Grafik4.png" alt="Grafik4" loading="lazy">
+        </div>
+      </div>
+      <button class="arrow right" onclick="slideRight('grafik')">&#10095;</button>
+    </div>
+  </div>
+</main>
+
+<!-- PRINT -->
+<main id="print">
+  <section class="text-section">
+    <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
+    <div class="steps-container">
+      <div class="step">
+        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst (Flyer, Logo, Plakat...). Wir klären Ziele, Zielgruppe & Look.</p>
+      </div>
+      <div class="step">
+        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten, Änderungen möglich.</p>
+      </div>
+      <div class="step">
+        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck. Alles professionell.</p>
+      </div>
+      <div class="step">
+        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
+      </div>
+    </div>
+  </section>
+  <div style="background-color:#fff; padding:20px 0;">
+    <div class="portfolio-slider">
+      <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
+      <div class="slider-container" id="container-print">
+        <div class="slider-track" id="track-print">
+          <img src="Print1.png" alt="Print1" loading="lazy">
+          <img src="Print2.png" alt="Print2" loading="lazy">
+          <img src="Print3.png" alt="Print3" loading="lazy">
+          <img src="Print4.png" alt="Print4" loading="lazy">
+        </div>
+      </div>
+      <button class="arrow right" onclick="slideRight('print')">&#10095;</button>
+    </div>
+  </div>
+</main>
+
+<!-- WEB -->
+<main id="web">
+  <div style="background-color:#fff; padding:20px;">
+    <div class="portfolio-slider">
+      <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
+      <div class="slider-container" id="container-web">
+        <div class="slider-track" id="track-web">
+          <img src="Web1.png" alt="Web1" loading="lazy">
+          <img src="Web2.png" alt="Web2" loading="lazy">
+          <img src="Web3.png" alt="Web3" loading="lazy">
+          <img src="Web4.png" alt="Web4" loading="lazy">
+        </div>
+      </div>
+      <button class="arrow right" onclick="slideRight('web')">&#10095;</button>
+    </div>
+  </div>
+</main>
+
+<!-- MEDIEN -->
+<main id="medien">
+  <div style="background-color:#fff; padding:20px;">
+    <div class="portfolio-slider">
+      <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
+      <div class="slider-container" id="container-medien">
+        <div class="slider-track" id="track-medien">
+          <img src="Medien1.png" alt="Medien1" loading="lazy">
+          <img src="Medien2.png" alt="Medien2" loading="lazy">
+          <img src="Medien3.png" alt="Medien3" loading="lazy">
+          <img src="Medien4.png" alt="Medien4" loading="lazy">
+        </div>
+      </div>
+      <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
+    </div>
+  </div>
+</main>
+
+<!-- KONTAKT -->
+<main id="kontakt">
+  <section>
+    <h2>Kontakt</h2>
+    <p><strong>felbs.design</strong></p>
+    <p>Thomas Felber</p>
+    <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
+    <p>Website: <a href="https://www.felbsdesign.at" target="_blank">www.felbsdesign.at</a></p>
+    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
+  </section>
+</main>
+
+<script>
+/* Intro → Seite */
+function showPage(page){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('main-header').style.display='flex';
+  openPage(page);
+}
+
+/* Menü → Seite */
+function openPage(page){
+  const mains=document.querySelectorAll('main');
+  mains.forEach(m=>m.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  const links=document.querySelectorAll('nav a');
+  links.forEach(a=>a.classList.remove('active'));
+  const navLink=document.getElementById('nav-'+page);
+  if(navLink) navLink.classList.add('active');
+}
+
+/* Pfeil-Scroll */
+function slideLeft(section){
+  const container=document.getElementById('container-'+section);
+  container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
+}
+function slideRight(section){
+  const container=document.getElementById('container-'+section);
+  container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
+}
+
+/* Drag-to-scroll */
+const sliders = document.querySelectorAll('.slider-container');
+sliders.forEach(container => {
+  let isDown = false; let startX; let scrollLeft;
+  container.addEventListener('mousedown', (e) => {
+    isDown = true; container.classList.add('active');
+    startX = e.pageX - container.offsetLeft;
+    scrollLeft = container.scrollLeft;
+    e.preventDefault();
+  });
+  container.addEventListener('mouseleave', () => { isDown = false; container.classList.remove('active'); });
+  container.addEventListener('mouseup', () => { isDown = false; container.classList.remove('active'); });
+  container.addEventListener('mousemove', (e) => {
+    if(!isDown) return;
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    container.scrollLeft = scrollLeft - walk;
+  });
+});
+</script>
+</body>
+</html>
