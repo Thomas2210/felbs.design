@@ -8,9 +8,8 @@
 <link rel="icon" href="Bildzeichen.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&family=Roboto&display=swap" rel="stylesheet">
 <style>
-/* ====== RESET ====== */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Roboto', sans-serif; color: #1a1a1a; background-color: #fff; }
+body { font-family: 'Roboto', sans-serif; color: #000; background-color: #fff; }
 
 /* ====== INTRO ====== */
 #intro {
@@ -36,7 +35,6 @@ body { font-family: 'Roboto', sans-serif; color: #1a1a1a; background-color: #fff
   transition:all 0.3s ease;
   transform-origin:center center;
   text-transform: capitalize;
-  border-radius:8px;
 }
 .square:hover { transform:scale(1.2); background-color:#8794b8; }
 
@@ -62,7 +60,7 @@ nav ul {
 }
 nav a {
   text-decoration:none;
-  color:#1a1a1a;
+  color:#000;
   font-weight:500;
   font-family:'Ubuntu',sans-serif;
   padding:6px 12px;
@@ -74,37 +72,36 @@ nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
 main { display:none; padding:0; min-height:100vh; position:relative; }
 main.active { display:block; }
 
-/* ====== SCHRITTE ====== */
+/* ====== BLAUER BALKEN MIT TEXT ====== */
+.text-section {
+  background-color:#98a8cd;
+  padding:40px 20px;
+  color:white;
+  line-height:1.5;
+}
+.text-section h2 {
+  font-family:'Ubuntu',sans-serif;
+  font-size:1.8rem;
+  text-align:center;
+  margin-bottom:30px;
+}
 .steps-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 0;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:20px;
+  max-width:1200px;
+  margin:0 auto;
+  text-align:left;
 }
-.step {
-  background-color: #1a1a1a; /* Dunkles Anthrazit */
-  color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+.steps-container .step p { 
+  margin:0; 
+  font-family:'Roboto', sans-serif;
 }
-.step:nth-child(even) {
-  background-color: #98a8cd;
-  color: #fff;
-}
-.step:hover { transform: translateY(-5px); }
-.step-title {
+.steps-container .step-title {
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-weight:500;
+  display:block;
+  margin-bottom:5px;
 }
 
 /* ====== PORTFOLIO SLIDER ====== */
@@ -145,10 +142,10 @@ main.active { display:block; }
 /* ====== KONTAKT ====== */
 #kontakt section {
   width:100%;
-  background-color:#fff;
+  background-color:#ffffff;
   padding:40px 20px;
   text-align:center;
-  color:#1a1a1a;
+  color:#000;
 }
 #kontakt h2 {
   font-family:'Ubuntu',sans-serif;
@@ -167,12 +164,13 @@ main.active { display:block; }
 #kontakt a:hover { text-decoration:underline; }
 
 /* ====== FOOTER ====== */
-footer {
+#main-footer {
   background-color:#98a8cd;
   padding:15px 20px;
   text-align:center;
   font-size:0.9rem;
   color:white;
+  display:none;
 }
 
 /* ====== RESPONSIVE ====== */
@@ -183,9 +181,22 @@ footer {
 }
 
 @media(max-width:768px){
-  #intro { flex-direction: column; gap:15px; align-items: center; }
-  .square { width:130px; height:130px; font-size:1.2rem; }
-  .portfolio-slider img { width:90%; max-width:400px; flex:0 0 auto; margin:auto; }
+  #intro {
+    flex-direction: column;
+    gap:15px;
+    align-items: center;
+  }
+  .square {
+    width:130px;
+    height:130px;
+    font-size:1.2rem;
+  }
+  .portfolio-slider img {
+    width:90%;
+    max-width:400px;
+    flex:0 0 auto;
+    margin:auto;
+  }
   header { flex-direction:column; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
@@ -222,20 +233,19 @@ footer {
     <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
     <div class="steps-container">
       <div class="step">
-        <p><span class="step-title">Idee & Beratung:</span>Wir besprechen Ziele, Zielgruppe & Look für Flyer, Logo, Plakat usw.</p>
+        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p>
       </div>
       <div class="step">
-        <p><span class="step-title">Design & Entwürfe:</span>Kreative Vorschläge, Favorit auswählen, Änderungen möglich.</p>
+        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p>
       </div>
       <div class="step">
-        <p><span class="step-title">Material & Produktion:</span>Papier, Farben, Veredelungen & Druck professionell umgesetzt.</p>
+        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p>
       </div>
       <div class="step">
-        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, einsatzbereit.</p>
+        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
       </div>
     </div>
   </section>
-
   <div style="background-color:#fff; padding:20px 0;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
@@ -258,16 +268,16 @@ footer {
     <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
     <div class="steps-container">
       <div class="step">
-        <p><span class="step-title">Idee & Beratung:</span>Wir besprechen Ziele, Zielgruppe & Look für Flyer, Logo, Plakat usw.</p>
+        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p>
       </div>
       <div class="step">
-        <p><span class="step-title">Design & Entwürfe:</span>Kreative Vorschläge, Favorit auswählen, Änderungen möglich.</p>
+        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p>
       </div>
       <div class="step">
-        <p><span class="step-title">Material & Produktion:</span>Papier, Farben, Veredelungen & Druck professionell umgesetzt.</p>
+        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p>
       </div>
       <div class="step">
-        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, einsatzbereit.</p>
+        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
       </div>
     </div>
   </section>
@@ -338,9 +348,9 @@ footer {
 </main>
 
 <!-- FOOTER -->
-<footer>
+<footer id="main-footer">
   &copy; 2025 Thomas Felber – felbs.design | 
-  <a href="#" onclick="openPage('kontakt');" style="color:white; text-decoration:underline;">Kontakt / Impressum</a>
+  <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt / Impressum</a>
 </footer>
 
 <script>
@@ -348,6 +358,7 @@ footer {
 function showPage(page){
   document.getElementById('intro').style.display='none';
   document.getElementById('main-header').style.display='flex';
+  document.getElementById('main-footer').style.display='block'; // Footer anzeigen
   openPage(page);
 }
 
@@ -392,6 +403,5 @@ sliders.forEach(container => {
   });
 });
 </script>
-
 </body>
 </html>
