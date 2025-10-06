@@ -163,6 +163,9 @@ main.active { display:block; }
 }
 #kontakt a:hover { text-decoration:underline; }
 
+/* ====== MINISPIEL ====== */
+#game-container { max-width:90%; margin:0 auto; position:relative; }
+
 /* ====== FOOTER ====== */
 #main-footer {
   background-color:#98a8cd;
@@ -181,22 +184,9 @@ main.active { display:block; }
 }
 
 @media(max-width:768px){
-  #intro {
-    flex-direction: column;
-    gap:15px;
-    align-items: center;
-  }
-  .square {
-    width:130px;
-    height:130px;
-    font-size:1.2rem;
-  }
-  .portfolio-slider img {
-    width:90%;
-    max-width:400px;
-    flex:0 0 auto;
-    margin:auto;
-  }
+  #intro { flex-direction: column; gap:15px; align-items: center; }
+  .square { width:130px; height:130px; font-size:1.2rem; }
+  .portfolio-slider img { width:90%; max-width:400px; flex:0 0 auto; margin:auto; }
   header { flex-direction:column; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
@@ -227,23 +217,38 @@ main.active { display:block; }
   </nav>
 </header>
 
+<!-- KONTAKT + MINISPIEL -->
+<main id="kontakt" class="active">
+  <section>
+    <h2>Kontakt</h2>
+    <p><strong>felbs.design</strong></p>
+    <p>Thomas Felber</p>
+    <p>Standorte: Linz, Meggenhofen</p>
+    <p>Adresse: Pfarrhofsberg 37, 4714 Meggenhofen</p>
+    <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
+    <p>Website: <a href="https://www.felbsdesign.at" target="_blank">www.felbsdesign.at</a></p>
+    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
+  </section>
+
+  <section style="padding:20px 0; text-align:center; background-color:#f0f0f0;">
+    <h2>Klick das Bildzeichen!</h2>
+    <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
+    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:white;"></div>
+    <p>Punkte: <span id="score">0</span></p>
+    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:white; border:none; cursor:pointer;">Spiel starten</button>
+    <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
+  </section>
+</main>
+
 <!-- GRAFIK -->
 <main id="grafik">
   <section class="text-section">
     <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
     <div class="steps-container">
-      <div class="step">
-        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
-      </div>
+      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p></div>
+      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p></div>
+      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p></div>
+      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
     </div>
   </section>
   <div style="background-color:#fff; padding:20px 0;">
@@ -255,19 +260,20 @@ main.active { display:block; }
           <img src="grafik2.png" alt="Grafik2" loading="lazy">
           <img src="grafik3.png" alt="Grafik3" loading="lazy">
           <img src="grafik4.png" alt="Grafik4" loading="lazy">
-          <img src="grafik5.png" alt="Grafik1" loading="lazy">
-          <img src="grafik6.png" alt="Grafik2" loading="lazy">
-          <img src="grafik7.png" alt="Grafik3" loading="lazy">
-          <img src="grafik8.png" alt="Grafik4" loading="lazy">
-          <img src="grafik9.png" alt="Grafik1" loading="lazy">
-          <img src="grafik10.png" alt="Grafik2" loading="lazy">
-          <img src="grafik11.png" alt="Grafik3" loading="lazy">
-          <img src="grafik12.png" alt="Grafik4" loading="lazy">
-            <img src="grafik13.png" alt="Grafik2" loading="lazy">
-         
-          <img src="grafik15.png" alt="Grafik4" loading="lazy">
-            <img src="grafik16.png" alt="Grafik2" loading="lazy">
-          <img src="grafik17.png" alt="Grafik3" loading="lazy">
+          <img src="grafik5.png" alt="Grafik5" loading="lazy">
+          <img src="grafik6.png" alt="Grafik6" loading="lazy">
+          <img src="grafik7.png" alt="Grafik7" loading="lazy">
+          <img src="grafik8.png" alt="Grafik8" loading="lazy">
+          <img src="grafik9.png" alt="Grafik9" loading="lazy">
+          <img src="grafik10.png" alt="Grafik10" loading="lazy">
+          <img src="grafik11.png" alt="Grafik11" loading="lazy">
+          <img src="grafik12.png" alt="Grafik12" loading="lazy">
+          <img src="grafik13.png" alt="Grafik13" loading="lazy">
+          <img src="grafik14.png" alt="Grafik14" loading="lazy">
+          <img src="grafik15.png" alt="Grafik15" loading="lazy">
+          <img src="grafik16.png" alt="Grafik16" loading="lazy">
+          <img src="grafik17.png" alt="Grafik17" loading="lazy">
+          <img src="grafik18.png" alt="Grafik18" loading="lazy">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('grafik')">&#10095;</button>
@@ -280,18 +286,10 @@ main.active { display:block; }
   <section class="text-section">
     <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
     <div class="steps-container">
-      <div class="step">
-        <p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p>
-      </div>
-      <div class="step">
-        <p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p>
-      </div>
+      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p></div>
+      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p></div>
+      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p></div>
+      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
     </div>
   </section>
   <div style="background-color:#fff; padding:20px 0;">
@@ -346,20 +344,6 @@ main.active { display:block; }
   </div>
 </main>
 
-<!-- KONTAKT -->
-<main id="kontakt">
-  <section>
-    <h2>Kontakt</h2>
-    <p><strong>felbs.design</strong></p>
-    <p>Thomas Felber</p>
-    <p>Standorte: Linz, Meggenhofen</p>
-    <p>Adresse: Pfarrhofsberg 37, 4714 Meggenhofen</p>
-    <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
-    <p>Website: <a href="https://www.felbsdesign.at" target="_blank">www.felbsdesign.at</a></p>
-    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
-  </section>
-</main>
-
 <!-- FOOTER -->
 <footer id="main-footer">
   &copy; 2025 Thomas Felber – felbs.design | 
@@ -371,7 +355,7 @@ main.active { display:block; }
 function showPage(page){
   document.getElementById('intro').style.display='none';
   document.getElementById('main-header').style.display='flex';
-  document.getElementById('main-footer').style.display='block'; // Footer anzeigen
+  document.getElementById('main-footer').style.display='block';
   openPage(page);
 }
 
@@ -415,6 +399,62 @@ sliders.forEach(container => {
     container.scrollLeft = scrollLeft - walk;
   });
 });
+
+/* ====== MINISPIEL ====== */
+const startBtn = document.getElementById('start-btn');
+const gameContainer = document.getElementById('game-container');
+const scoreDisplay = document.getElementById('score');
+const timerDisplay = document.getElementById('timer');
+let score = 0;
+let time = 10;
+let moveInterval, gameInterval;
+
+function startGame() {
+  score = 0; time = 10;
+  scoreDisplay.textContent = score;
+  timerDisplay.textContent = 'Zeit: ' + time + 's';
+  startBtn.disabled = true;
+
+  const img = document.createElement('img');
+  img.src = 'Bildzeichen.png';
+  img.style.width = '50px';
+  img.style.height = '50px';
+  img.style.position = 'absolute';
+  img.style.cursor = 'pointer';
+  gameContainer.appendChild(img);
+
+  function moveImage() {
+    const maxX = gameContainer.clientWidth - 50;
+    const maxY = gameContainer.clientHeight - 50;
+    const x = Math.floor(Math.random() * maxX);
+    const y = Math.floor(Math.random() * maxY);
+    img.style.left = x + 'px';
+    img.style.top = y + 'px';
+  }
+
+  img.addEventListener('click', () => {
+    score++;
+    scoreDisplay.textContent = score;
+    moveImage();
+  });
+
+  moveImage();
+  moveInterval = setInterval(moveImage, 1500);
+
+  gameInterval = setInterval(() => {
+    time--;
+    timerDisplay.textContent = 'Zeit: ' + time + 's';
+    if(time <= 0){
+      clearInterval(gameInterval);
+      clearInterval(moveInterval);
+      alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
+      gameContainer.removeChild(img);
+      startBtn.disabled = false;
+    }
+  }, 1000);
+}
+
+startBtn.addEventListener('click', startGame);
 </script>
 </body>
 </html>
