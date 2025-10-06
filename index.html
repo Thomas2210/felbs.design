@@ -343,18 +343,21 @@ main.active { display:block; }
 </main>
   
 <!-- FOOTER -->
-<footer style="background-color:#98a8cd; padding:15px 20px; text-align:center; font-size:0.9rem; color:white;">
+<footer id="main-footer" style="background-color:#98a8cd; padding:15px 20px; text-align:center; font-size:0.9rem; color:white; display:none;">
   &copy; 2025 Thomas Felber – felbs.design | 
   <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt / Impressum</a>
 </footer>
 
+
 <script>
 /* Intro → Seite */
-function showPage(page){
-  document.getElementById('intro').style.display='none';
-  document.getElementById('main-header').style.display='flex';
-  openPage(page);
-}
+
+  function showPage(page){
+    document.getElementById('intro').style.display='none';
+    document.getElementById('main-header').style.display='flex';
+    document.getElementById('main-footer').style.display='block'; // Footer anzeigen
+    openPage(page);
+  }
 
 /* Menü → Seite */
 function openPage(page){
