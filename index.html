@@ -112,7 +112,13 @@ main.active { display:block; }
   gap:10px;
   padding:20px 10px;
 }
-.slider-container { overflow:hidden; flex:1; }
+.slider-container {
+  overflow-x: auto;          /* Scrollen ermöglichen */
+  scroll-behavior: smooth;   /* Smooth-Scroll */
+  flex:1;
+  -webkit-overflow-scrolling: touch; /* flüssiges Scrollen auf iOS */
+}
+
 .slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
 .slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
 .portfolio-slider img {
