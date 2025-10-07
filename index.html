@@ -190,6 +190,25 @@ main.active { display:block; }
   header { flex-direction:column; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
+  /* Pfeile ausblenden */
+  .arrow {
+    display: none;
+  }
+
+  /* Slider scrollbar machen */
+  .slider-container {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+  }
+
+  /* Scrollleisten verstecken */
+  .slider-container::-webkit-scrollbar {
+    display: none;
+  }
+  .slider-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 </style>
 </head>
