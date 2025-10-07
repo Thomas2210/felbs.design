@@ -112,18 +112,26 @@ main.active { display:block; }
   gap:10px;
   padding:20px 10px;
 }
-.slider-container { overflow:hidden; flex:1; }
-.slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
-.slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
-.portfolio-slider img {
-  flex:0 0 auto;
-  width:calc((100% - 40px)/3);
-  height:auto;
+.slider-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  flex:1;
+}
+.slider-track {
+  display: flex;
+  gap: 20px;
+}
+.slider-track img {
+  flex: 0 0 auto;
+  width: 90%;
+  max-width: 300px;
+  height: auto;
   object-fit:cover;
   border-radius:4px;
   transition:transform 0.3s ease;
 }
-.portfolio-slider img:hover { transform:scale(1.03); }
+.slider-track img:hover { transform:scale(1.03); }
 
 /* ====== Pfeile ====== */
 .arrow {
@@ -186,10 +194,11 @@ main.active { display:block; }
 @media(max-width:768px){
   #intro { flex-direction: column; gap:15px; align-items: center; }
   .square { width:130px; height:130px; font-size:1.2rem; }
-  .portfolio-slider img { width:90%; max-width:400px; flex:0 0 auto; margin:auto; }
+  .portfolio-slider img { width:90%; max-width:250px; flex:0 0 auto; margin:auto; }
   header { flex-direction:column; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
+  .arrow { display:none; } /* Pfeile auf Handy ausblenden */
 }
 </style>
 </head>
@@ -218,7 +227,7 @@ main.active { display:block; }
 </header>
 
 <!-- KONTAKT + MINISPIEL -->
-<main id="kontakt" >
+<main id="kontakt">
   <section>
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
@@ -261,19 +270,6 @@ main.active { display:block; }
           <img src="grafik3.png" alt="Grafik3" loading="lazy">
           <img src="grafik4.png" alt="Grafik4" loading="lazy">
           <img src="grafik5.png" alt="Grafik5" loading="lazy">
-          <img src="grafik6.png" alt="Grafik6" loading="lazy">
-          <img src="grafik7.png" alt="Grafik7" loading="lazy">
-          <img src="grafik8.png" alt="Grafik8" loading="lazy">
-          <img src="grafik9.png" alt="Grafik9" loading="lazy">
-          <img src="grafik10.png" alt="Grafik10" loading="lazy">
-          <img src="grafik11.png" alt="Grafik11" loading="lazy">
-          <img src="grafik12.png" alt="Grafik12" loading="lazy">
-          <img src="grafik13.png" alt="Grafik13" loading="lazy">
-          <img src="grafik14.png" alt="Grafik14" loading="lazy">
-          <img src="grafik15.png" alt="Grafik15" loading="lazy">
-          <img src="grafik16.png" alt="Grafik16" loading="lazy">
-          <img src="grafik17.png" alt="Grafik17" loading="lazy">
-         
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('grafik')">&#10095;</button>
@@ -301,18 +297,6 @@ main.active { display:block; }
           <img src="print2.png" alt="Print2" loading="lazy">
           <img src="print3.png" alt="Print3" loading="lazy">
           <img src="print4.png" alt="Print4" loading="lazy">
-           <img src="print5.png" alt="Print1" loading="lazy">
-          <img src="print6.png" alt="Print2" loading="lazy">
-          <img src="print7.png" alt="Print3" loading="lazy">
-          <img src="print8.png" alt="Print4" loading="lazy">
-           <img src="print9.png" alt="Print1" loading="lazy">
-          <img src="print10.png" alt="Print2" loading="lazy">
-          <img src="print11.png" alt="Print3" loading="lazy">
-          <img src="print12.png" alt="Print4" loading="lazy">
-           <img src="print13.png" alt="Print1" loading="lazy">
-          <img src="print14.png" alt="Print2" loading="lazy">
-          <img src="print15.png" alt="Print3" loading="lazy">
-      
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('print')">&#10095;</button>
@@ -330,9 +314,6 @@ main.active { display:block; }
           <img src="web1.png" alt="Web1" loading="lazy">
           <img src="web2.png" alt="Web2" loading="lazy">
           <img src="web3.png" alt="Web3" loading="lazy">
-          <img src="web4.png" alt="Web4" loading="lazy">
-           <img src="web5.png" alt="Web3" loading="lazy">
-          <img src="web6.png" alt="Web4" loading="lazy">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('web')">&#10095;</button>
@@ -350,7 +331,6 @@ main.active { display:block; }
           <img src="medien1.png" alt="Medien1" loading="lazy">
           <img src="medien2.png" alt="Medien2" loading="lazy">
           <img src="medien3.png" alt="Medien3" loading="lazy">
-          <img src="medien4.png" alt="Medien4" loading="lazy">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
@@ -394,24 +374,19 @@ function slideRight(section){
   container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
 }
 
-/* Drag-to-scroll */
-const sliders = document.querySelectorAll('.slider-container');
-sliders.forEach(container => {
-  let isDown = false; let startX; let scrollLeft;
-  container.addEventListener('mousedown', (e) => {
-    isDown = true; container.classList.add('active');
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-    e.preventDefault();
-  });
-  container.addEventListener('mouseleave', () => { isDown = false; container.classList.remove('active'); });
-  container.addEventListener('mouseup', () => { isDown = false; container.classList.remove('active'); });
-  container.addEventListener('mousemove', (e) => {
-    if(!isDown) return;
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    container.scrollLeft = scrollLeft - walk;
-  });
+/* Drag & Touch Scroll */
+document.querySelectorAll('.slider-container').forEach(container => {
+  let isDown=false, startX, scrollLeft;
+  const start = (x) => { isDown=true; startX=x-container.offsetLeft; scrollLeft=container.scrollLeft; };
+  const move = (x) => { if(!isDown) return; container.scrollLeft = scrollLeft - (x-startX)*1.5; };
+  const stop = () => { isDown=false; };
+  container.addEventListener('mousedown', e=>start(e.pageX));
+  container.addEventListener('mousemove', e=>move(e.pageX));
+  container.addEventListener('mouseup', stop);
+  container.addEventListener('mouseleave', stop);
+  container.addEventListener('touchstart', e=>start(e.touches[0].pageX));
+  container.addEventListener('touchmove', e=>move(e.touches[0].pageX));
+  container.addEventListener('touchend', stop);
 });
 
 /* ====== MINISPIEL ====== */
@@ -419,53 +394,51 @@ const startBtn = document.getElementById('start-btn');
 const gameContainer = document.getElementById('game-container');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
-let score = 0;
-let time = 10;
-let moveInterval, gameInterval;
+let score=0, time=10, moveInterval, gameInterval;
 
-function startGame() {
-  score = 0; time = 10;
-  scoreDisplay.textContent = score;
-  timerDisplay.textContent = 'Zeit: ' + time + 's';
-  startBtn.disabled = true;
+function startGame(){
+  score=0; time=10;
+  scoreDisplay.textContent=score;
+  timerDisplay.textContent='Zeit: '+time+'s';
+  startBtn.disabled=true;
 
-  const img = document.createElement('img');
-  img.src = 'Bildzeichen.png';
-  img.style.width = '50px';
-  img.style.height = '50px';
-  img.style.position = 'absolute';
-  img.style.cursor = 'pointer';
+  const img=document.createElement('img');
+  img.src='Bildzeichen.png';
+  img.style.width='50px';
+  img.style.height='50px';
+  img.style.position='absolute';
+  img.style.cursor='pointer';
   gameContainer.appendChild(img);
 
-  function moveImage() {
-    const maxX = gameContainer.clientWidth - 50;
-    const maxY = gameContainer.clientHeight - 50;
-    const x = Math.floor(Math.random() * maxX);
-    const y = Math.floor(Math.random() * maxY);
-    img.style.left = x + 'px';
-    img.style.top = y + 'px';
+  function moveImage(){
+    const maxX=gameContainer.clientWidth-50;
+    const maxY=gameContainer.clientHeight-50;
+    const x=Math.floor(Math.random()*maxX);
+    const y=Math.floor(Math.random()*maxY);
+    img.style.left=x+'px';
+    img.style.top=y+'px';
   }
 
-  img.addEventListener('click', () => {
+  img.addEventListener('click', ()=>{
     score++;
-    scoreDisplay.textContent = score;
+    scoreDisplay.textContent=score;
     moveImage();
   });
 
   moveImage();
-  moveInterval = setInterval(moveImage, 1500);
+  moveInterval=setInterval(moveImage,1500);
 
-  gameInterval = setInterval(() => {
+  gameInterval=setInterval(()=>{
     time--;
-    timerDisplay.textContent = 'Zeit: ' + time + 's';
-    if(time <= 0){
+    timerDisplay.textContent='Zeit: '+time+'s';
+    if(time<=0){
       clearInterval(gameInterval);
       clearInterval(moveInterval);
-      alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
+      alert('Zeit vorbei! Du hast '+score+' Punkte erreicht!');
       gameContainer.removeChild(img);
-      startBtn.disabled = false;
+      startBtn.disabled=false;
     }
-  }, 1000);
+  },1000);
 }
 
 startBtn.addEventListener('click', startGame);
