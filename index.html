@@ -386,13 +386,15 @@ function openPage(page){
 
 /* Pfeil-Scroll */
 function slideLeft(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
+  const container = document.getElementById('container-' + section);
+  container.scrollBy({ left: -container.clientWidth / 3, behavior: 'smooth' });
 }
+
 function slideRight(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
+  const container = document.getElementById('container-' + section);
+  container.scrollBy({ left: container.clientWidth / 3, behavior: 'smooth' });
 }
+
 
 /* Drag-to-scroll */
 const sliders = document.querySelectorAll('.slider-container');
