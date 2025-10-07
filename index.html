@@ -385,15 +385,24 @@ function openPage(page){
 }
 
 /* Pfeil-Scroll */
-function slideLeft(section){
+function slideRight(section){
+  const track = document.getElementById('track-' + section);
+  const img = track.querySelector('img');
+  if(!img) return;
+  const imgWidth = img.clientWidth + 20; // 20 = gap zwischen Bildern
   const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: -container.clientWidth / 3, behavior: 'smooth' });
+  container.scrollBy({ left: imgWidth, behavior: 'smooth' });
 }
 
-function slideRight(section){
+function slideLeft(section){
+  const track = document.getElementById('track-' + section);
+  const img = track.querySelector('img');
+  if(!img) return;
+  const imgWidth = img.clientWidth + 20;
   const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: container.clientWidth / 3, behavior: 'smooth' });
+  container.scrollBy({ left: -imgWidth, behavior: 'smooth' });
 }
+
 
 
 /* Drag-to-scroll */
