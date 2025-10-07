@@ -386,22 +386,38 @@ function openPage(page){
 
 /* Pfeil-Scroll */
 function slideRight(section){
-  const track = document.getElementById('track-' + section);
-  const img = track.querySelector('img');
-  if(!img) return;
-  const imgWidth = img.clientWidth + 20; // 20 = gap zwischen Bildern
   const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: imgWidth, behavior: 'smooth' });
+  const track = document.getElementById('track-' + section);
+  const imgs = track.querySelectorAll('img');
+  if(imgs.length === 0) return;
+
+  const style = window.getComputedStyle(track);
+  const gap = parseInt(style.gap) || 0;
+  const imgWidth = imgs[0].clientWidth + gap;
+
+  let newScroll = container.scrollLeft + imgWidth;
+  const maxScroll = track.scrollWidth - container.clientWidth;
+  if(newScroll > maxScroll) newScroll = maxScroll;
+
+  container.scrollTo({ left: newScroll, behavior: 'smooth' });
 }
 
 function slideLeft(section){
-  const track = document.getElementById('track-' + section);
-  const img = track.querySelector('img');
-  if(!img) return;
-  const imgWidth = img.clientWidth + 20;
   const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: -imgWidth, behavior: 'smooth' });
+  const track = document.getElementById('track-' + section);
+  const imgs = track.querySelectorAll('img');
+  if(imgs.length === 0) return;
+
+  const style = window.getComputedStyle(track);
+  const gap = parseInt(style.gap) || 0;
+  const imgWidth = imgs[0].clientWidth + gap;
+
+  let newScroll = container.scrollLeft - imgWidth;
+  if(newScroll < 0) newScroll = 0;
+
+  container.scrollTo({ left: newScroll, behavior: 'smooth' });
 }
+
 
 
 
