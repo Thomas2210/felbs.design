@@ -197,6 +197,19 @@ main.active { display:block; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
 }
+  /* Slider nur auf kleinen Bildschirmen sichtbar */
+@media (min-width: 769px) {
+  .portfolio-slider {
+    display: none; /* Auf Desktop & Tablet ausblenden */
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-slider {
+    display: flex; /* Auf Handy sichtbar */
+  }
+}
+
 </style>
 </head>
 <body>
