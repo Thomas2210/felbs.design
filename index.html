@@ -112,13 +112,7 @@ main.active { display:block; }
   gap:10px;
   padding:20px 10px;
 }
-.slider-container {
-  overflow-x: auto;          /* Scrollen ermöglichen */
-  scroll-behavior: smooth;   /* Smooth-Scroll */
-  flex:1;
-  -webkit-overflow-scrolling: touch; /* flüssiges Scrollen auf iOS */
-}
-
+.slider-container { overflow:hidden; flex:1; }
 .slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
 .slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
 .portfolio-slider img {
@@ -197,19 +191,6 @@ main.active { display:block; }
   nav ul { gap:10px; }
   .steps-container { grid-template-columns:1fr; }
 }
-  /* Slider nur auf kleinen Bildschirmen sichtbar */
-@media (min-width: 769px) {
-  .portfolio-slider {
-    display: none; /* Auf Desktop & Tablet ausblenden */
-  }
-}
-
-@media (max-width: 768px) {
-  .portfolio-slider {
-    display: flex; /* Auf Handy sichtbar */
-  }
-}
-
 </style>
 </head>
 <body>
@@ -404,41 +385,14 @@ function openPage(page){
 }
 
 /* Pfeil-Scroll */
-function slideRight(section){
-  const container = document.getElementById('container-' + section);
-  const track = document.getElementById('track-' + section);
-  const imgs = track.querySelectorAll('img');
-  if(imgs.length === 0) return;
-
-  const style = window.getComputedStyle(track);
-  const gap = parseInt(style.gap) || 0;
-  const imgWidth = imgs[0].clientWidth + gap;
-
-  let newScroll = container.scrollLeft + imgWidth;
-  const maxScroll = track.scrollWidth - container.clientWidth;
-  if(newScroll > maxScroll) newScroll = maxScroll;
-
-  container.scrollTo({ left: newScroll, behavior: 'smooth' });
-}
-
 function slideLeft(section){
-  const container = document.getElementById('container-' + section);
-  const track = document.getElementById('track-' + section);
-  const imgs = track.querySelectorAll('img');
-  if(imgs.length === 0) return;
-
-  const style = window.getComputedStyle(track);
-  const gap = parseInt(style.gap) || 0;
-  const imgWidth = imgs[0].clientWidth + gap;
-
-  let newScroll = container.scrollLeft - imgWidth;
-  if(newScroll < 0) newScroll = 0;
-
-  container.scrollTo({ left: newScroll, behavior: 'smooth' });
+  const container=document.getElementById('container-'+section);
+  container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
 }
-
-
-
+function slideRight(section){
+  const container=document.getElementById('container-'+section);
+  container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
+}
 
 /* Drag-to-scroll */
 const sliders = document.querySelectorAll('.slider-container');
