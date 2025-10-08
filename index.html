@@ -6,10 +6,38 @@
 <title>felbs.design</title>
 <meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt.">
 <link rel="icon" href="Bildzeichen.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&family=Roboto&display=swap" rel="stylesheet">
+
 <style>
+/* ====== LOKALE SCHRIFTEN ====== */
+@font-face {
+  font-family: 'Roboto';
+  src: url('fonts/Roboto-Regular.woff2') format('woff2'),
+       url('fonts/Roboto-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-Medium.woff2') format('woff2'),
+       url('fonts/Ubuntu-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ====== BASISSTILE ====== */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Roboto', sans-serif; color: #000; background-color: #fff; }
+body { 
+  font-family: 'Roboto', sans-serif; 
+  color: #000; 
+  background-color: #fff; 
+}
+
+
+
+
 
 /* ====== INTRO ====== */
 #intro {
