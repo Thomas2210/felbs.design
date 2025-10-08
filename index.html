@@ -228,14 +228,18 @@ main.active { display:block; }
     scroll-behavior: smooth;
   }
 
-  /* Scrollleisten verstecken */
-  .slider-container::-webkit-scrollbar {
-    display: none;
-  }
-  .slider-container {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+/* Scrollleisten anzeigen */
+.slider-container::-webkit-scrollbar {
+  height: 6px;
+}
+.slider-container::-webkit-scrollbar-thumb {
+  background: #98a8cd;
+  border-radius: 3px;
+}
+.slider-container::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
 }
 </style>
 </head>
