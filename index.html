@@ -161,7 +161,7 @@ main.active { display:block; }
   padding:10px;
   cursor:pointer;
   z-index:5;
-  border-radius:50%;
+  border-radius:0%;
   user-select:none;
 }
 .arrow:hover { background: rgba(0,0,0,0.6); }
@@ -228,14 +228,18 @@ main.active { display:block; }
     scroll-behavior: smooth;
   }
 
-  /* Scrollleisten verstecken */
-  .slider-container::-webkit-scrollbar {
-    display: none;
-  }
-  .slider-container {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+/* Scrollleisten anzeigen */
+.slider-container::-webkit-scrollbar {
+  height: 6px;
+}
+.slider-container::-webkit-scrollbar-thumb {
+  background: #98a8cd;
+  border-radius: 3px;
+}
+.slider-container::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
 }
 </style>
 </head>
@@ -307,24 +311,24 @@ main.active { display:block; }
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
       <div class="slider-container" id="container-grafik">
         <div class="slider-track" id="track-grafik">
-          <img src="grafik/grafik1.png" alt="Grafik1" loading="lazy">
-          <img src="grafik/grafik2.png" alt="Grafik2" loading="lazy">
-          <img src="grafik/grafik3.png" alt="Grafik3" loading="lazy">
-          <img src="grafik/grafik4.png" alt="Grafik4" loading="lazy">
-          <img src="grafik/grafik5.png" alt="Grafik5" loading="lazy">
-          <img src="grafik/grafik6.png" alt="Grafik6" loading="lazy">
-          <img src="grafik/grafik7.png" alt="Grafik7" loading="lazy">
-          <img src="grafik/grafik8.png" alt="Grafik8" loading="lazy">
-          <img src="grafik/grafik9.png" alt="Grafik9" loading="lazy">
-          <img src="grafik/grafik10.png" alt="Grafik10" loading="lazy">
-          <img src="grafik/grafik11.png" alt="Grafik11" loading="lazy">
-          <img src="grafik/grafik12.png" alt="Grafik12" loading="lazy">
-          <img src="grafik/grafik13.png" alt="Grafik13" loading="lazy">
-          <img src="grafik/grafik14.png" alt="Grafik14" loading="lazy">
-          <img src="grafik/grafik15.png" alt="Grafik15" loading="lazy">
-          <img src="grafik/grafik16.png" alt="Grafik16" loading="lazy">
-          <img src="grafik/grafik17.png" alt="Grafik17" loading="lazy">
-          <img src="grafik/grafik18.png" alt="Grafik17" loading="lazy">
+          <img src="grafik/grafik1.png" alt="Grafik1" class="lazy-img">
+          <img src="grafik/grafik2.png" alt="Grafik2" class="lazy-img">
+          <img src="grafik/grafik3.png" alt="Grafik3"class="lazy-img" >
+          <img src="grafik/grafik4.png" alt="Grafik4" class="lazy-img">
+          <img src="grafik/grafik5.png" alt="Grafik5" class="lazy-img">
+          <img src="grafik/grafik6.png" alt="Grafik6" class="lazy-img">
+          <img src="grafik/grafik7.png" alt="Grafik7" class="lazy-img">
+          <img src="grafik/grafik8.png" alt="Grafik8" class="lazy-img">
+          <img src="grafik/grafik9.png" alt="Grafik9" class="lazy-img">
+          <img src="grafik/grafik10.png" alt="Grafik10" class="lazy-img">
+          <img src="grafik/grafik11.png" alt="Grafik11" class="lazy-img">
+          <img src="grafik/grafik12.png" alt="Grafik12" class="lazy-img">
+          <img src="grafik/grafik13.png" alt="Grafik13" class="lazy-img">
+          <img src="grafik/grafik14.png" alt="Grafik14" class="lazy-img">
+          <img src="grafik/grafik15.png" alt="Grafik15" class="lazy-img">
+          <img src="grafik/grafik16.png" alt="Grafik16" class="lazy-img">
+          <img src="grafik/grafik17.png" alt="Grafik17" class="lazy-img">
+          <img src="grafik/grafik18.png" alt="Grafik17" class="lazy-img">
          
         </div>
       </div>
@@ -349,26 +353,26 @@ main.active { display:block; }
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
       <div class="slider-container" id="container-print">
         <div class="slider-track" id="track-print">
-          <img src="print/print1.png" alt="Print1" loading="lazy">
-          <img src="print/print2.png" alt="Print2" loading="lazy">
-          <img src="print/print3.png" alt="Print3" loading="lazy">
-          <img src="print/print4.png" alt="Print4" loading="lazy">
-           <img src="print/print5.png" alt="Print1" loading="lazy">
-          <img src="print/print6.png" alt="Print2" loading="lazy">
-          <img src="print/print7.png" alt="Print3" loading="lazy">
-          <img src="print/print8.png" alt="Print4" loading="lazy">
-           <img src="print/print9.png" alt="Print1" loading="lazy">
-          <img src="print/print10.png" alt="Print2" loading="lazy">
-          <img src="print/print11.png" alt="Print3" loading="lazy">
-          <img src="print/print12.png" alt="Print4" loading="lazy">
-           <img src="print/print13.png" alt="Print1" loading="lazy">
-          <img src="print/print14.png" alt="Print2" loading="lazy">
-          <img src="print/print15.png" alt="Print3" loading="lazy">
-          <img src="print/print16.png" alt="Print2" loading="lazy">
-          <img src="print/print17.png" alt="Print3" loading="lazy">
-          <img src="print/print18.png" alt="Print4" loading="lazy">
-           <img src="print/print19.png" alt="Print1" loading="lazy">
-          <img src="print/print20.png" alt="Print2" loading="lazy">
+          <img src="print/print1.png" alt="Print1" class="lazy-img">
+          <img src="print/print2.png" alt="Print2" class="lazy-img">
+          <img src="print/print3.png" alt="Print3" class="lazy-img">
+          <img src="print/print4.png" alt="Print4" class="lazy-img">
+           <img src="print/print5.png" alt="Print1" class="lazy-img">
+          <img src="print/print6.png" alt="Print2" class="lazy-img">
+          <img src="print/print7.png" alt="Print3" class="lazy-img">
+          <img src="print/print8.png" alt="Print4" class="lazy-img">
+           <img src="print/print9.png" alt="Print1" class="lazy-img">
+          <img src="print/print10.png" alt="Print2" class="lazy-img">
+          <img src="print/print11.png" alt="Print3"class="lazy-img">
+          <img src="print/print12.png" alt="Print4" class="lazy-img">
+           <img src="print/print13.png" alt="Print1" class="lazy-img">
+          <img src="print/print14.png" alt="Print2" class="lazy-img">
+          <img src="print/print15.png" alt="Print3" class="lazy-img">
+          <img src="print/print16.png" alt="Print2" class="lazy-img">
+          <img src="print/print17.png" alt="Print3" class="lazy-img">
+          <img src="print/print18.png" alt="Print4" class="lazy-img">
+           <img src="print/print19.png" alt="Print1" class="lazy-img">
+          <img src="print/print20.png" alt="Print2" class="lazy-img">
  
       
         </div>
@@ -380,17 +384,26 @@ main.active { display:block; }
 
 <!-- WEB -->
 <main id="web">
+  <section class="text-section">
+    <h2>Von der Idee bis zur fertigen Website in 4 Schritten</h2>
+    <div class="steps-container">
+      <div class="step"><p><span class="step-title">Briefing & Konzept:</span>Du erzählst mir, was du brauchst. Wir klären Ziel, Stil und Struktur deiner Website.</p></div>
+      <div class="step"><p><span class="step-title">Design & Umsetzung:</span>Ich gestalte dein Layout und setze alles um. Änderungen sind inklusive, bis alles passt.</p></div>
+      <div class="step"><p><span class="step-title">Launch:</span>Ich kümmere mich um Domain, Einstellungen und Technik – deine Website geht online.</p></div>
+      <div class="step"><p><span class="step-title">Pflege:</span>Ich halte deine Website aktuell und sorge dafür, dass alles läuft.</p></div>
+    </div>
+  </section>
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
       <div class="slider-container" id="container-web">
         <div class="slider-track" id="track-web">
-          <img src="web/web1.png" alt="Web1" loading="lazy">
-          <img src="web/web2.png" alt="Web2" loading="lazy">
-          <img src="web/web3.png" alt="Web3" loading="lazy">
-          <img src="web/web4.png" alt="Web4" loading="lazy">
-           <img src="web/web5.png" alt="Web3" loading="lazy">
-          <img src="web/web6.png" alt="Web4" loading="lazy">
+          <img src="web/web2.png" alt="Web1" class="lazy-img">
+          <img src="web/web1.png" alt="Web2" class="lazy-img">
+          <img src="web/web3.png" alt="Web3" class="lazy-img">
+          <img src="web/web4.png" alt="Web4" class="lazy-img">
+           <img src="web/web5.png" alt="Web3" class="lazy-img">
+          <img src="web/web6.png" alt="Web4" class="lazy-img">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('web')">&#10095;</button>
@@ -405,13 +418,13 @@ main.active { display:block; }
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
       <div class="slider-container" id="container-medien">
         <div class="slider-track" id="track-medien">
-          <img src="medien/medien1.png" alt="Medien1" loading="lazy">
-          <img src="medien/medien2.png" alt="Medien2" loading="lazy">
-          <img src="medien/medien3.png" alt="Medien3" loading="lazy">
-          <img src="medien/medien4.png" alt="Medien4" loading="lazy">
-          <img src="medien/medien5.png" alt="Medien4" loading="lazy">
-          <img src="medien/medien6.png" alt="Medien4" loading="lazy">
-          <img src="medien/medien7.png" alt="Medien4" loading="lazy">
+          <img src="medien/medien1.png" alt="Medien1" class="lazy-img">
+          <img src="medien/medien2.png" alt="Medien2" class="lazy-img">
+          <img src="medien/medien3.png" alt="Medien3" class="lazy-img">
+          <img src="medien/medien4.png" alt="Medien4"class="lazy-img">
+          <img src="medien/medien5.png" alt="Medien4"   class="lazy-img">
+          <img src="medien/medien6.png" alt="Medien4" class="lazy-img">
+          <img src="medien/medien7.png" alt="Medien4" class="lazy-img">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
@@ -455,25 +468,49 @@ function slideRight(section){
   container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
 }
 
-/* Drag-to-scroll */
+/* Drag-Scroll nur für Desktop – Touchgeräte nutzen natives Scrollen */
 const sliders = document.querySelectorAll('.slider-container');
-sliders.forEach(container => {
-  let isDown = false; let startX; let scrollLeft;
-  container.addEventListener('mousedown', (e) => {
-    isDown = true; container.classList.add('active');
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-    e.preventDefault();
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+if (!isTouchDevice) {
+  sliders.forEach(container => {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      container.classList.add('active');
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+      e.preventDefault();
+    });
+    container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.classList.remove('active');
+    });
+    container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.classList.remove('active');
+    });
+    container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      container.scrollLeft = scrollLeft - walk;
+    });
   });
-  container.addEventListener('mouseleave', () => { isDown = false; container.classList.remove('active'); });
-  container.addEventListener('mouseup', () => { isDown = false; container.classList.remove('active'); });
-  container.addEventListener('mousemove', (e) => {
-    if(!isDown) return;
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    container.scrollLeft = scrollLeft - walk;
+} else {
+  // Touchgeräte: einfaches Scrollen aktiv lassen
+  sliders.forEach(container => {
+    container.style.scrollSnapType = 'x mandatory';
+    container.style.overflowX = 'auto';
+    container.style.scrollBehavior = 'smooth';
+    container.style.webkitOverflowScrolling = 'touch';
   });
-});
+}
+
+
 
 /* ====== MINISPIEL ====== */
 const startBtn = document.getElementById('start-btn');
@@ -531,5 +568,20 @@ function startGame() {
 
 startBtn.addEventListener('click', startGame);
 </script>
+
+  <script>
+// Prüfen, ob das Gerät ein Handy ist
+const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+if (!isMobile) {
+  // Alle Bilder in Portfolio-Slidern auswählen
+  const portfolioImages = document.querySelectorAll('.portfolio-slider img');
+  portfolioImages.forEach(img => {
+    img.setAttribute('loading', 'lazy');
+  });
+}
+</script>
+
+  
 </body>
 </html>
