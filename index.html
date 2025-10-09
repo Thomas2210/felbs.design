@@ -459,12 +459,18 @@ function slideRight(section){
   container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
 }
 
-/* Drag-to-scroll */
+/* Drag- & Touch-Scroll (Desktop + Tablet + Handy) */
 const sliders = document.querySelectorAll('.slider-container');
+
 sliders.forEach(container => {
-  let isDown = false; let startX; let scrollLeft;
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  // Maussteuerung
   container.addEventListener('mousedown', (e) => {
-    isDown = true; container.classList.add('active');
+    isDown = true;
+    container.classList.add('active');
     startX = e.pageX - container.offsetLeft;
     scrollLeft = container.scrollLeft;
     e.preventDefault();
@@ -477,7 +483,28 @@ sliders.forEach(container => {
     const walk = (x - startX) * 1.5;
     container.scrollLeft = scrollLeft - walk;
   });
+
+  // Touchsteuerung (für Tablets & Smartphones)
+  container.addEventListener('touchstart', (e) => {
+    isDown = true;
+    container.classList.add('active');
+    startX = e.touches[0].pageX - container.offsetLeft;
+    scrollLeft = container.scrollLeft;
+  }, { passive: true });
+
+  container.addEventListener('touchend', () => {
+    isDown = false;
+    container.classList.remove('active');
+  });
+
+  container.addEventListener('touchmove', (e) => {
+    if(!isDown) return;
+    const x = e.touches[0].pageX - container.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    container.scrollLeft = scrollLeft - walk;
+  }, { passive: true });
 });
+
 
 /* ====== MINISPIEL ====== */
 const startBtn = document.getElementById('start-btn');
