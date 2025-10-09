@@ -459,51 +459,48 @@ function slideRight(section){
   container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
 }
 
-/* Drag- & Touch-Scroll (Desktop + Tablet + Handy) */
+/* Drag-Scroll nur für Desktop – Touchgeräte nutzen natives Scrollen */
 const sliders = document.querySelectorAll('.slider-container');
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-sliders.forEach(container => {
-  let isDown = false;
-  let startX;
-  let scrollLeft;
+if (!isTouchDevice) {
+  sliders.forEach(container => {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-  // Maussteuerung
-  container.addEventListener('mousedown', (e) => {
-    isDown = true;
-    container.classList.add('active');
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-    e.preventDefault();
+    container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      container.classList.add('active');
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+      e.preventDefault();
+    });
+    container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.classList.remove('active');
+    });
+    container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.classList.remove('active');
+    });
+    container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      container.scrollLeft = scrollLeft - walk;
+    });
   });
-  container.addEventListener('mouseleave', () => { isDown = false; container.classList.remove('active'); });
-  container.addEventListener('mouseup', () => { isDown = false; container.classList.remove('active'); });
-  container.addEventListener('mousemove', (e) => {
-    if(!isDown) return;
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    container.scrollLeft = scrollLeft - walk;
+} else {
+  // Touchgeräte: einfaches Scrollen aktiv lassen
+  sliders.forEach(container => {
+    container.style.scrollSnapType = 'x mandatory';
+    container.style.overflowX = 'auto';
+    container.style.scrollBehavior = 'smooth';
+    container.style.webkitOverflowScrolling = 'touch';
   });
+}
 
-  // Touchsteuerung (für Tablets & Smartphones)
-  container.addEventListener('touchstart', (e) => {
-    isDown = true;
-    container.classList.add('active');
-    startX = e.touches[0].pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-  }, { passive: true });
-
-  container.addEventListener('touchend', () => {
-    isDown = false;
-    container.classList.remove('active');
-  });
-
-  container.addEventListener('touchmove', (e) => {
-    if(!isDown) return;
-    const x = e.touches[0].pageX - container.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    container.scrollLeft = scrollLeft - walk;
-  }, { passive: true });
-});
 
 
 /* ====== MINISPIEL ====== */
