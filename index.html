@@ -152,6 +152,21 @@ main.active { display:block; }
 }
 .portfolio-slider img:hover { transform:scale(1.03); }
 
+/* ====== VIDEO IM SLIDER ====== */
+.portfolio-slider video {
+  flex:0 0 auto;
+  width:calc((100% - 40px)/3);
+  height:auto;
+  object-fit:cover;
+  border-radius:4px;
+  transition:transform 0.3s ease;
+}
+
+.portfolio-slider video:hover {
+  transform: scale(1.03);
+}
+
+
 /* ====== Pfeile ====== */
 .arrow {
   font-size:2rem;
