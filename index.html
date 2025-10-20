@@ -142,29 +142,24 @@ main.active { display:block; }
 .slider-container { overflow:hidden; flex:1; }
 .slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
 .slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
-.portfolio-slider img {
-  flex:0 0 auto;
-  width:calc((100% - 40px)/3);
-  height:auto;
-  object-fit:cover;
-  border-radius:4px;
-  transition:transform 0.3s ease;
-}
-.portfolio-slider img:hover { transform:scale(1.03); }
 
-/* ====== VIDEO IM SLIDER ====== */
+  /* ====== MEDIA ELEMENTE IM SLIDER ====== */
+.portfolio-slider img,
 .portfolio-slider video {
-  flex:0 0 auto;
-  width:calc((100% - 40px)/3);
-  height:auto;
-  object-fit:cover;
-  border-radius:4px;
-  transition:transform 0.3s ease;
+  flex: 0 0 auto;
+  width: calc((100% - 40px)/3);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
 }
 
+.portfolio-slider img:hover,
 .portfolio-slider video:hover {
   transform: scale(1.03);
 }
+
 
 
 /* ====== Pfeile ====== */
