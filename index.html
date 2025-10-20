@@ -428,15 +428,22 @@ main.active { display:block; }
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
       <div class="slider-container" id="container-medien">
+       
         <div class="slider-track" id="track-medien">
-          <img src="medien/medien_animation.webm" alt="Animation" class="lazy-img">
-          <img src="medien/medien1.webp" alt="Bildbearbeitung" class="lazy-img">
-          <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
-          <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
-          <img src="medien/medien4.webp" alt="Podcast-Hostings"class="lazy-img">
-          <img src="medien/medien5.webp" alt="Fotobücher"   class="lazy-img">
-          <img src="medien/medien7.webp" alt="noch vieles mehr" class="lazy-img">
-        </div>
+  
+          <video autoplay loop muted playsinline class="lazy-img">
+    <source src="medien/medien_animation.webm" type="video/webm">
+    Dein Browser unterstützt kein WebM-Video 😢
+  </video>
+
+  <img src="medien/medien1.webp" alt="Bildbearbeitung" class="lazy-img">
+  <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
+  <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
+  <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
+  <img src="medien/medien5.webp" alt="Fotobücher" class="lazy-img">
+  <img src="medien/medien7.webp" alt="noch vieles mehr" class="lazy-img">
+</div>
+
       </div>
       <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
     </div>
@@ -521,6 +528,13 @@ if (!isTouchDevice) {
   });
 }
 
+  /* ====== Video ====== */
+.slider-track video {
+  width: 300px;
+  height: auto;
+  border-radius: 1rem;
+  object-fit: cover;
+}
 
 
 /* ====== MINISPIEL ====== */
