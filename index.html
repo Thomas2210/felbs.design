@@ -31,7 +31,7 @@
 body { 
   font-family: 'Roboto', sans-serif; 
   color: #000; 
-  background-color: #f2f8fc; 
+  background-color: #fff; 
 }
 
 
@@ -44,13 +44,13 @@ body {
   justify-content:center;
   align-items:center;
   height:100vh;
-  background-color:#f2f8fc;
+  background-color:#fff;
   gap:20px;
   flex-wrap:wrap;
 }
 .square {
   background-color:#98a8cd;
-  color:#f2f8fc;
+  color:white;
   font-family:'Ubuntu',sans-serif;
   font-size:1.5rem;
   display:flex;
@@ -67,7 +67,7 @@ body {
 
 /* ====== HEADER / NAV ====== */
 header {
-  background-color:#f2f8fc;
+  background-color:#ffffff;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -93,7 +93,7 @@ nav a {
   padding:6px 12px;
   transition:all 0.3s ease;
 }
-nav a:hover, nav a.active { background-color:#98a8cd; color:; }
+nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
 
 /* ====== CONTENT SECTIONS ====== */
 main { display:none; padding:0; min-height:100vh; position:relative; }
@@ -103,7 +103,7 @@ main.active { display:block; }
 .text-section {
   background-color:#98a8cd;
   padding:40px 20px;
-  color:#f2f8fc;
+  color:white;
   line-height:1.5;
 }
 .text-section h2 {
@@ -166,7 +166,7 @@ main.active { display:block; }
 .arrow {
   font-size:2rem;
   background: rgba(0,0,0,0.3);
-  color:#f2f8fc;
+  color:#fff;
   border:none;
   padding:10px;
   cursor:pointer;
@@ -179,7 +179,7 @@ main.active { display:block; }
 /* ====== KONTAKT ====== */
 #kontakt section {
   width:100%;
-  background-color:#f2f8fc;
+  background-color:#ffffff;
   padding:40px 20px;
   text-align:center;
   color:#000;
@@ -209,7 +209,7 @@ main.active { display:block; }
   padding:15px 20px;
   text-align:center;
   font-size:0.9rem;
-  color:#f2f8fc;
+  color:white;
   display:none;
 }
 
@@ -305,7 +305,7 @@ main.active { display:block; }
     <p>Adresse: Pfarrhofsberg 37, 4714 Meggenhofen</p>
     <br>
 <a href="mailto:thomas@felbsdesign.at?subject=Anmeldung%20zum%20Newsletter&body=Hallo%20Thomas,%0D%0A%0D%0Aich%20möchte%20mich%20für%20den%20Newsletter%20anmelden.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A[Dein%20Name]" 
-   style="color:#f2f8fc; background-color:#98a8cd; padding:10px 20px; border-radius:5px; text-decoration:none; font-family:'Ubuntu',sans-serif; display:inline-block; margin-top:15px;">
+   style="color:#fff; background-color:#98a8cd; padding:10px 20px; border-radius:5px; text-decoration:none; font-family:'Ubuntu',sans-serif; display:inline-block; margin-top:15px;">
   für Newsletter anmelden
 </a>
 
@@ -314,9 +314,9 @@ main.active { display:block; }
   <section style="padding:20px 0; text-align:center; background-color:#f0f0f0;">
     <h2>Klick das Bildzeichen!</h2>
     <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
-    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:#f2f8fc;"></div>
+    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:white;"></div>
     <p>Punkte: <span id="score">0</span></p>
-    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:#f2f8fc; border:none; cursor:pointer;">Spiel starten</button>
+    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:white; border:none; cursor:pointer;">Spiel starten</button>
     <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
   </section>
 </main>
@@ -332,7 +332,7 @@ main.active { display:block; }
       <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
     </div>
   </section>
-  <div style="background-color:#f2f8fc; padding:20px 0;">
+  <div style="background-color:#fff; padding:20px 0;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
       <div class="slider-container" id="container-grafik">
@@ -374,7 +374,7 @@ main.active { display:block; }
       <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
     </div>
   </section>
-  <div style="background-color:#f2f8fc; padding:20px 0;">
+  <div style="background-color:#fff; padding:20px 0;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
       <div class="slider-container" id="container-print">
@@ -424,7 +424,7 @@ main.active { display:block; }
       <div class="step"><p><span class="step-title">Pflege:</span>Ich halte deine Website aktuell und sorge dafür, dass alles läuft.</p></div>
     </div>
   </section>
-  <div style="background-color:#f2f8fc; padding:20px;">
+  <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
       <div class="slider-container" id="container-web">
@@ -444,7 +444,7 @@ main.active { display:block; }
 
 <!-- MEDIEN -->
 <main id="medien">
-  <div style="background-color:#f2f8fc; padding:20px;">
+  <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
       <div class="slider-container" id="container-medien">
@@ -476,7 +476,7 @@ main.active { display:block; }
 <!-- FOOTER -->
 <footer id="main-footer">
   &copy; 2025 felbs.design – Thomas Felber
-  <a href="#" style="color:#f2f8fc; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
+  <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
 </footer>
 
 <script>
