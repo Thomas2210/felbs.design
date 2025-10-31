@@ -50,7 +50,7 @@ body {
 }
 .square {
   background-color:#98a8cd;
-  color:white;
+  color:#f2f8fc;
   font-family:'Ubuntu',sans-serif;
   font-size:1.5rem;
   display:flex;
@@ -93,7 +93,7 @@ nav a {
   padding:6px 12px;
   transition:all 0.3s ease;
 }
-nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
+nav a:hover, nav a.active { background-color:#98a8cd; color:; }
 
 /* ====== CONTENT SECTIONS ====== */
 main { display:none; padding:0; min-height:100vh; position:relative; }
@@ -103,7 +103,7 @@ main.active { display:block; }
 .text-section {
   background-color:#98a8cd;
   padding:40px 20px;
-  color:white;
+  color:#f2f8fc;
   line-height:1.5;
 }
 .text-section h2 {
@@ -209,7 +209,7 @@ main.active { display:block; }
   padding:15px 20px;
   text-align:center;
   font-size:0.9rem;
-  color:white;
+  color:#f2f8fc;
   display:none;
 }
 
@@ -314,9 +314,9 @@ main.active { display:block; }
   <section style="padding:20px 0; text-align:center; background-color:#f0f0f0;">
     <h2>Klick das Bildzeichen!</h2>
     <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
-    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:white;"></div>
+    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:#f2f8fc;"></div>
     <p>Punkte: <span id="score">0</span></p>
-    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:white; border:none; cursor:pointer;">Spiel starten</button>
+    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:#f2f8fc; border:none; cursor:pointer;">Spiel starten</button>
     <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
   </section>
 </main>
@@ -476,7 +476,7 @@ main.active { display:block; }
 <!-- FOOTER -->
 <footer id="main-footer">
   &copy; 2025 felbs.design – Thomas Felber
-  <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
+  <a href="#" style="color:#f2f8fc; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
 </footer>
 
 <script>
