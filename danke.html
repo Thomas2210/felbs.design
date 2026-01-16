@@ -20,20 +20,17 @@
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
-
     html, body{ height:100%; }
 
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
       color: var(--text);
-      line-height: 1.5;
-
-      /* Footer bleibt unten */
       display:flex;
       flex-direction:column;
     }
 
+    /* ===== HEADER ===== */
     header{
       background: rgba(255,255,255,.95);
       backdrop-filter: blur(10px);
@@ -50,17 +47,28 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+      gap:16px;
+      flex-wrap:wrap;
     }
 
-    /* Logo klein & stabil, egal wie viel Weißraum in der PNG ist */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+    }
+
     .brand img{
-      max-height: 42px;
-      max-width: 160px;
-      width: auto;
-      height: auto;
+      height:42px;
+      width:auto;
       display:block;
+    }
+
+    .brand span{
+      font-weight:800;
+      letter-spacing:2px;
+      color:var(--brand);
+      font-size:1rem;
     }
 
     nav a{
@@ -76,80 +84,83 @@
       background: rgba(48,76,97,.08);
     }
 
+    /* ===== MAIN ===== */
     main{
-      flex: 1;                 /* drückt Footer nach unten */
+      flex:1;
       padding: 42px 18px;
       display:flex;
-      align-items:center;      /* Card zentriert */
+      align-items:center;
     }
 
     .card{
-      max-width: 720px;
-      width: 100%;
-      margin: 0 auto;
+      max-width:720px;
+      width:100%;
+      margin:0 auto;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 26px;
+      padding: 28px;
     }
 
     .badge{
       display:inline-flex;
       align-items:center;
-      gap: 8px;
-      font-weight: 800;
-      color: var(--brand);
+      gap:8px;
+      font-weight:800;
+      color:var(--brand);
       background: rgba(48,76,97,.08);
-      border: 1px solid rgba(48,76,97,.18);
-      padding: 8px 12px;
-      border-radius: 999px;
-      width: fit-content;
-      margin-bottom: 14px;
+      border:1px solid rgba(48,76,97,.18);
+      padding:8px 14px;
+      border-radius:999px;
+      margin-bottom:14px;
     }
 
     h1{
-      font-size: clamp(1.55rem, 2.5vw, 2.05rem);
-      letter-spacing: -.3px;
-      margin-bottom: 10px;
+      font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+      margin-bottom:10px;
     }
 
     p{
-      color: var(--muted);
-      font-size: 1.05rem;
+      color:var(--muted);
+      font-size:1.05rem;
     }
 
     .note{
-      margin-top: 16px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(16,33,43,.10);
-      background: #fff;
-      color: var(--muted);
-      font-size: .95rem;
+      margin-top:18px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(16,33,43,.1);
+      background:#fff;
+      font-size:.95rem;
+      color:var(--muted);
     }
 
+    /* ===== FOOTER ===== */
     footer{
-      border-top: 1px solid var(--border);
+      border-top:1px solid var(--border);
       background:#fff;
     }
 
     .footer-inner{
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 14px 18px;
+      max-width:920px;
+      margin:0 auto;
+      padding:14px 18px;
+
       display:flex;
-      justify-content:space-between;
+      justify-content:center;   /* 🔥 zentriert */
       align-items:center;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap:10px;
+      flex-wrap:wrap;
+
       font-size:.9rem;
-      color: var(--muted);
+      color:var(--muted);
+      text-align:center;
     }
 
     .footer-inner a{
-      color: var(--brand);
-      font-weight: 800;
+      color:var(--brand);
+      font-weight:800;
       text-decoration:none;
     }
     .footer-inner a:hover{
@@ -164,7 +175,8 @@
   <div class="container">
     <div class="topbar">
       <a class="brand" href="index.html" aria-label="Zur Startseite">
-        <img src="Lehrerkoffer.png" alt="Lehrerkoffer Logo" />
+        <img src="Lehrerkoffer_logo.png" alt="Lehrerkoffer Logo">
+        <span>LEHRERKOFFER</span>
       </a>
 
       <nav>
@@ -179,10 +191,11 @@
 <main>
   <section class="card">
     <div class="badge">✅ Zahlung erfolgreich</div>
-    <h1>Vielen Dank für deinen Kauf! 🎒</h1>
+    <h1>Vielen Dank für deinen Kauf! 🎉</h1>
     <p>
-      Du erhältst dein E-Book als <strong>PDF per E-Mail</strong> an die beim Kauf angegebene Adresse.
-      Bitte prüfe bei Bedarf auch den Spam-Ordner.
+      Du erhältst dein E-Book als <strong>PDF per E-Mail</strong>
+      an die beim Kauf angegebene Adresse.
+      Bitte prüfe auch deinen Spam-Ordner 📩
     </p>
 
     <div class="note">
@@ -196,10 +209,8 @@
 <footer>
   <div class="footer-inner">
     <span>© <span id="year"></span> Lehrerkoffer</span>
-
-    <!-- WICHTIG: Link geht auf Index MIT Hash -->
+    <span>·</span>
     <a href="index.html#kontakt">Impressum</a>
-
   </div>
 </footer>
 
