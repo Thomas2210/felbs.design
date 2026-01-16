@@ -118,12 +118,19 @@
 
     h1{
       font-size: clamp(1.6rem, 2.5vw, 2.1rem);
-      margin-bottom:10px;
+      margin-bottom:12px;
     }
 
     p{
       color:var(--muted);
       font-size:1.05rem;
+      margin-bottom:10px;
+    }
+
+    .payment-info{
+      margin-top:6px;
+      font-size:.9rem;
+      color:var(--muted);
     }
 
     .note{
@@ -134,13 +141,6 @@
       background:#fff;
       font-size:.95rem;
       color:var(--muted);
-    }
-
-    .payment-info{
-      margin-top:14px;
-      font-size:.9rem;
-      color:var(--muted);
-      text-align:left;
     }
 
     /* ===== FOOTER ===== */
@@ -198,10 +198,9 @@
     <div class="badge">✅ Zahlung erfolgreich</div>
     <h1>Vielen Dank für deinen Kauf! 🎉</h1>
 
-    <p>
-      Du erhältst dein E-Book als <strong>PDF per E-Mail</strong>
-      an die beim Kauf angegebene Adresse.
-      Bitte prüfe auch deinen Spam-Ordner 📩
+    <!-- 🔥 PERSONALISIERTER TEXT -->
+    <p id="personal-text">
+      Dein E-Book wird per E-Mail zugestellt 📩
     </p>
 
     <div class="payment-info">
@@ -225,7 +224,19 @@
 </footer>
 
 <script>
+  // Jahr im Footer
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // 🔥 Personalisierung über Digistore24
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
+
+  if (email) {
+    const text = document.getElementById("personal-text");
+    text.innerHTML = `
+      Dein E-Book wurde an <strong>${email}</strong> gesendet 📩
+    `;
+  }
 </script>
 
 </body>
