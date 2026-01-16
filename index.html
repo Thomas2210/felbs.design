@@ -623,6 +623,28 @@ if (!isMobile) {
   });
 }
 </script>
+<script>
+  function openFromHash() {
+    const page = location.hash.replace("#", "");
+    if (!page) return;
+
+    const target = document.getElementById(page);
+    if (!target) return;
+
+    // Intro ausblenden
+    document.getElementById('intro').style.display = 'none';
+
+    // Header & Footer anzeigen
+    document.getElementById('main-header').style.display = 'flex';
+    document.getElementById('main-footer').style.display = 'block';
+
+    // Gewünschte Seite öffnen
+    openPage(page);
+  }
+
+  window.addEventListener("load", openFromHash);
+  window.addEventListener("hashchange", openFromHash);
+</script>
 
   
 </body>
