@@ -8,261 +8,62 @@
 <link rel="icon" href="Bildzeichen.png" type="image/png">
 
 <style>
-/* ====== LOKALE SCHRIFTEN ====== */
-@font-face {
-  font-family: 'Roboto';
-  src: url('fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Roboto,sans-serif;background:#fff;color:#000}
 
-@font-face {
-  font-family: 'Ubuntu';
-  src: url('fonts/Ubuntu-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-
-/* ====== BASISSTILE ====== */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { 
-  font-family: 'Roboto', sans-serif; 
-  color: #000; 
-  background-color: #fff; 
-}
-
-
-
-
-
-/* ====== INTRO ====== */
-#intro {
+/* INTRO */
+#intro{
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
-  background-color:#fff;
   gap:20px;
-  flex-wrap:wrap;
+  flex-wrap:wrap
 }
-.square {
-  background-color:#98a8cd;
-  color:white;
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.5rem;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:150px;
-  height:150px;
-  cursor:pointer;
-  transition:all 0.3s ease;
-  transform-origin:center center;
-  text-transform: capitalize;
-}
-.square:hover { transform:scale(1.2); background-color:#8794b8; }
-
-/* ====== HEADER / NAV ====== */
-header {
-  background-color:#ffffff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:15px 20px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-.logo img { height:50px; width:auto; margin-bottom:10px; }
-nav ul {
-  list-style:none;
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-nav a {
-  text-decoration:none;
-  color:#000;
-  font-weight:500;
-  font-family:'Ubuntu',sans-serif;
-  padding:6px 12px;
-  transition:all 0.3s ease;
-}
-nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
-
-/* ====== CONTENT SECTIONS ====== */
-main { display:none; padding:0; min-height:100vh; position:relative; }
-main.active { display:block; }
-
-/* ====== BLAUER BALKEN MIT TEXT ====== */
-.text-section {
-  background-color:#98a8cd;
-  padding:40px 20px;
-  color:white;
-  line-height:1.5;
-}
-.text-section h2 {
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.8rem;
-  text-align:center;
-  margin-bottom:30px;
-}
-.steps-container {
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:20px;
-  max-width:1200px;
-  margin:0 auto;
-  text-align:left;
-}
-.steps-container .step p { 
-  margin:0; 
-  font-family:'Roboto', sans-serif;
-}
-.steps-container .step-title {
-  font-family: 'Ubuntu', sans-serif;
-  font-weight:500;
-  display:block;
-  margin-bottom:5px;
-}
-
-/* ====== PORTFOLIO SLIDER ====== */
-.portfolio-slider {
-  display:flex;
-  align-items:center;
-  position:relative;
-  gap:10px;
-  padding:20px 10px;
-}
-.slider-container { overflow:hidden; flex:1; }
-.slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
-.slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
-
-  /* ====== MEDIA ELEMENTE IM SLIDER ====== */
-.portfolio-slider img,
-.portfolio-slider video {
-  flex: 0 0 auto;
-  width: calc((100% - 40px)/3);
-
-  height: auto;
-  object-fit: contain;
-  border-radius: 4px;
-  transition: transform 0.3s ease;
-}
-
-.portfolio-slider img:hover,
-.portfolio-slider video:hover {
-  transform: scale(1.03);
-}
-
-
-
-/* ====== Pfeile ====== */
-.arrow {
-  font-size:2rem;
-  background: rgba(0,0,0,0.3);
+.square{
+  width:150px;height:150px;
+  background:#98a8cd;
   color:#fff;
-  border:none;
-  padding:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:1.4rem;
   cursor:pointer;
-  z-index:5;
-  border-radius:0%;
-  user-select:none;
+  transition:.3s
 }
-.arrow:hover { background: rgba(0,0,0,0.6); }
+.square:hover{transform:scale(1.15)}
 
-/* ====== KONTAKT ====== */
-#kontakt section {
-  width:100%;
-  background-color:#ffffff;
-  padding:40px 20px;
-  text-align:center;
-  color:#000;
-}
-#kontakt h2 {
-  font-family:'Ubuntu',sans-serif;
-  margin-bottom:20px;
-  font-size:2rem;
-}
-#kontakt p {
-  margin:10px 0;
-  font-size:1rem;
-}
-#kontakt a {
-  color:#98a8cd;
-  text-decoration:none;
-  font-weight:500;
-}
-#kontakt a:hover { text-decoration:underline; }
-
-/* ====== MINISPIEL ====== */
-#game-container { max-width:90%; margin:0 auto; position:relative; }
-
-/* ====== FOOTER ====== */
-#main-footer {
-  background-color:#98a8cd;
-  padding:15px 20px;
-  text-align:center;
-  font-size:0.9rem;
-  color:white;
+/* HEADER */
+header{
   display:none;
+  position:sticky;top:0;z-index:10;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  padding:15px;
+  text-align:center
 }
+nav ul{list-style:none;display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+nav a{text-decoration:none;color:#000;font-weight:600;padding:6px 12px}
+nav a.active,nav a:hover{background:#98a8cd;color:#fff}
 
-  
-/* ====== RESPONSIVE ====== */
-@media(max-width:1024px){
-  .portfolio-slider img { width:calc((100% - 20px)/2); }
-  .square { width:130px; height:130px; font-size:1.3rem; }
-  .steps-container { grid-template-columns:repeat(2, 1fr); }
-}
+/* MAIN */
+main{display:none;min-height:100vh}
+main.active{display:block}
 
-@media(max-width:768px){
-  #intro { flex-direction: column; gap:15px; align-items: center; }
-  .square { width:130px; height:130px; font-size:1.2rem; }
-  .portfolio-slider img { width:90%; max-width:400px; flex:0 0 auto; margin:auto; }
-  header { flex-direction:column; }
-  nav ul { gap:10px; }
-  .steps-container { grid-template-columns:1fr; }
-  /* Pfeile ausblenden */
-  .arrow {
-    display: none;
-  }
+/* KONTAKT */
+#kontakt{padding:40px;text-align:center}
 
-  @media(max-width:768px){
-  .portfolio-slider video {
-    width:90%;
-    max-width:400px;
-    flex:0 0 auto;
-    margin:auto;
-  }
-}
-
-  /* Slider scrollbar machen */
-  .slider-container {
-    overflow-x: auto;
-    scroll-behavior: smooth;
-  }
-
-/* Scrollleisten anzeigen */
-.slider-container::-webkit-scrollbar {
-  height: 6px;
-}
-.slider-container::-webkit-scrollbar-thumb {
-  background: #98a8cd;
-  border-radius: 3px;
-}
-.slider-container::-webkit-scrollbar-track {
-  background: #ddd;
-}
-
+/* FOOTER */
+footer{
+  display:none;
+  background:#98a8cd;
+  color:#fff;
+  text-align:center;
+  padding:15px
 }
 </style>
 </head>
+
 <body>
 
 <!-- INTRO -->
@@ -274,378 +75,78 @@ main.active { display:block; }
 </div>
 
 <!-- HEADER -->
-<header id="main-header" style="display:none;">
-  <div class="logo"><img src="logo.png" alt="Website-Logo"></div>
+<header id="main-header">
   <nav>
     <ul>
-      <li><a href="#" id="nav-grafik" onclick="openPage('grafik')">Grafik</a></li>
-      <li><a href="#" id="nav-print" onclick="openPage('print')">Print</a></li>
-      <li><a href="#" id="nav-web" onclick="openPage('web')">Web</a></li>
-      <li><a href="#" id="nav-medien" onclick="openPage('medien')">Medien</a></li>
-      <li><a href="#" id="nav-kontakt" onclick="openPage('kontakt')">Kontakt</a></li>
+      <li><a href="#grafik" id="nav-grafik" onclick="openPage('grafik')">Grafik</a></li>
+      <li><a href="#print" id="nav-print" onclick="openPage('print')">Print</a></li>
+      <li><a href="#web" id="nav-web" onclick="openPage('web')">Web</a></li>
+      <li><a href="#medien" id="nav-medien" onclick="openPage('medien')">Medien</a></li>
+      <li><a href="#kontakt" id="nav-kontakt" onclick="openPage('kontakt')">Kontakt</a></li>
     </ul>
   </nav>
 </header>
 
-<!-- KONTAKT + MINISPIEL -->
-<main id="kontakt" >
-  <section>
-    <h2>Kontakt</h2>
-    <p><strong>felbs.design</strong></p>
-    <p>Thomas Felber</p>
-    <p></p>
-   <p></p>Tel:<a href="tel: 436507283199"> +436507283199</a></p>
-    <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
-    <br>
-    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
-    <p>Website: <a href="https://www.felbsdesign.at" target="_blank">felbsdesign.at</a></p>
-    <br>
-    <p>Standorte: Linz, Meggenhofen</p>
-  <br>
-    <p>Adresse: Pfarrhofsberg 37, 4714 Meggenhofen</p>
-    <br>
-<a href="mailto:thomas@felbsdesign.at?subject=Anmeldung%20zum%20Newsletter&body=Hallo%20Thomas,%0D%0A%0D%0Aich%20möchte%20mich%20für%20den%20Newsletter%20anmelden.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A[Dein%20Name]" 
-   style="color:#fff; background-color:#98a8cd; padding:10px 20px; border-radius:5px; text-decoration:none; font-family:'Ubuntu',sans-serif; display:inline-block; margin-top:15px;">
-  für Newsletter anmelden
-</a>
-
-  </section>
-
-  <section style="padding:20px 0; text-align:center; background-color:#f0f0f0;">
-    <h2>Klick das Bildzeichen!</h2>
-    <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
-    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:white;"></div>
-    <p>Punkte: <span id="score">0</span></p>
-    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:white; border:none; cursor:pointer;">Spiel starten</button>
-    <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
-  </section>
+<!-- KONTAKT -->
+<main id="kontakt">
+  <h2>Kontakt</h2>
+  <p><strong>felbs.design</strong></p>
+  <p>Thomas Felber</p>
+  <p>📞 <a href="tel:+436507283199">+43 650 7283199</a></p>
+  <p>✉️ <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
 </main>
 
 <!-- GRAFIK -->
-<main id="grafik">
-  <section class="text-section">
-    <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
-    <div class="steps-container">
-      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p></div>
-      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p></div>
-      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p></div>
-      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
-    </div>
-  </section>
-  <div style="background-color:#fff; padding:20px 0;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
-      <div class="slider-container" id="container-grafik">
-        <div class="slider-track" id="track-grafik">
-          <img src="grafik/grafik1.webp" alt="Grafik1" class="lazy-img">
-          <img src="grafik/grafik2.webp" alt="Grafik2" class="lazy-img">
-          <img src="grafik/grafik3.webp" alt="Grafik3"class="lazy-img" >
-          <img src="grafik/grafik4.webp" alt="Grafik4" class="lazy-img">
-          <img src="grafik/grafik5.webp" alt="Grafik5" class="lazy-img">
-          <img src="grafik/grafik6.webp" alt="Grafik6" class="lazy-img">
-          <img src="grafik/grafik7.webp" alt="Grafik7" class="lazy-img">
-          <img src="grafik/grafik8.webp" alt="Grafik8" class="lazy-img">
-          <img src="grafik/grafik9.webp" alt="Grafik9" class="lazy-img">
-          <img src="grafik/grafik10.webp" alt="Grafik10" class="lazy-img">
-          <img src="grafik/grafik11.webp" alt="Grafik11" class="lazy-img">
-          <img src="grafik/grafik12.webp" alt="Grafik12" class="lazy-img">
-          <img src="grafik/grafik13.webp" alt="Grafik13" class="lazy-img">
-          <img src="grafik/grafik14.webp" alt="Grafik14" class="lazy-img">
-          <img src="grafik/grafik15.webp" alt="Grafik15" class="lazy-img">
-          <img src="grafik/grafik16.webp" alt="Grafik16" class="lazy-img">
-          <img src="grafik/grafik17.webp" alt="Grafik17" class="lazy-img">
-          <img src="grafik/grafik18.webp" alt="Grafik17" class="lazy-img">
-         
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('grafik')">&#10095;</button>
-    </div>
-  </div>
-</main>
+<main id="grafik"><h2 style="padding:40px;text-align:center">Grafik</h2></main>
 
 <!-- PRINT -->
-<main id="print">
-  <section class="text-section">
-    <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2>
-    <div class="steps-container">
-      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p></div>
-      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p></div>
-      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p></div>
-      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
-    </div>
-  </section>
-  <div style="background-color:#fff; padding:20px 0;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
-      <div class="slider-container" id="container-print">
-        <div class="slider-track" id="track-print">
-           <img src="print/Weihnachten1.webp" alt="Print1" class="lazy-img">
-           <img src="print/Weihnachten2.webp" alt="Print1" class="lazy-img">
-          <img src="print/print1.webp" alt="Print1" class="lazy-img">
-          <img src="print/print222.webp" alt="Print1" class="lazy-img">
-          <img src="print/print2.webp" alt="Print2" class="lazy-img">
-          <img src="print/print3.webp" alt="Print3" class="lazy-img">
-          <img src="print/print4.webp" alt="Print4" class="lazy-img">
-           <img src="print/print5.webp" alt="Print1" class="lazy-img">
-          <img src="print/print6.webp" alt="Print2" class="lazy-img">
-          <img src="print/print7.webp" alt="Print3" class="lazy-img">
-           
-          <img src="print/print8.webp" alt="Print4" class="lazy-img">
-           <img src="print/print888.webp" alt="Print4" class="lazy-img">
-           <img src="print/print9.webp" alt="Print1" class="lazy-img">
-          <img src="print/print10.webp" alt="Print2" class="lazy-img">
-          <img src="print/print11.webp" alt="Print3"class="lazy-img">
-          <img src="print/print12.webp" alt="Print4" class="lazy-img">
-           <img src="print/print13.webp" alt="Print1" class="lazy-img">
-          <img src="print/print14.webp" alt="Print2" class="lazy-img">
-          <img src="print/print15.webp" alt="Print3" class="lazy-img">
-          <img src="print/print16.webp" alt="Print2" class="lazy-img">
-          <img src="print/print17.webp" alt="Print3" class="lazy-img">
-          <img src="print/print18.webp" alt="Print4" class="lazy-img">
-           <img src="print/print19.webp" alt="Print1" class="lazy-img">
-          <img src="print/print20.webp" alt="Print2" class="lazy-img">
- 
-      
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('print')">&#10095;</button>
-    </div>
-  </div>
-</main>
+<main id="print"><h2 style="padding:40px;text-align:center">Print</h2></main>
 
 <!-- WEB -->
-<main id="web">
-  <section class="text-section">
-    <h2>Von der Idee bis zur fertigen Website in 4 Schritten</h2>
-    <div class="steps-container">
-      <div class="step"><p><span class="step-title">Briefing & Konzept:</span>Du erzählst mir, was du brauchst. Wir klären Ziel, Stil und Struktur deiner Website.</p></div>
-      <div class="step"><p><span class="step-title">Design & Umsetzung:</span>Ich gestalte dein Layout und setze alles um. Änderungen sind inklusive, bis alles passt.</p></div>
-      <div class="step"><p><span class="step-title">Launch:</span>Ich kümmere mich um Domain, Einstellungen und Technik – deine Website geht online.</p></div>
-      <div class="step"><p><span class="step-title">Pflege:</span>Ich halte deine Website aktuell und sorge dafür, dass alles läuft.</p></div>
-    </div>
-  </section>
-  <div style="background-color:#fff; padding:20px;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
-      <div class="slider-container" id="container-web">
-        <div class="slider-track" id="track-web">
-          <img src="web/web2.webp" alt="Web1" class="lazy-img">
-          <img src="web/web1.webp" alt="Web2" class="lazy-img">
-          <img src="web/web3.webp" alt="Web3" class="lazy-img">
-          <img src="web/web4.webp" alt="Web4" class="lazy-img">
-           <img src="web/web5.webp" alt="Web3" class="lazy-img">
-          <img src="web/web6.webp" alt="Web4" class="lazy-img">
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('web')">&#10095;</button>
-    </div>
-  </div>
-</main>
+<main id="web"><h2 style="padding:40px;text-align:center">Web</h2></main>
 
 <!-- MEDIEN -->
-<main id="medien">
-  <div style="background-color:#fff; padding:20px;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
-      <div class="slider-container" id="container-medien">
-       
-        <div class="slider-track" id="track-medien">
-  
-  <video autoplay loop muted playsinline class="lazy-img">
-    <source src="medien/medien_animation.webm" type="video/webm">
-    Dein Browser unterstützt kein WebM-Video 😢
-  </video>
-  <video autoplay loop muted playsinline class="lazy-img">
-    <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
-    Dein Browser unterstützt kein WebM-Video 😢
-  </video>
-  
-  <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
-  <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
-  <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
-  <img src="medien/medien5.webp" alt="Fotobücher" class="lazy-img">
-  <img src="medien/medien7.webp" alt="noch vieles mehr" class="lazy-img">
-</div>
-
-      </div>
-      <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
-    </div>
-  </div>
-</main>
+<main id="medien"><h2 style="padding:40px;text-align:center">Medien</h2></main>
 
 <!-- FOOTER -->
 <footer id="main-footer">
-  &copy; 2025 felbs.design – Thomas Felber
-  <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
+  © 2025 felbs.design – Thomas Felber ·
+  <a href="#kontakt" style="color:#fff;text-decoration:underline" onclick="openPage('kontakt')">
+    Kontakt / Impressum
+  </a>
 </footer>
 
 <script>
-/* Intro → Seite */
 function showPage(page){
   document.getElementById('intro').style.display='none';
-  document.getElementById('main-header').style.display='flex';
+  document.getElementById('main-header').style.display='block';
   document.getElementById('main-footer').style.display='block';
   openPage(page);
 }
 
-/* Menü → Seite */
 function openPage(page){
-  const mains=document.querySelectorAll('main');
-  mains.forEach(m=>m.classList.remove('active'));
+  document.querySelectorAll('main').forEach(m=>m.classList.remove('active'));
   document.getElementById(page).classList.add('active');
-  const links=document.querySelectorAll('nav a');
-  links.forEach(a=>a.classList.remove('active'));
-  const navLink=document.getElementById('nav-'+page);
-  if(navLink) navLink.classList.add('active');
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  const link=document.getElementById('nav-'+page);
+  if(link) link.classList.add('active');
 }
 
-/* Pfeil-Scroll */
-function slideLeft(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
-}
-function slideRight(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
-}
+/* 🔥 HASH-FIX: öffnet Seite direkt über URL */
+function openFromHash(){
+  const page=location.hash.replace('#','');
+  if(!page) return;
+  if(!document.getElementById(page)) return;
 
-/* Drag-Scroll nur für Desktop – Touchgeräte nutzen natives Scrollen */
-const sliders = document.querySelectorAll('.slider-container');
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-if (!isTouchDevice) {
-  sliders.forEach(container => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      container.classList.add('active');
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-      e.preventDefault();
-    });
-    container.addEventListener('mouseleave', () => {
-      isDown = false;
-      container.classList.remove('active');
-    });
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.classList.remove('active');
-    });
-    container.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      container.scrollLeft = scrollLeft - walk;
-    });
-  });
-} else {
-  // Touchgeräte: einfaches Scrollen aktiv lassen
-  sliders.forEach(container => {
-    container.style.scrollSnapType = 'x mandatory';
-    container.style.overflowX = 'auto';
-    container.style.scrollBehavior = 'smooth';
-    container.style.webkitOverflowScrolling = 'touch';
-  });
+  document.getElementById('intro').style.display='none';
+  document.getElementById('main-header').style.display='block';
+  document.getElementById('main-footer').style.display='block';
+  openPage(page);
 }
 
-
-
-
-/* ====== MINISPIEL ====== */
-const startBtn = document.getElementById('start-btn');
-const gameContainer = document.getElementById('game-container');
-const scoreDisplay = document.getElementById('score');
-const timerDisplay = document.getElementById('timer');
-let score = 0;
-let time = 10;
-let moveInterval, gameInterval;
-
-function startGame() {
-  score = 0; time = 10;
-  scoreDisplay.textContent = score;
-  timerDisplay.textContent = 'Zeit: ' + time + 's';
-  startBtn.disabled = true;
-
-  const img = document.createElement('img');
-  img.src = 'Bildzeichen.png';
-  img.style.width = '50px';
-  img.style.height = '50px';
-  img.style.position = 'absolute';
-  img.style.cursor = 'pointer';
-  gameContainer.appendChild(img);
-
-  function moveImage() {
-    const maxX = gameContainer.clientWidth - 50;
-    const maxY = gameContainer.clientHeight - 50;
-    const x = Math.floor(Math.random() * maxX);
-    const y = Math.floor(Math.random() * maxY);
-    img.style.left = x + 'px';
-    img.style.top = y + 'px';
-  }
-
-  img.addEventListener('click', () => {
-    score++;
-    scoreDisplay.textContent = score;
-    moveImage();
-  });
-
-  moveImage();
-  moveInterval = setInterval(moveImage, 1500);
-
-  gameInterval = setInterval(() => {
-    time--;
-    timerDisplay.textContent = 'Zeit: ' + time + 's';
-    if(time <= 0){
-      clearInterval(gameInterval);
-      clearInterval(moveInterval);
-      alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
-      gameContainer.removeChild(img);
-      startBtn.disabled = false;
-    }
-  }, 1000);
-}
-
-startBtn.addEventListener('click', startGame);
+window.addEventListener('load',openFromHash);
+window.addEventListener('hashchange',openFromHash);
 </script>
 
-  <script>
-// Prüfen, ob das Gerät ein Handy ist
-const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-if (!isMobile) {
-  // Alle Bilder in Portfolio-Slidern auswählen
-  const portfolioImages = document.querySelectorAll('.portfolio-slider img');
-  portfolioImages.forEach(img => {
-    img.setAttribute('loading', 'lazy');
-  });
-}
-</script>
-<script>
-  function openFromHash() {
-    const page = location.hash.replace("#", "");
-    if (!page) return;
-
-    const target = document.getElementById(page);
-    if (!target) return;
-
-    // Intro ausblenden
-    document.getElementById('intro').style.display = 'none';
-
-    // Header & Footer anzeigen
-    document.getElementById('main-header').style.display = 'flex';
-    document.getElementById('main-footer').style.display = 'block';
-
-    // Gewünschte Seite öffnen
-    openPage(page);
-  }
-
-  window.addEventListener("load", openFromHash);
-  window.addEventListener("hashchange", openFromHash);
-</script>
-
-  
 </body>
 </html>
