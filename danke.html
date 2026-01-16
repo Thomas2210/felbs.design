@@ -136,6 +136,13 @@
       color:var(--muted);
     }
 
+    .payment-info{
+      margin-top:14px;
+      font-size:.9rem;
+      color:var(--muted);
+      text-align:left;
+    }
+
     /* ===== FOOTER ===== */
     footer{
       border-top:1px solid var(--border);
@@ -146,13 +153,11 @@
       max-width:920px;
       margin:0 auto;
       padding:14px 18px;
-
       display:flex;
-      justify-content:center;   /* 🔥 zentriert */
+      justify-content:center;
       align-items:center;
       gap:10px;
       flex-wrap:wrap;
-
       font-size:.9rem;
       color:var(--muted);
       text-align:center;
@@ -192,11 +197,16 @@
   <section class="card">
     <div class="badge">✅ Zahlung erfolgreich</div>
     <h1>Vielen Dank für deinen Kauf! 🎉</h1>
+
     <p>
       Du erhältst dein E-Book als <strong>PDF per E-Mail</strong>
       an die beim Kauf angegebene Adresse.
       Bitte prüfe auch deinen Spam-Ordner 📩
     </p>
+
+    <div class="payment-info">
+      💳 Die Abbuchung erfolgt durch <strong>Digistore24.com</strong>.
+    </div>
 
     <div class="note">
       Hinweis: Dieses PDF ist urheberrechtlich geschützt und ausschließlich
