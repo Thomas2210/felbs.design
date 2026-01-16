@@ -25,34 +25,51 @@
       color: var(--text);
       line-height: 1.5;
     }
+
     header{
-      background: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 10;
     }
-    .container{ max-width: 920px; margin: 0 auto; padding: 18px; }
+
+    .container{
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 16px 18px;
+    }
+
     .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
+      gap: 16px;
       flex-wrap: wrap;
     }
+
     .brand{
       display:flex;
       align-items:center;
-      gap: 12px;
       text-decoration:none;
-      color: var(--text);
     }
+
+    /* Logo-Größe (dezent & professionell) */
     .brand img{
-      height: 44px;
+      height: 50px;
       width: auto;
       display:block;
     }
+
+    nav{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items:center;
+    }
+
     nav a{
       text-decoration:none;
       color: var(--brand);
@@ -60,24 +77,28 @@
       padding: 10px 12px;
       border-radius: 12px;
       transition: background .2s ease, transform .2s ease;
+      white-space: nowrap;
     }
     nav a:hover{
       background: rgba(48,76,97,.08);
       transform: translateY(-1px);
     }
-    main{ padding: 34px 0 10px; }
+
+    main{ padding: 38px 0 18px; }
+
     .card{
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 20px;
+      padding: 24px;
     }
+
     .badge{
       display:inline-flex;
       align-items:center;
       gap: 8px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--brand);
       background: rgba(48,76,97,.08);
       border: 1px solid rgba(48,76,97,.18);
@@ -86,14 +107,20 @@
       width: fit-content;
       margin-bottom: 14px;
     }
+
     h1{
       font-size: clamp(1.55rem, 2.5vw, 2.05rem);
       letter-spacing: -.3px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
-    p{ color: var(--muted); font-size: 1.02rem; }
+
+    p{
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
     .note{
-      margin-top: 14px;
+      margin-top: 16px;
       padding: 12px 14px;
       border-radius: 14px;
       border: 1px solid rgba(16,33,43,.10);
@@ -101,71 +128,72 @@
       color: var(--muted);
       font-size: .95rem;
     }
+
     footer{
       margin-top: 22px;
       border-top: 1px solid var(--border);
       background: #fff;
     }
+
     .footer-inner{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 16px 18px;
+      text-align:center;
+      padding: 14px 18px;
       color: var(--muted);
       font-size: .92rem;
     }
-    .footer-inner a{
-      color: var(--brand);
-      font-weight: 700;
-      text-decoration: none;
-    }
-    .footer-inner a:hover{ text-decoration: underline; }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="container">
-      <div class="topbar">
-        <a class="brand" href="#" aria-label="Lehrerkoffer">
-          <img src="Lehrerkoffer.png" alt="Lehrerkoffer Logo" />
+
+<header>
+  <div class="container">
+    <div class="topbar">
+      <!-- Dateiname exakt wie bei dir im Repo: Lehrerkoffer.png -->
+      <a class="brand" href="index.html" aria-label="Zur Startseite">
+        <img src="Lehrerkoffer.png" alt="Lehrerkoffer Logo" />
+      </a>
+
+      <nav>
+        <a href="https://www.instagram.com/lehrerkoffer" target="_blank" rel="noopener">
+          Instagram @lehrerkoffer
         </a>
 
-        <!-- Impressum-Link wie in deiner Index-Struktur -->
-        <nav>
-          <a href="#" onclick="openPage('kontakt'); return false;">Impressum</a>
-        </nav>
-      </div>
+        <!-- Wichtig: NICHT openPage hier, sondern direkt zur Index mit Hash -->
+        <a href="index.html#kontakt">
+          Impressum
+        </a>
+      </nav>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
-    <section class="card">
-      <div class="badge">✅ Zahlung erfolgreich</div>
-      <h1>Vielen Dank für deinen Kauf! 🎒</h1>
-      <p>
-        Du erhältst dein E-Book als <strong>PDF per E-Mail</strong> an die beim Kauf angegebene Adresse.
-        Bitte prüfe bei Bedarf auch den Spam-Ordner.
-      </p>
+<main class="container">
+  <section class="card">
+    <div class="badge">✅ Zahlung erfolgreich</div>
+    <h1>Vielen Dank für deinen Kauf! 🎒</h1>
+    <p>
+      Du erhältst dein E-Book als <strong>PDF per E-Mail</strong> an die beim Kauf angegebene Adresse.
+      Bitte prüfe bei Bedarf auch den Spam-Ordner.
+    </p>
 
-      <div class="note">
-        Hinweis: Das PDF ist urheberrechtlich geschützt und nur für den persönlichen Gebrauch bestimmt.
-        Eine Weitergabe oder Veröffentlichung ist nicht gestattet.
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <div>© <span id="year"></span> Lehrerkoffer</div>
-      <div><a href="#" onclick="openPage('kontakt'); return false;">Impressum</a></div>
+    <div class="note">
+      Hinweis: Dieses PDF ist urheberrechtlich geschützt und ausschließlich
+      für den persönlichen Gebrauch bestimmt. Eine Weitergabe oder Veröffentlichung
+      ist nicht gestattet.
     </div>
-  </footer>
+  </section>
+</main>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+<footer>
+  <div class="container footer-inner">
+    © <span id="year"></span> Lehrerkoffer
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
 </body>
 </html>
