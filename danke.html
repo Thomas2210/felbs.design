@@ -21,15 +21,15 @@
 
     *{ box-sizing:border-box; margin:0; padding:0; }
 
-    html, body{
-      height:100%;
-    }
+    html, body{ height:100%; }
 
     body{
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
       color: var(--text);
       line-height: 1.5;
+
+      /* Footer bleibt unten */
       display:flex;
       flex-direction:column;
     }
@@ -43,7 +43,7 @@
     .container{
       max-width: 920px;
       margin: 0 auto;
-      padding: 18px;
+      padding: 16px 18px;
     }
 
     .topbar{
@@ -51,12 +51,15 @@
       align-items:center;
       justify-content:space-between;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
-    /* LOGO – bewusst mittlere Größe */
+    /* Logo klein & stabil, egal wie viel Weißraum in der PNG ist */
     .brand img{
-      height: 60px;
+      max-height: 42px;
+      max-width: 160px;
       width: auto;
+      height: auto;
       display:block;
     }
 
@@ -67,41 +70,48 @@
       padding: 10px 12px;
       border-radius: 12px;
       transition: background .2s ease;
+      white-space: nowrap;
     }
-
     nav a:hover{
       background: rgba(48,76,97,.08);
     }
 
     main{
-      flex:1;               /* sorgt dafür, dass Footer unten bleibt */
-      padding: 48px 18px;
+      flex: 1;                 /* drückt Footer nach unten */
+      padding: 42px 18px;
+      display:flex;
+      align-items:center;      /* Card zentriert */
     }
 
     .card{
       max-width: 720px;
+      width: 100%;
       margin: 0 auto;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 28px;
+      padding: 26px;
     }
 
     .badge{
-      display:inline-block;
-      font-weight: 700;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      font-weight: 800;
       color: var(--brand);
       background: rgba(48,76,97,.08);
       border: 1px solid rgba(48,76,97,.18);
       padding: 8px 12px;
       border-radius: 999px;
-      margin-bottom: 16px;
+      width: fit-content;
+      margin-bottom: 14px;
     }
 
     h1{
-      font-size: clamp(1.6rem, 2.6vw, 2.1rem);
-      margin-bottom: 14px;
+      font-size: clamp(1.55rem, 2.5vw, 2.05rem);
+      letter-spacing: -.3px;
+      margin-bottom: 10px;
     }
 
     p{
@@ -110,8 +120,8 @@
     }
 
     .note{
-      margin-top: 20px;
-      padding: 14px 16px;
+      margin-top: 16px;
+      padding: 12px 14px;
       border-radius: 14px;
       border: 1px solid rgba(16,33,43,.10);
       background: #fff;
@@ -127,20 +137,21 @@
     .footer-inner{
       max-width: 920px;
       margin: 0 auto;
-      padding: 16px 18px;
+      padding: 14px 18px;
       display:flex;
       justify-content:space-between;
       align-items:center;
-      font-size: .9rem;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size:.9rem;
       color: var(--muted);
     }
 
     .footer-inner a{
       color: var(--brand);
-      font-weight: 700;
+      font-weight: 800;
       text-decoration:none;
     }
-
     .footer-inner a:hover{
       text-decoration:underline;
     }
@@ -150,14 +161,18 @@
 <body>
 
 <header>
-  <div class="container topbar">
-    <img src="Lehrerkoffer.png" alt="Lehrerkoffer Logo" />
-
-    <nav>
-      <a href="https://www.instagram.com/lehrerkoffer" target="_blank" rel="noopener">
-        Instagram
+  <div class="container">
+    <div class="topbar">
+      <a class="brand" href="index.html" aria-label="Zur Startseite">
+        <img src="Lehrerkoffer.png" alt="Lehrerkoffer Logo" />
       </a>
-    </nav>
+
+      <nav>
+        <a href="https://www.instagram.com/lehrerkoffer" target="_blank" rel="noopener">
+          Instagram
+        </a>
+      </nav>
+    </div>
   </div>
 </header>
 
@@ -181,6 +196,8 @@
 <footer>
   <div class="footer-inner">
     <span>© <span id="year"></span> Lehrerkoffer</span>
+
+    <!-- WICHTIG: Link geht auf Index MIT Hash -->
     <a href="index.html#kontakt">Impressum</a>
   </div>
 </footer>
