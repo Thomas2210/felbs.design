@@ -633,14 +633,18 @@ if (!isMobile) {
 </script>
 <script>
 (function () {
+
   function openFromHash() {
-    const page = (location.hash || "").replace("#", "").trim();
+    const page = (window.location.hash || "")
+      .replace("#", "")
+      .trim();
+
     if (!page) return;
 
     const target = document.getElementById(page);
     if (!target) return;
 
-    // Intro ausblenden + Header/Footer anzeigen
+    // Intro ausblenden
     const intro = document.getElementById("intro");
     const header = document.getElementById("main-header");
     const footer = document.getElementById("main-footer");
@@ -649,9 +653,21 @@ if (!isMobile) {
     if (header) header.style.display = "flex";
     if (footer) footer.style.display = "block";
 
-    // Seite öffnen
-    if (typeof openPage === "function") openPage(page);
+    // Gewünschte Seite aktivieren
+    if (typeof openPage === "function") {
+      openPage(page);
+    }
   }
+
+  // mehrfach triggern = absolut zuverlässig
+  openFromHash();
+  document.addEventListener("DOMContentLoaded", openFromHash);
+  window.addEventListener("load", openFromHash);
+  window.addEventListener("hashchange", openFromHash);
+
+})();
+</script>
+
 
   // mehrfach ausführen = zuverlässig
   openFromHash();
