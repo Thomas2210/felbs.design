@@ -624,27 +624,35 @@ if (!isMobile) {
 }
 </script>
 <script>
+(function () {
   function openFromHash() {
-    const page = location.hash.replace("#", "");
+    const page = (location.hash || "").replace("#", "").trim();
     if (!page) return;
 
     const target = document.getElementById(page);
     if (!target) return;
 
-    // Intro ausblenden
-    document.getElementById('intro').style.display = 'none';
+    // Intro ausblenden + Header/Footer anzeigen
+    const intro = document.getElementById("intro");
+    const header = document.getElementById("main-header");
+    const footer = document.getElementById("main-footer");
 
-    // Header & Footer anzeigen
-    document.getElementById('main-header').style.display = 'flex';
-    document.getElementById('main-footer').style.display = 'block';
+    if (intro) intro.style.display = "none";
+    if (header) header.style.display = "flex";
+    if (footer) footer.style.display = "block";
 
-    // Gewünschte Seite öffnen
-    openPage(page);
+    // Seite öffnen
+    if (typeof openPage === "function") openPage(page);
   }
 
+  // mehrfach ausführen = zuverlässig
+  openFromHash();
+  document.addEventListener("DOMContentLoaded", openFromHash);
   window.addEventListener("load", openFromHash);
   window.addEventListener("hashchange", openFromHash);
+})();
 </script>
+
 
   
 </body>
