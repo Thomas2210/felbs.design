@@ -33,7 +33,13 @@ header img {
 h1 {
   font-family:'Ubuntu', sans-serif;
   text-align:center;
+  margin-bottom:10px;
+}
+
+.intro {
+  text-align:center;
   margin-bottom:25px;
+  color:#444;
 }
 
 .box {
@@ -45,7 +51,13 @@ h1 {
 
 .box h2 {
   font-family:'Ubuntu', sans-serif;
-  margin-bottom:8px;
+  margin-bottom:5px;
+}
+
+.box p {
+  font-size:0.9rem;
+  color:#555;
+  margin-bottom:10px;
 }
 
 textarea {
@@ -97,27 +109,33 @@ button:hover {
 
 <div class="container">
 
-<h1>Panini Tausch System</h1>
+<h1>Panini Tausch mit mir</h1>
+
+<div class="intro">
+  Gib einfach deine Sticker ein und sieh sofort, was du mit mir tauschen kannst.
+</div>
 
 <!-- FREUND INPUT -->
 <div class="box">
-  <h2>Freund hat doppelt</h2>
+  <h2>1. Welche Sticker hast du doppelt?</h2>
+  <p>Diese kannst du mir anbieten.</p>
   <textarea id="friendHave" placeholder="z.B. 1, 5, 5, 10, 12"></textarea>
 </div>
 
 <div class="box">
-  <h2>Freund braucht</h2>
+  <h2>2. Welche Sticker brauchst du noch?</h2>
+  <p>Diese versuche ich dir zu geben.</p>
   <textarea id="friendNeed" placeholder="z.B. 2, 3, 7, 10"></textarea>
 </div>
 
-<button onclick="calc()">Abgleich starten</button>
+<button onclick="calc()">Tausch anzeigen</button>
 
 <div class="result" id="out"></div>
 
 </div>
 
 <script>
-/* ===== DEINE FIXEN DATEN ===== */
+/* ===== FIXE DATEN (MEINE STICKER) ===== */
 const HOST_HAVE = [1, 2, 2, 5, 10, 10, 15, 20];
 const HOST_NEED = [3, 4, 6, 7, 8, 9];
 
@@ -127,11 +145,10 @@ function parse(input) {
 
 function calc() {
 
-  // FREUND
   const friendHave = parse(document.getElementById('friendHave').value);
   const friendNeed = parse(document.getElementById('friendNeed').value);
 
-  // HOST doppelte berechnen
+  // meine doppelten
   const hostCount = {};
   HOST_HAVE.forEach(n => hostCount[n] = (hostCount[n] || 0) + 1);
 
@@ -139,7 +156,7 @@ function calc() {
     .filter(n => hostCount[n] > 1)
     .map(Number);
 
-  // FREUND doppelte berechnen
+  // freund doppelte
   const friendCount = {};
   friendHave.forEach(n => friendCount[n] = (friendCount[n] || 0) + 1);
 
@@ -147,30 +164,32 @@ function calc() {
     .filter(n => friendCount[n] > 1)
     .map(Number);
 
-  // Abgleich:
-  // Freund → Host
-  const friendToHost = friendDup.filter(n => HOST_NEED.includes(n));
-
-  // Host → Freund
-  const hostToFriend = hostDup.filter(n => friendNeed.includes(n));
+  // Tauschlogik
+  const friendGets = friendDup.filter(n => HOST_NEED.includes(n));
+  const friendGives = hostDup.filter(n => friendNeed.includes(n));
 
   document.getElementById('out').innerHTML = `
 
-    <div class="title">DU bekommst vom Freund:</div>
-    ${friendToHost.length ? friendToHost.join(", ") : "Nichts"}<br><br>
+    <div class="title">👉 Das kannst du MIR geben:</div>
+    ${friendDup.length ? friendDup.join(", ") : "Keine doppelten Sticker"}<br><br>
 
-    <div class="title">DU gibst dem Freund:</div>
-    ${hostToFriend.length ? hostToFriend.join(", ") : "Nichts"}<br><br>
+    <div class="title">🎁 Das bekommst du von mir:</div>
+    ${friendGives.length ? friendGives.join(", ") : "Aktuell nichts Passendes"}<br><br>
 
     <hr>
 
-    <div class="title">Deine doppelten (fix):</div>
-    ${hostDup.length ? hostDup.join(", ") : "Keine"}<br><br>
+    <div class="title">📌 Was ich suche:</div>
+    ${HOST_NEED.join(", ")}<br><br>
 
-    <div class="title">Deine fehlenden (fix):</div>
-    ${HOST_NEED.join(", ")}
+    <div class="title">📌 Meine Tausch-Sticker:</div>
+    ${hostDupList(hostDup)}
 
   `;
+}
+
+/* kleine Anzeigehilfe */
+function hostDupList(arr){
+  return arr.length ? arr.join(", ") : "Keine";
 }
 </script>
 
