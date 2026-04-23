@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panini Tausch – felbs.design</title>
+
+<style>
+body {
+  font-family: 'Roboto', sans-serif;
+  margin:0;
+  background:#fff;
+  color:#000;
+}
+
+header {
+  background:#fff;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+header img {
+  height:50px;
+}
+
+.container {
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+}
+
+h1 {
+  font-family:'Ubuntu', sans-serif;
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.box {
+  border:2px solid #98a8cd;
+  border-radius:8px;
+  padding:15px;
+  margin-bottom:20px;
+}
+
+.box h2 {
+  font-family:'Ubuntu', sans-serif;
+  margin-bottom:8px;
+}
+
+.box p {
+  font-size:0.9rem;
+  color:#444;
+  margin-bottom:10px;
+}
+
+textarea {
+  width:100%;
+  height:120px;
+  padding:10px;
+  font-size:1rem;
+  border-radius:5px;
+  border:1px solid #ccc;
+  resize:vertical;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  background:#98a8cd;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-family:'Ubuntu', sans-serif;
+  font-size:1rem;
+  margin-top:10px;
+}
+
+button:hover {
+  background:#8794b8;
+}
+
+.result {
+  margin-top:25px;
+  background:#f5f5f5;
+  padding:15px;
+  border-radius:8px;
+}
+
+.public {
+  border:2px solid #98a8cd;
+  padding:15px;
+  border-radius:8px;
+  background:#fafafa;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo.png" alt="Logo">
+</header>
+
+<div class="container">
+
+  <h1>Panini Album Tausch</h1>
+
+  <!-- PRIVATE BEREICHE -->
+  <div class="box">
+    <h2>Ich habe doppelt</h2>
+    <p>Alle Sticker eingeben, die du mehrfach besitzt.</p>
+    <textarea id="have" placeholder="z.B. 1, 5, 5, 12, 20"></textarea>
+  </div>
+
+  <div class="box">
+    <h2>Ich brauche</h2>
+    <p>Alle Sticker eingeben, die dir fehlen.</p>
+    <textarea id="need" placeholder="z.B. 2, 3, 5, 10"></textarea>
+  </div>
+
+  <button onclick="calc()">Aktualisieren</button>
+
+  <!-- PRIVATE AUSWERTUNG -->
+  <div class="result" id="privateResult"></div>
+
+  <!-- ÖFFENTLICHER BEREICH -->
+  <h2 style="margin-top:40px; font-family:'Ubuntu', sans-serif;">
+    Tausch mit mir
+  </h2>
+
+  <div class="public" id="publicResult">
+    Noch keine Daten vorhanden
+  </div>
+
+</div>
+
+<script>
+function parse(input) {
+  return (input.match(/\d+/g) || []).map(Number);
+}
+
+function calc() {
+  const have = parse(document.getElementById('have').value);
+  const need = parse(document.getElementById('need').value);
+
+  // Häufigkeiten berechnen
+  const count = {};
+  have.forEach(n => count[n] = (count[n] || 0) + 1);
+
+  // echte doppelte
+  const duplicates = Object.keys(count)
+    .filter(n => count[n] > 1)
+    .map(Number);
+
+  // fehlende
+  const missing = need.filter(n => !have.includes(n));
+
+  // tauschbar = doppelte, die du auch brauchst
+  const trade = duplicates.filter(n => need.includes(n));
+
+  // PRIVATE AUSGABE
+  document.getElementById('privateResult').innerHTML = `
+    <strong>Deine doppelten:</strong><br>
+    ${duplicates.length ? duplicates.join(", ") : "Keine"}<br><br>
+
+    <strong>Noch fehlend:</strong><br>
+    ${missing.length ? missing.join(", ") : "Keine"}
+  `;
+
+  // ÖFFENTLICHE AUSGABE (nur Tauschangebot)
+  document.getElementById('publicResult').innerHTML = `
+    <strong>Diese Sticker kannst du mit mir tauschen:</strong><br><br>
+    ${trade.length ? trade.join(", ") : "Aktuell keine Tauschangebote"}
+  `;
+}
+</script>
+
+</body>
+</html>
