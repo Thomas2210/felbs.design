@@ -124,7 +124,7 @@ button:hover {
 
 <div class="box">
   <h2>Welche Sticker brauchst du noch?</h2>
-  <p>Diese versuche ich dir zu geben.</p>
+  <p>Optional – dient nur zur besseren Empfehlung.</p>
   <textarea id="friendNeed" placeholder="z.B. 2, 3, 7, 10"></textarea>
 </div>
 
@@ -139,20 +139,38 @@ button:hover {
 /* ===== DEIN NAME ===== */
 const NAME = "Thomas";
 
-/* ===== FIXE DATEN (DEIN ALBUM) ===== */
-const HOST_HAVE = [1, 2, 3, 4, 5];
-const HOST_NEED = [6, 7, 8, 9, 10];
+/* ===== ALBUM GRÖSSE ===== */
+const ALBUM_SIZE = 500;
 
+/* ===== DEINE FIXEN STICKER ===== */
+const HOST_HAVE = [1, 2, 2, 5, 10, 10, 15, 20];
+
+/* ===== PARSE ===== */
 function parse(input) {
   return (input.match(/\d+/g) || []).map(Number);
 }
 
+/* ===== ALBUM HELPER ===== */
+function buildFullAlbumMissing(list) {
+  const set = new Set(list);
+  const missing = [];
+
+  for (let i = 1; i <= ALBUM_SIZE; i++) {
+    if (!set.has(i)) missing.push(i);
+  }
+
+  return missing;
+}
+
+/* ===== MAIN ===== */
 function calc() {
 
-  const friendHave = parse(document.getElementById('friendHave').value);
+  const friendHaveRaw = parse(document.getElementById('friendHave').value);
   const friendNeed = parse(document.getElementById('friendNeed').value);
 
-  // HOST doppelte
+  /* --- HOST LOGIK --- */
+
+  // doppelte berechnen
   const hostCount = {};
   HOST_HAVE.forEach(n => hostCount[n] = (hostCount[n] || 0) + 1);
 
@@ -160,22 +178,34 @@ function calc() {
     .filter(n => hostCount[n] > 1)
     .map(Number);
 
-  // FREUND doppelte
+  // fehlende Host Sticker (aus 1–500 gedacht)
+  const hostHaveUnique = [...new Set(HOST_HAVE)];
+  const hostNeed = buildFullAlbumMissing(hostHaveUnique);
+
+  /* --- FREUND LOGIK --- */
+
+  const friendHaveUnique = [...new Set(friendHaveRaw)];
+
   const friendCount = {};
-  friendHave.forEach(n => friendCount[n] = (friendCount[n] || 0) + 1);
+  friendHaveRaw.forEach(n => friendCount[n] = (friendCount[n] || 0) + 1);
 
   const friendDup = Object.keys(friendCount)
     .filter(n => friendCount[n] > 1)
     .map(Number);
 
-  // Abgleich
-  const friendToHost = friendDup.filter(n => HOST_NEED.includes(n));
-  const hostToFriend = hostDup.filter(n => friendNeed.includes(n));
+  const friendMissing = buildFullAlbumMissing(friendHaveUnique);
+
+  /* --- MATCHING --- */
+
+  const friendToHost = friendDup.filter(n => hostNeed.includes(n));
+  const hostToFriend = hostDup.filter(n => friendMissing.includes(n));
+
+  /* --- OUTPUT --- */
 
   document.getElementById('out').innerHTML = `
 
     <div class="title">👉 Diese Sticker kannst du ${NAME} geben:</div>
-    ${friendDup.length ? friendDup.join(", ") : "Keine passenden doppelten Sticker"}<br><br>
+    ${friendToHost.length ? friendToHost.join(", ") : "Keine passenden Treffer"}<br><br>
 
     <div class="title">🎁 Diese Sticker bekommst du von ${NAME}:</div>
     ${hostToFriend.length ? hostToFriend.join(", ") : "Aktuell keine passenden Treffer"}<br><br>
@@ -183,10 +213,10 @@ function calc() {
     <hr>
 
     <div class="title">📌 ${NAME} sucht noch diese Sticker:</div>
-    ${HOST_NEED.join(", ")}<br><br>
+    ${hostNeed.length ? hostNeed.slice(0,50).join(", ") + (hostNeed.length>50?" ...":"") : "Komplett"}<br><br>
 
-    <div class="title">📌 ${NAME} hat diese Sticker zum Tauschen:</div>
-    ${hostDup.length ? hostDup.join(", ") : "Keine doppelten Sticker"}
+    <div class="title">📌 Deine doppelten Sticker:</div>
+    ${friendDup.length ? friendDup.join(", ") : "Keine"}
 
   `;
 }
