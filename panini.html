@@ -50,7 +50,7 @@ h1 {
 
 textarea {
   width:100%;
-  height:100px;
+  height:110px;
   padding:10px;
   font-size:1rem;
   border:1px solid #ccc;
@@ -82,6 +82,7 @@ button:hover {
 
 .title {
   font-family:'Ubuntu', sans-serif;
+  font-weight:500;
 }
 </style>
 </head>
@@ -96,28 +97,15 @@ button:hover {
 
 <h1>Panini Tausch System</h1>
 
-<!-- HOST -->
-<div class="box">
-  <h2>Ich (Host) habe doppelt</h2>
-  <textarea id="hostHave">1, 2, 2, 5, 10, 10, 15</textarea>
-</div>
-
-<div class="box">
-  <h2>Ich (Host) brauche</h2>
-  <textarea id="hostNeed">3, 4, 6, 7, 8</textarea>
-</div>
-
-<hr>
-
-<!-- FREUND -->
+<!-- FREUND INPUT -->
 <div class="box">
   <h2>Freund hat doppelt</h2>
-  <textarea id="friendHave">3, 5, 8, 10, 12</textarea>
+  <textarea id="friendHave" placeholder="z.B. 1, 5, 5, 10, 12"></textarea>
 </div>
 
 <div class="box">
   <h2>Freund braucht</h2>
-  <textarea id="friendNeed">1, 2, 7, 10</textarea>
+  <textarea id="friendNeed" placeholder="z.B. 2, 3, 7, 10"></textarea>
 </div>
 
 <button onclick="calc()">Abgleich starten</button>
@@ -127,53 +115,58 @@ button:hover {
 </div>
 
 <script>
+/* ===== DEINE FIXEN DATEN ===== */
+const HOST_HAVE = [1, 2, 2, 5, 10, 10, 15, 20];
+const HOST_NEED = [3, 4, 6, 7, 8, 9];
+
 function parse(input) {
   return (input.match(/\d+/g) || []).map(Number);
 }
 
 function calc() {
 
-  // HOST
-  const hostHave = parse(document.getElementById('hostHave').value);
-  const hostNeed = parse(document.getElementById('hostNeed').value);
-
-  // FRIEND
+  // FREUND
   const friendHave = parse(document.getElementById('friendHave').value);
   const friendNeed = parse(document.getElementById('friendNeed').value);
 
-  // Häufigkeiten Host
+  // HOST doppelte berechnen
   const hostCount = {};
-  hostHave.forEach(n => hostCount[n] = (hostCount[n] || 0) + 1);
+  HOST_HAVE.forEach(n => hostCount[n] = (hostCount[n] || 0) + 1);
+
   const hostDup = Object.keys(hostCount)
     .filter(n => hostCount[n] > 1)
     .map(Number);
 
-  // Häufigkeiten Freund
+  // FREUND doppelte berechnen
   const friendCount = {};
   friendHave.forEach(n => friendCount[n] = (friendCount[n] || 0) + 1);
+
   const friendDup = Object.keys(friendCount)
     .filter(n => friendCount[n] > 1)
     .map(Number);
 
-  // Abgleich
-  const friendToHost = friendDup.filter(n => hostNeed.includes(n));
+  // Abgleich:
+  // Freund → Host
+  const friendToHost = friendDup.filter(n => HOST_NEED.includes(n));
+
+  // Host → Freund
   const hostToFriend = hostDup.filter(n => friendNeed.includes(n));
 
   document.getElementById('out').innerHTML = `
 
-    <div class="title"><strong>DU kannst vom Freund bekommen:</strong></div>
+    <div class="title">DU bekommst vom Freund:</div>
     ${friendToHost.length ? friendToHost.join(", ") : "Nichts"}<br><br>
 
-    <div class="title"><strong>Freund kann von dir bekommen:</strong></div>
+    <div class="title">DU gibst dem Freund:</div>
     ${hostToFriend.length ? hostToFriend.join(", ") : "Nichts"}<br><br>
 
     <hr>
 
-    <div class="title"><strong>Deine doppelten:</strong></div>
+    <div class="title">Deine doppelten (fix):</div>
     ${hostDup.length ? hostDup.join(", ") : "Keine"}<br><br>
 
-    <div class="title"><strong>Freund doppelt:</strong></div>
-    ${friendDup.length ? friendDup.join(", ") : "Keine"}
+    <div class="title">Deine fehlenden (fix):</div>
+    ${HOST_NEED.join(", ")}
 
   `;
 }
