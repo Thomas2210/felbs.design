@@ -26,21 +26,21 @@ header img {
 
 .container {
   max-width:900px;
-  margin:40px auto;
+  margin:30px auto;
   padding:20px;
 }
 
 h1 {
   font-family:'Ubuntu', sans-serif;
   text-align:center;
-  margin-bottom:30px;
+  margin-bottom:25px;
 }
 
 .box {
   border:2px solid #98a8cd;
   border-radius:8px;
   padding:15px;
-  margin-bottom:20px;
+  margin-bottom:15px;
 }
 
 .box h2 {
@@ -48,20 +48,13 @@ h1 {
   margin-bottom:8px;
 }
 
-.box p {
-  font-size:0.9rem;
-  color:#444;
-  margin-bottom:10px;
-}
-
 textarea {
   width:100%;
-  height:120px;
+  height:100px;
   padding:10px;
   font-size:1rem;
-  border-radius:5px;
   border:1px solid #ccc;
-  resize:vertical;
+  border-radius:5px;
 }
 
 button {
@@ -87,11 +80,8 @@ button:hover {
   border-radius:8px;
 }
 
-.public {
-  border:2px solid #98a8cd;
-  padding:15px;
-  border-radius:8px;
-  background:#fafafa;
+.title {
+  font-family:'Ubuntu', sans-serif;
 }
 </style>
 </head>
@@ -104,34 +94,35 @@ button:hover {
 
 <div class="container">
 
-  <h1>Panini Album Tausch</h1>
+<h1>Panini Tausch System</h1>
 
-  <!-- PRIVATE BEREICHE -->
-  <div class="box">
-    <h2>Ich habe doppelt</h2>
-    <p>Alle Sticker eingeben, die du mehrfach besitzt.</p>
-    <textarea id="have" placeholder="z.B. 1, 5, 5, 12, 20"></textarea>
-  </div>
+<!-- HOST -->
+<div class="box">
+  <h2>Ich (Host) habe doppelt</h2>
+  <textarea id="hostHave">1, 2, 2, 5, 10, 10, 15</textarea>
+</div>
 
-  <div class="box">
-    <h2>Ich brauche</h2>
-    <p>Alle Sticker eingeben, die dir fehlen.</p>
-    <textarea id="need" placeholder="z.B. 2, 3, 5, 10"></textarea>
-  </div>
+<div class="box">
+  <h2>Ich (Host) brauche</h2>
+  <textarea id="hostNeed">3, 4, 6, 7, 8</textarea>
+</div>
 
-  <button onclick="calc()">Aktualisieren</button>
+<hr>
 
-  <!-- PRIVATE AUSWERTUNG -->
-  <div class="result" id="privateResult"></div>
+<!-- FREUND -->
+<div class="box">
+  <h2>Freund hat doppelt</h2>
+  <textarea id="friendHave">3, 5, 8, 10, 12</textarea>
+</div>
 
-  <!-- ÖFFENTLICHER BEREICH -->
-  <h2 style="margin-top:40px; font-family:'Ubuntu', sans-serif;">
-    Tausch mit mir
-  </h2>
+<div class="box">
+  <h2>Freund braucht</h2>
+  <textarea id="friendNeed">1, 2, 7, 10</textarea>
+</div>
 
-  <div class="public" id="publicResult">
-    Noch keine Daten vorhanden
-  </div>
+<button onclick="calc()">Abgleich starten</button>
+
+<div class="result" id="out"></div>
 
 </div>
 
@@ -141,37 +132,49 @@ function parse(input) {
 }
 
 function calc() {
-  const have = parse(document.getElementById('have').value);
-  const need = parse(document.getElementById('need').value);
 
-  // Häufigkeiten berechnen
-  const count = {};
-  have.forEach(n => count[n] = (count[n] || 0) + 1);
+  // HOST
+  const hostHave = parse(document.getElementById('hostHave').value);
+  const hostNeed = parse(document.getElementById('hostNeed').value);
 
-  // echte doppelte
-  const duplicates = Object.keys(count)
-    .filter(n => count[n] > 1)
+  // FRIEND
+  const friendHave = parse(document.getElementById('friendHave').value);
+  const friendNeed = parse(document.getElementById('friendNeed').value);
+
+  // Häufigkeiten Host
+  const hostCount = {};
+  hostHave.forEach(n => hostCount[n] = (hostCount[n] || 0) + 1);
+  const hostDup = Object.keys(hostCount)
+    .filter(n => hostCount[n] > 1)
     .map(Number);
 
-  // fehlende
-  const missing = need.filter(n => !have.includes(n));
+  // Häufigkeiten Freund
+  const friendCount = {};
+  friendHave.forEach(n => friendCount[n] = (friendCount[n] || 0) + 1);
+  const friendDup = Object.keys(friendCount)
+    .filter(n => friendCount[n] > 1)
+    .map(Number);
 
-  // tauschbar = doppelte, die du auch brauchst
-  const trade = duplicates.filter(n => need.includes(n));
+  // Abgleich
+  const friendToHost = friendDup.filter(n => hostNeed.includes(n));
+  const hostToFriend = hostDup.filter(n => friendNeed.includes(n));
 
-  // PRIVATE AUSGABE
-  document.getElementById('privateResult').innerHTML = `
-    <strong>Deine doppelten:</strong><br>
-    ${duplicates.length ? duplicates.join(", ") : "Keine"}<br><br>
+  document.getElementById('out').innerHTML = `
 
-    <strong>Noch fehlend:</strong><br>
-    ${missing.length ? missing.join(", ") : "Keine"}
-  `;
+    <div class="title"><strong>DU kannst vom Freund bekommen:</strong></div>
+    ${friendToHost.length ? friendToHost.join(", ") : "Nichts"}<br><br>
 
-  // ÖFFENTLICHE AUSGABE (nur Tauschangebot)
-  document.getElementById('publicResult').innerHTML = `
-    <strong>Diese Sticker kannst du mit mir tauschen:</strong><br><br>
-    ${trade.length ? trade.join(", ") : "Aktuell keine Tauschangebote"}
+    <div class="title"><strong>Freund kann von dir bekommen:</strong></div>
+    ${hostToFriend.length ? hostToFriend.join(", ") : "Nichts"}<br><br>
+
+    <hr>
+
+    <div class="title"><strong>Deine doppelten:</strong></div>
+    ${hostDup.length ? hostDup.join(", ") : "Keine"}<br><br>
+
+    <div class="title"><strong>Freund doppelt:</strong></div>
+    ${friendDup.length ? friendDup.join(", ") : "Keine"}
+
   `;
 }
 </script>
