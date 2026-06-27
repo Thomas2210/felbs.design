@@ -4,157 +4,177 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>felbs.design</title>
-
 <meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt.">
 <link rel="icon" href="Bildzeichen.png" type="image/png">
 
+<script>
+if (window.location.hash) {
+  document.documentElement.classList.add('from-hash');
+}
+</script>
+
 <style>
-
-/* ===== BASIS ===== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+@font-face {
+  font-family: 'Roboto';
+  src: url('fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('fonts/Ubuntu-Medium.ttf') format('truetype');
+  font-weight: 500;
 }
 
-body{
-  font-family:Roboto, sans-serif;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Roboto', sans-serif;
   background:#fff;
+  color:#000;
 }
 
-/* =========================
-   BACKGROUND (LEVEL 2)
-========================= */
-
-.bg-symbols{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-}
-
-/* Base symbol */
-.symbol{
-  position:absolute;
-  width:70px;
-  opacity:0.08;
-  will-change:transform;
-}
-
-/* Depth */
-.layer-1{ opacity:0.12; filter:blur(0px); }
-.layer-2{ opacity:0.08; filter:blur(1px); }
-.layer-3{ opacity:0.05; filter:blur(2px); }
-
-/* Positionen */
-.s1{top:10%;left:15%;}
-.s2{top:25%;left:70%;}
-.s3{top:60%;left:20%;}
-.s4{top:75%;left:80%;}
-.s5{top:40%;left:45%;}
-
-/* =========================
-   INTRO
-========================= */
-
-#intro{
+/* ================= INTRO ================= */
+#intro {
+  position:relative;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
   gap:20px;
   flex-wrap:wrap;
-  position:relative;
-  z-index:2;
+  overflow:hidden;
+  background:#fff;
 }
 
-.square{
+/* FLOATING SYMBOL LAYER */
+.intro-symbol {
+  position:absolute;
+  font-family:'Ubuntu', sans-serif;
+  font-size:3rem; /* LEVEL 2 stärker */
+  color:#98a8cd;
+  opacity:0.25;
+  pointer-events:none;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform:translateY(0px); }
+  50% { transform:translateY(-20px); }
+  100% { transform:translateY(0px); }
+}
+
+/* einzelne Positionen */
+.s1 { top:10%; left:10%; }
+.s2 { top:20%; right:15%; font-size:4rem; }
+.s3 { bottom:15%; left:20%; font-size:2.5rem; }
+.s4 { bottom:25%; right:25%; }
+.s5 { top:50%; left:5%; font-size:3.5rem; }
+
+.square {
+  background-color:#98a8cd;
+  color:white;
+  font-family:'Ubuntu',sans-serif;
+  font-size:1.5rem;
   width:150px;
   height:150px;
-  background:#98a8cd;
-  color:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
   cursor:pointer;
   transition:0.3s;
+  z-index:2;
 }
+.square:hover { transform:scale(1.2); }
 
-.square:hover{
-  transform:scale(1.2);
-  background:#8794b8;
-}
-
-/* HEADER */
-header{
-  display:none;
+/* ================= HEADER ================= */
+header {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:15px;
   position:sticky;
   top:0;
   background:#fff;
-  z-index:10;
-  padding:15px;
   box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  z-index:10;
 }
 
-nav ul{
-  display:flex;
-  list-style:none;
-  gap:20px;
-}
+/* NAV */
+nav ul { display:flex; gap:20px; list-style:none; }
+nav a { text-decoration:none; color:#000; font-family:'Ubuntu'; }
 
-main{display:none;}
-main.active{display:block;}
+/* ================= SECTIONS ================= */
+main { display:none; }
+main.active { display:block; }
 
-/* TEXT SECTION */
-.text-section{
+/* BLUE BAR */
+.text-section {
   background:#98a8cd;
   color:#fff;
   padding:40px 20px;
 }
 
-/* SLIDER */
-.portfolio-slider{
+/* ================= SLIDER ================= */
+.portfolio-slider {
   display:flex;
+  align-items:center;
   gap:10px;
-  padding:20px;
+  padding:20px 10px;
 }
 
-.slider-container{
-  flex:1;
+.slider-container {
   overflow:hidden;
+  flex:1;
 }
 
-.slider-track{
+.slider-track {
   display:flex;
   gap:20px;
 }
 
-.arrow{
-  font-size:2rem;
+/* ================= ARROWS ================= */
+.arrow {
   background:rgba(0,0,0,0.3);
   color:#fff;
   border:none;
+  padding:10px;
 }
 
+/* ================= CONTACT ================= */
+#kontakt section {
+  padding:40px;
+  text-align:center;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background:#98a8cd;
+  color:#fff;
+  text-align:center;
+  padding:15px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .square { width:120px; height:120px; }
+  .intro-symbol { font-size:2.5rem; }
+}
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND SYMBOLS (LEVEL 2) -->
-<div class="bg-symbols">
-
-  <img src="Bildzeichen.png" class="symbol layer-1 s1">
-  <img src="Bildzeichen.png" class="symbol layer-2 s2">
-  <img src="Bildzeichen.png" class="symbol layer-3 s3">
-  <img src="Bildzeichen.png" class="symbol layer-2 s4">
-  <img src="Bildzeichen.png" class="symbol layer-1 s5">
-
-</div>
-
 <!-- INTRO -->
 <div id="intro">
 
+  <!-- floating symbols background -->
+  <div class="intro-symbol s1">·</div>
+  <div class="intro-symbol s2">·</div>
+  <div class="intro-symbol s3">·</div>
+  <div class="intro-symbol s4">·</div>
+  <div class="intro-symbol s5">·</div>
+
+  <!-- BUTTONS -->
   <div class="square" onclick="showPage('grafik')">Grafik</div>
   <div class="square" onclick="showPage('print')">Print</div>
   <div class="square" onclick="showPage('web')">Web</div>
@@ -162,80 +182,47 @@ main.active{display:block;}
 
 </div>
 
-<!-- HEADER -->
-<header id="main-header">
+<header id="main-header" style="display:none;">
+  <div class="logo"><img src="logo.png" style="height:50px"></div>
   <nav>
     <ul>
-      <li><a onclick="openPage('grafik')">Grafik</a></li>
-      <li><a onclick="openPage('print')">Print</a></li>
-      <li><a onclick="openPage('web')">Web</a></li>
-      <li><a onclick="openPage('medien')">Medien</a></li>
+      <li><a href="#" onclick="openPage('grafik')">Grafik</a></li>
+      <li><a href="#" onclick="openPage('print')">Print</a></li>
+      <li><a href="#" onclick="openPage('web')">Web</a></li>
+      <li><a href="#" onclick="openPage('medien')">Medien</a></li>
+      <li><a href="#" onclick="openPage('kontakt')">Kontakt</a></li>
     </ul>
   </nav>
 </header>
 
-<!-- SCRIPTS -->
-<script>
+<main id="grafik" class="active"></main>
+<main id="print"></main>
+<main id="web"></main>
+<main id="medien"></main>
 
+<main id="kontakt">
+  <section class="text-section">
+    <h2>Kontakt</h2>
+    <p>felbs.design</p>
+  </section>
+</main>
+
+<footer id="main-footer" style="display:none;">
+  © 2026 felbs.design
+</footer>
+
+<script>
 function showPage(page){
   document.getElementById('intro').style.display='none';
-  document.getElementById('main-header').style.display='block';
+  document.getElementById('main-header').style.display='flex';
+  document.getElementById('main-footer').style.display='block';
   openPage(page);
 }
 
 function openPage(page){
   document.querySelectorAll('main').forEach(m=>m.classList.remove('active'));
-  const el=document.getElementById(page);
-  if(el) el.classList.add('active');
+  document.getElementById(page).classList.add('active');
 }
-
-/* =========================
-   LEVEL 2 MOTION ENGINE
-========================= */
-
-const symbols = document.querySelectorAll('.symbol');
-
-let mx = 0, my = 0;
-
-document.addEventListener('mousemove', (e)=>{
-  mx = (e.clientX / window.innerWidth - 0.5);
-  my = (e.clientY / window.innerHeight - 0.5);
-});
-
-/* randomness */
-const seeds = Array.from(symbols).map(()=>({
-  x: Math.random()*1000,
-  y: Math.random()*1000,
-  s: 0.5 + Math.random()
-}));
-
-function noise(t){
-  return Math.sin(t) * Math.cos(t*0.5);
-}
-
-function animate(){
-  const t = Date.now()*0.0003;
-
-  symbols.forEach((el,i)=>{
-
-    const seed = seeds[i];
-
-    const driftX = noise(t + seed.x) * 40;
-    const driftY = noise(t + seed.y) * 40;
-
-    const parallaxX = mx * 30 * seed.s;
-    const parallaxY = my * 30 * seed.s;
-
-    el.style.transform =
-      `translate(${driftX + parallaxX}px, ${driftY + parallaxY}px)`;
-
-  });
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-
 </script>
 
 </body>
