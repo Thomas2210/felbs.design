@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>felbs.design</title>
-<meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt.">
+
 <link rel="icon" href="Bildzeichen.png" type="image/png">
 
 <script>
@@ -15,60 +15,72 @@ if (window.location.hash) {
 
 <style>
 
-/* ====== LOKALE SCHRIFTEN ====== */
-@font-face {
-  font-family: 'Roboto';
-  src: url('fonts/Roboto-Regular.ttf') format('truetype');
+/* ===== BASIS ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-@font-face {
-  font-family: 'Ubuntu';
-  src: url('fonts/Ubuntu-Medium.ttf') format('truetype');
-}
-
-/* ====== BASIS ====== */
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: 'Roboto', sans-serif;
+body{
+  font-family: Roboto, sans-serif;
   background:#fff;
   color:#000;
 }
 
-/* ====== INTRO ====== */
+/* =========================
+   INTRO (FINAL)
+========================= */
+
 #intro{
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
-  gap:20px;
+  gap:80px;
   flex-wrap:wrap;
 }
 
+/* EIN ELEMENT = Punkt + Box */
+.intro-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:30px;
+
+  cursor:pointer;
+  transform-origin:center;
+  transition:0.3s ease;
+}
+
+.intro-item:hover{
+  transform:scale(1.05);
+}
+
+/* Punkt */
+.dot{
+  width:90px;
+  height:90px;
+  background:#98a8cd;
+  border-radius:50%;
+}
+
+/* Box */
 .square{
+  width:260px;
+  height:85px;
   background:#98a8cd;
   color:#fff;
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.5rem;
 
   display:flex;
   justify-content:center;
   align-items:center;
 
-  width:190px;
-  height:90px; /* <-- RECHTECK statt Quadrat */
-
-  cursor:pointer;
-  transition:0.3s ease;
-  text-transform:capitalize;
+  font-family:'Ubuntu', sans-serif;
+  font-size:1.5rem;
 }
 
-.square:hover{
-  transform:scale(1.2);
-  background:#8794b8;
-}
-
-/* ====== HEADER ====== */
+/* ===== HEADER ===== */
 header{
   background:#fff;
   display:flex;
@@ -81,25 +93,28 @@ header{
   box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* ====== NAV ====== */
 nav ul{
   display:flex;
   list-style:none;
   gap:20px;
 }
 
-/* ====== SECTIONS ====== */
-main{ display:none; }
-main.active{ display:block; }
+main{
+  display:none;
+}
 
-/* ====== TEXT BLAU ====== */
+main.active{
+  display:block;
+}
+
+/* ===== TEXT BLAU ===== */
 .text-section{
   background:#98a8cd;
   color:#fff;
   padding:40px 20px;
 }
 
-/* ====== SLIDER ====== */
+/* ===== SLIDER ===== */
 .portfolio-slider{
   display:flex;
   gap:10px;
@@ -117,20 +132,11 @@ main.active{ display:block; }
   scroll-behavior:smooth;
 }
 
-/* ====== ARROWS ====== */
 .arrow{
   font-size:2rem;
   background:rgba(0,0,0,0.3);
   color:#fff;
   border:none;
-}
-
-/* ====== RESPONSIVE ====== */
-@media(max-width:768px){
-  .square{
-    width:170px;
-    height:80px;
-  }
 }
 
 </style>
@@ -140,15 +146,33 @@ main.active{ display:block; }
 
 <!-- INTRO -->
 <div id="intro">
-  <div class="square" onclick="showPage('grafik')">Grafik</div>
-  <div class="square" onclick="showPage('print')">Print</div>
-  <div class="square" onclick="showPage('web')">Web</div>
-  <div class="square" onclick="showPage('medien')">Medien</div>
+
+  <div class="intro-item" onclick="showPage('grafik')">
+    <div class="dot"></div>
+    <div class="square">Grafik</div>
+  </div>
+
+  <div class="intro-item" onclick="showPage('print')">
+    <div class="dot"></div>
+    <div class="square">Print</div>
+  </div>
+
+  <div class="intro-item" onclick="showPage('web')">
+    <div class="dot"></div>
+    <div class="square">Web</div>
+  </div>
+
+  <div class="intro-item" onclick="showPage('medien')">
+    <div class="dot"></div>
+    <div class="square">Medien</div>
+  </div>
+
 </div>
 
 <!-- HEADER -->
 <header id="main-header" style="display:none;">
   <div class="logo"><img src="logo.png"></div>
+
   <nav>
     <ul>
       <li><a onclick="openPage('grafik')">Grafik</a></li>
@@ -159,8 +183,7 @@ main.active{ display:block; }
   </nav>
 </header>
 
-<!-- REST 1:1 ORIGINAL BEIBEHALTEN -->
-<!-- (Grafik / Print / Web / Medien / Kontakt / JS bleibt exakt wie bei dir) -->
+<!-- REST DEINER SEITE BLEIBT 1:1 UNVERÄNDERT -->
 
 <script>
 function showPage(page){
