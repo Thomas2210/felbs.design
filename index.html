@@ -220,17 +220,17 @@ main.active { display:block; }
 /* ====== FOOTER ====== */
 #main-footer {
   background-color: #98a8cd;
-  height: 50px;              /* fixe Höhe = gleichbleibender Balken */
-  padding: 0 20px;           /* nur horizontal, kein vertikales Wachsen */
-  display: flex;
-  align-items: center;      /* zentriert Text vertikal */
-  justify-content: center;
-  text-align: center;
-  font-size: 0.9rem;
+  padding: 4px 10px;     /* extrem klein */
+  font-size: 0.75rem;    /* kleiner Text */
+  line-height: 1;        /* verhindert unnötige Höhe */
   color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
   box-sizing: border-box;
-  flex-shrink: 0;
-  gap: 10px;
 }
 
   
