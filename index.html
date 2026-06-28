@@ -31,36 +31,34 @@ if (window.location.hash) {
 }
 
 :root{
-  --bg1:#050816;
-  --bg2:#0c1230;
-  --panel: rgba(255,255,255,0.10);
-  --panel-strong: rgba(255,255,255,0.16);
-  --line: rgba(255,255,255,0.18);
-  --text:#f5f7ff;
-  --muted:#cfd6ff;
-  --neon:#7df9ff;
-  --pink:#ff61d8;
-  --violet:#9b7bff;
-  --lime:#b7ff6a;
-  --chrome1:#ffffff;
-  --chrome2:#cfd8ff;
-  --shadow: 0 14px 40px rgba(0,0,0,0.35);
+  --bg-a:#07111f;
+  --bg-b:#131d3d;
+  --glass: rgba(255,255,255,0.16);
+  --glass-strong: rgba(255,255,255,0.24);
+  --line: rgba(255,255,255,0.28);
+  --text:#f7fbff;
+  --muted:#d9e5ff;
+  --aqua:#77f7ff;
+  --pink:#ff73e6;
+  --lime:#c8ff7d;
+  --violet:#a98bff;
+  --peach:#ffc6a8;
+  --shadow: 0 18px 44px rgba(0,0,0,0.32);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
-html, body {
-  min-height:100%;
-}
+html, body { min-height:100%; }
 
 body {
   font-family: 'Roboto', sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 20% 20%, rgba(125,249,255,0.20), transparent 25%),
-    radial-gradient(circle at 80% 10%, rgba(255,97,216,0.18), transparent 24%),
-    radial-gradient(circle at 75% 80%, rgba(155,123,255,0.18), transparent 28%),
-    linear-gradient(135deg, var(--bg1), var(--bg2) 55%, #130d2c 100%);
+    radial-gradient(circle at 18% 20%, rgba(255,115,230,0.26), transparent 18%),
+    radial-gradient(circle at 78% 14%, rgba(119,247,255,0.24), transparent 20%),
+    radial-gradient(circle at 25% 78%, rgba(200,255,125,0.18), transparent 22%),
+    radial-gradient(circle at 80% 78%, rgba(169,139,255,0.18), transparent 21%),
+    linear-gradient(135deg, var(--bg-a), var(--bg-b) 55%, #1b1436 100%);
   overflow-x:hidden;
 }
 
@@ -69,11 +67,12 @@ body::before{
   position:fixed;
   inset:0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size:28px 28px;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 90%);
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:32px 32px;
   pointer-events:none;
+  opacity:.35;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.65), transparent 90%);
   z-index:0;
 }
 
@@ -82,6 +81,8 @@ body::before{
   justify-content:center;
   align-items:center;
   height:100vh;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), transparent 45%);
   gap:20px;
   flex-wrap:wrap;
   position:relative;
@@ -94,7 +95,7 @@ body::before{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(120deg, rgba(255,255,255,0.06), transparent 20%, rgba(125,249,255,0.05), transparent 60%, rgba(255,97,216,0.05));
+    linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.08), transparent 45%, rgba(119,247,255,0.08), transparent 65%, rgba(255,115,230,0.08), transparent 90%);
   pointer-events:none;
 }
 
@@ -111,8 +112,8 @@ body::before{
   width:68px;
   height:68px;
   object-fit:contain;
-  opacity:0.28;
-  filter: drop-shadow(0 0 12px rgba(125,249,255,0.35));
+  opacity:0.34;
+  filter: drop-shadow(0 0 14px rgba(119,247,255,0.3));
   will-change:transform;
   user-select:none;
   pointer-events:none;
@@ -122,69 +123,86 @@ body::before{
   position:relative;
   z-index:2;
   display:flex;
-  gap:20px;
+  gap:18px;
   flex-wrap:wrap;
   justify-content:center;
   align-items:center;
-  padding:24px;
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.18);
-  border-radius:28px;
-  box-shadow: var(--shadow);
+  padding:22px;
+  border-radius:30px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+  border:1px solid rgba(255,255,255,0.28);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.45);
 }
 
 .square {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.95), rgba(210,221,255,0.84));
-  color:#10162f;
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.45rem;
+  position:relative;
+  width:154px;
+  height:154px;
   display:flex;
   justify-content:center;
   align-items:center;
-  width:150px;
-  height:150px;
   cursor:pointer;
-  transition:all 0.28s ease;
-  transform-origin:center center;
+  font-family:'Ubuntu',sans-serif;
+  font-size:1.45rem;
+  color:#fff;
   text-transform:capitalize;
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,0.55);
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,0.4);
+  background:
+    linear-gradient(135deg,
+      rgba(119,247,255,0.46),
+      rgba(255,115,230,0.38),
+      rgba(200,255,125,0.30),
+      rgba(169,139,255,0.36));
+  backdrop-filter: blur(16px);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.85),
-    0 12px 30px rgba(0,0,0,0.28),
-    0 0 0 1px rgba(125,249,255,0.22);
-  position:relative;
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -14px 24px rgba(255,255,255,0.08),
+    0 16px 34px rgba(0,0,0,0.28),
+    0 0 26px rgba(119,247,255,0.18);
+  transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
   overflow:hidden;
 }
 
 .square::before{
   content:"";
   position:absolute;
-  inset:-40% -20%;
-  background: linear-gradient(120deg, transparent 35%, rgba(125,249,255,0.35), transparent 65%);
-  transform: rotate(12deg);
-  opacity:0.7;
+  inset:0;
+  background:
+    linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.68) 28%, transparent 38%);
+  opacity:.55;
+  transform: translateX(-35%) skewX(-15deg);
+}
+
+.square::after{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,0.24);
+  pointer-events:none;
 }
 
 .square:hover {
-  transform:scale(1.12) rotate(-1deg);
+  transform:scale(1.09) rotate(-1deg);
+  filter:saturate(1.15);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.95),
-    0 18px 40px rgba(0,0,0,0.34),
-    0 0 24px rgba(125,249,255,0.45);
+    inset 0 1px 0 rgba(255,255,255,0.82),
+    inset 0 -14px 24px rgba(255,255,255,0.10),
+    0 18px 44px rgba(0,0,0,0.34),
+    0 0 34px rgba(255,115,230,0.22);
 }
 
 header {
-  background: rgba(7,10,24,0.78);
-  backdrop-filter: blur(14px);
-  border-bottom:1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.10));
+  backdrop-filter: blur(18px);
+  border-bottom:1px solid rgba(255,255,255,0.26);
   display:flex;
   flex-direction:column;
   align-items:center;
   padding:14px 20px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.24);
+  box-shadow:0 8px 30px rgba(0,0,0,0.22);
   position:sticky;
   top:0;
   z-index:10;
@@ -194,7 +212,7 @@ header {
   height:54px;
   width:auto;
   margin-bottom:10px;
-  filter: drop-shadow(0 0 10px rgba(125,249,255,0.35));
+  filter: drop-shadow(0 0 10px rgba(119,247,255,0.35));
 }
 
 nav ul {
@@ -207,44 +225,59 @@ nav ul {
 
 nav a {
   text-decoration:none;
-  color:var(--text);
+  color:#fff;
   font-weight:500;
   font-family:'Ubuntu',sans-serif;
-  padding:9px 14px;
+  padding:10px 15px;
   border-radius:999px;
-  transition:all 0.25s ease;
-  border:1px solid transparent;
-  background: rgba(255,255,255,0.04);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  transition:all .25s ease;
+  border:1px solid rgba(255,255,255,0.22);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+  backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
 }
 
 nav a:hover,
 nav a.active {
-  background: linear-gradient(135deg, rgba(125,249,255,0.28), rgba(255,97,216,0.22));
-  border-color: rgba(125,249,255,0.28);
-  box-shadow: 0 0 18px rgba(125,249,255,0.18);
+  background:
+    linear-gradient(135deg, rgba(119,247,255,0.34), rgba(255,115,230,0.28), rgba(200,255,125,0.22));
+  border-color: rgba(255,255,255,0.4);
+  box-shadow:
+    0 0 18px rgba(119,247,255,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.48);
 }
 
 main {
   display:none;
-  padding:0;
   min-height:100vh;
   position:relative;
   z-index:1;
 }
 
-main.active {
-  display:block;
-}
+main.active { display:block; }
 
 .text-section {
-  background: linear-gradient(135deg, rgba(125,249,255,0.16), rgba(255,97,216,0.12));
-  border-top:1px solid rgba(255,255,255,0.14);
-  border-bottom:1px solid rgba(255,255,255,0.14);
-  padding:36px 20px;
+  position:relative;
+  margin:18px auto 0;
+  max-width:1200px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+  border:1px solid rgba(255,255,255,0.24);
+  border-radius:28px;
+  padding:34px 22px;
   color:white;
   line-height:1.55;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.45);
+  overflow:hidden;
+}
+
+.text-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.14), transparent 40%, rgba(119,247,255,0.12), transparent 62%, rgba(255,115,230,0.10), transparent 88%);
+  pointer-events:none;
 }
 
 .text-section h2 {
@@ -252,37 +285,14 @@ main.active {
   font-size:1.8rem;
   text-align:center;
   margin-bottom:22px;
-  text-shadow:0 0 14px rgba(125,249,255,0.28);
+  text-shadow:0 0 16px rgba(255,255,255,0.18);
 }
 
 .text-section h3 {
   font-family:'Ubuntu',sans-serif;
   font-size:0.92rem;
   text-align:center;
-  margin-bottom:0;
   color:var(--muted);
-}
-
-.steps-container {
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:20px;
-  max-width:1200px;
-  margin:0 auto;
-  text-align:left;
-}
-
-.steps-container .step p {
-  margin:0;
-  font-family:'Roboto', sans-serif;
-}
-
-.steps-container .step-title {
-  font-family:'Ubuntu', sans-serif;
-  font-weight:500;
-  display:block;
-  margin-bottom:5px;
-  color:#fff;
 }
 
 .portfolio-slider {
@@ -291,15 +301,17 @@ main.active {
   position:relative;
   gap:10px;
   padding:20px 10px 28px;
+  max-width:1400px;
+  margin:0 auto;
 }
 
 .slider-container {
   overflow:hidden;
   flex:1;
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:22px;
-  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+  border:1px solid rgba(255,255,255,0.22);
+  border-radius:28px;
+  backdrop-filter: blur(18px);
   box-shadow: var(--shadow);
 }
 
@@ -322,48 +334,51 @@ main.active {
   width:calc((100% - 40px)/3);
   height:auto;
   object-fit:contain;
-  border-radius:18px;
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.22);
-  background: rgba(255,255,255,0.04);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.05);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+  transition:transform .25s ease, box-shadow .25s ease;
 }
 
 .portfolio-slider img:hover,
 .portfolio-slider video:hover {
   transform:scale(1.03);
-  box-shadow: 0 0 24px rgba(125,249,255,0.16);
+  box-shadow:
+    0 0 26px rgba(119,247,255,0.16),
+    0 12px 34px rgba(0,0,0,0.22);
 }
 
 .arrow {
   font-size:2rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(188,198,238,0.78));
-  color:#10162f;
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(210,223,255,0.72));
+  color:#111630;
   border:none;
   padding:10px 14px;
   cursor:pointer;
   z-index:5;
   user-select:none;
   border-radius:18px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 8px 20px rgba(0,0,0,0.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.92), 0 10px 24px rgba(0,0,0,0.22);
 }
 
 .arrow:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 0 18px rgba(125,249,255,0.28);
+  box-shadow: 0 0 20px rgba(119,247,255,0.28), 0 10px 24px rgba(0,0,0,0.24);
 }
 
 #kontakt section {
   width:100%;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:24px;
+  max-width:1100px;
   margin:20px auto;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+  backdrop-filter: blur(18px);
+  border:1px solid rgba(255,255,255,0.22);
+  border-radius:28px;
   padding:40px 20px;
   text-align:center;
   color:var(--text);
-  max-width:1100px;
   box-shadow: var(--shadow);
 }
 
@@ -380,18 +395,16 @@ main.active {
 }
 
 #kontakt a {
-  color:var(--neon);
+  color: var(--aqua);
   text-decoration:none;
   font-weight:500;
 }
 
-#kontakt a:hover {
-  text-decoration:underline;
-}
+#kontakt a:hover { text-decoration:underline; }
 
 .newsletter-btn {
-  color:#07101d;
-  background: linear-gradient(135deg, #7df9ff, #ff61d8);
+  color:#111630;
+  background: linear-gradient(135deg, #77f7ff, #ff73e6, #c8ff7d);
   padding:12px 22px;
   border-radius:999px;
   text-decoration:none;
@@ -400,7 +413,7 @@ main.active {
   margin-top:15px;
   border:none;
   cursor:pointer;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.26);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.24);
 }
 
 #game-container {
@@ -412,12 +425,13 @@ main.active {
 }
 
 #main-footer {
-  background: rgba(7,10,24,0.82);
-  backdrop-filter: blur(12px);
-  border-top:1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08));
+  backdrop-filter: blur(18px);
+  border-top:1px solid rgba(255,255,255,0.22);
   padding:15px 20px;
   color:white;
   display:none;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.14);
 }
 
 .footer-inner {
@@ -440,12 +454,12 @@ main.active {
   width:16px;
   height:16px;
   object-fit:contain;
-  filter: drop-shadow(0 0 8px rgba(125,249,255,0.35));
+  filter: drop-shadow(0 0 8px rgba(119,247,255,0.35));
   flex-shrink:0;
 }
 
 .footer-link {
-  color:var(--neon);
+  color: var(--aqua);
   text-decoration:underline;
   display:inline-flex;
   align-items:center;
@@ -458,13 +472,9 @@ main.active {
   }
 
   .square {
-    width:130px;
-    height:130px;
+    width:132px;
+    height:132px;
     font-size:1.25rem;
-  }
-
-  .steps-container {
-    grid-template-columns:repeat(2, 1fr);
   }
 }
 
@@ -496,42 +506,22 @@ main.active {
     margin:auto;
   }
 
-  header {
-    flex-direction:column;
-  }
+  nav ul { gap:8px; }
 
-  nav ul {
-    gap:8px;
-  }
-
-  .steps-container {
-    grid-template-columns:1fr;
-  }
-
-  .arrow {
-    display:none;
-  }
+  .arrow { display:none; }
 
   .slider-container {
     overflow-x:auto;
     scroll-behavior:smooth;
   }
 
-  .slider-container::-webkit-scrollbar {
-    height:6px;
-  }
-
+  .slider-container::-webkit-scrollbar { height:6px; }
   .slider-container::-webkit-scrollbar-thumb {
-    background:linear-gradient(90deg, #7df9ff, #ff61d8);
+    background: linear-gradient(90deg, #77f7ff, #ff73e6, #c8ff7d);
     border-radius:999px;
   }
-
   .slider-container::-webkit-scrollbar-track {
-    background:rgba(255,255,255,0.10);
-  }
-
-  .floating-object {
-    opacity:0.18;
+    background: rgba(255,255,255,0.10);
   }
 
   .footer-inner {
@@ -545,7 +535,6 @@ main.active {
 
 <div id="intro">
   <div class="floating-layer" id="floating-layer"></div>
-
   <div class="intro-menu" id="intro-menu">
     <div class="square" onclick="showPage('grafik')">Grafik</div>
     <div class="square" onclick="showPage('print')">Print</div>
@@ -572,26 +561,20 @@ main.active {
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
     <p>Thomas Felber</p>
-    <p>
-      Email:
-      <a href="#" onclick="sendMail(); return false;">thomas@felbsdesign.at</a>
-    </p>
+    <p>Email: <a href="#" onclick="sendMail(); return false;">thomas@felbsdesign.at</a></p>
     <br>
     <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank" rel="noopener noreferrer">@felbs.design</a></p>
     <p>Website: <a href="https://www.felbsdesign.at" target="_blank" rel="noopener noreferrer">felbsdesign.at</a></p>
     <br>
-
-    <a href="#" class="newsletter-btn" onclick="newsletterMail(); return false;">
-      für Newsletter anmelden
-    </a>
+    <a href="#" class="newsletter-btn" onclick="newsletterMail(); return false;">für Newsletter anmelden</a>
   </section>
 
   <section style="padding:20px 0; text-align:center; background-color:transparent;">
     <h2>Klick das Bildzeichen!</h2>
     <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
-    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.05); backdrop-filter:blur(8px);"></div>
+    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.06); backdrop-filter:blur(10px);"></div>
     <p>Punkte: <span id="score">0</span></p>
-    <button id="start-btn" style="padding:10px 20px; background:linear-gradient(135deg,#7df9ff,#ff61d8); color:#07101d; border:none; cursor:pointer; border-radius:999px; font-family:'Ubuntu',sans-serif;">Spiel starten</button>
+    <button id="start-btn" style="padding:10px 20px; background:linear-gradient(135deg,#77f7ff,#ff73e6,#c8ff7d); color:#111630; border:none; cursor:pointer; border-radius:999px; font-family:'Ubuntu',sans-serif;">Spiel starten</button>
     <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
   </section>
 </main>
@@ -600,8 +583,7 @@ main.active {
   <section class="text-section">
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:transparent; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
       <div class="slider-container" id="container-grafik">
@@ -635,8 +617,7 @@ main.active {
   <section class="text-section">
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:transparent; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
       <div class="slider-container" id="container-print">
@@ -676,8 +657,7 @@ main.active {
   <section class="text-section">
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:transparent; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
       <div class="slider-container" id="container-web">
@@ -699,22 +679,17 @@ main.active {
   <section class="text-section">
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:transparent; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
       <div class="slider-container" id="container-medien">
         <div class="slider-track" id="track-medien">
           <video autoplay loop muted playsinline class="lazy-img">
             <source src="medien/medien_animation.webm" type="video/webm">
-            Dein Browser unterstützt kein WebM-Video 😢
           </video>
-
           <video autoplay loop muted playsinline class="lazy-img">
             <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
-            Dein Browser unterstützt kein WebM-Video 😢
           </video>
-
           <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
           <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
           <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
@@ -748,28 +723,21 @@ function showPage(page){
 function openPage(page){
   const mains = document.querySelectorAll('main');
   mains.forEach(m => m.classList.remove('active'));
-
   const target = document.getElementById(page);
   if (target) target.classList.add('active');
-
-  const links = document.querySelectorAll('nav a');
-  links.forEach(a => a.classList.remove('active'));
-
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
   const navLink = document.getElementById('nav-' + page);
   if (navLink) navLink.classList.add('active');
 }
 
 function sendMail() {
-  const recipient = 'thomas@felbsdesign.at';
-  window.location.href = 'mailto:' + recipient;
+  window.location.href = 'mailto:thomas@felbsdesign.at';
 }
 
 function newsletterMail() {
   const recipient = 'thomas@felbsdesign.at';
   const subject = encodeURIComponent('Anmeldung zum Newsletter');
-  const body = encodeURIComponent(
-    'Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nMit freundlichen Grüßen\n[Dein Name]'
-  );
+  const body = encodeURIComponent('Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nMit freundlichen Grüßen\n[Dein Name]');
   window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
 }
 
@@ -830,34 +798,20 @@ if (!isTouchDevice) {
   const intro = document.getElementById('intro');
   const floatingLayer = document.getElementById('floating-layer');
   const introMenu = document.getElementById('intro-menu');
-
   if (!intro || !floatingLayer || !introMenu) return;
 
   const floatingObjects = [];
   const objectCount = window.innerWidth < 768 ? 10 : 16;
   const objectSize = 68;
+  let mouseX = 0, mouseY = 0, hasMouse = false;
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let hasMouse = false;
-
-  function rand(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
+  function rand(min, max) { return Math.random() * (max - min) + min; }
   function intersects(a, b) {
-    return !(
-      a.x + a.w < b.x ||
-      a.x > b.x + b.w ||
-      a.y + a.h < b.y ||
-      a.y > b.y + b.h
-    );
+    return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y + a.h < b.y || a.y > b.y + b.h);
   }
-
   function getForbiddenZone() {
     const introRect = intro.getBoundingClientRect();
     const menuRect = introMenu.getBoundingClientRect();
-
     return {
       x: menuRect.left - introRect.left - 40,
       y: menuRect.top - introRect.top - 40,
@@ -865,61 +819,45 @@ if (!isTouchDevice) {
       h: menuRect.height + 80
     };
   }
-
   function getSafePosition(size) {
     const rect = intro.getBoundingClientRect();
     const forbidden = getForbiddenZone();
-
     for (let i = 0; i < 300; i++) {
       const x = rand(0, Math.max(0, rect.width - size));
       const y = rand(0, Math.max(0, rect.height - size));
-
       const candidate = { x, y, w: size, h: size };
-
-      if (!intersects(candidate, forbidden)) {
-        return { x, y };
-      }
+      if (!intersects(candidate, forbidden)) return { x, y };
     }
-
     return { x: 0, y: 0 };
   }
-
   function createFloatingObject() {
     const el = document.createElement('img');
     el.src = 'Bildzeichen.png';
     el.alt = '';
     el.className = 'floating-object';
-
     const pos = getSafePosition(objectSize);
-
     el.style.width = objectSize + 'px';
     el.style.height = objectSize + 'px';
-
     floatingLayer.appendChild(el);
-
     floatingObjects.push({
       el,
       x: pos.x,
       y: pos.y,
       vx: rand(-0.15, 0.15),
       vy: rand(-0.15, 0.15),
-      wobbleX: rand(6, 16),
-      wobbleY: rand(6, 16),
+      wobbleX: rand(8, 18),
+      wobbleY: rand(8, 18),
       phase: rand(0, Math.PI * 2),
       speed: rand(0.5, 1.0)
     });
   }
-
   function keepInside(obj, rect) {
     if (obj.x < 0) obj.x = 0;
     if (obj.y < 0) obj.y = 0;
     if (obj.x > rect.width - objectSize) obj.x = rect.width - objectSize;
     if (obj.y > rect.height - objectSize) obj.y = rect.height - objectSize;
   }
-
-  for (let i = 0; i < objectCount; i++) {
-    createFloatingObject();
-  }
+  for (let i = 0; i < objectCount; i++) createFloatingObject();
 
   intro.addEventListener('mousemove', (e) => {
     const rect = intro.getBoundingClientRect();
@@ -927,48 +865,35 @@ if (!isTouchDevice) {
     mouseY = e.clientY - rect.top;
     hasMouse = true;
   });
-
-  intro.addEventListener('mouseleave', () => {
-    hasMouse = false;
-  });
+  intro.addEventListener('mouseleave', () => { hasMouse = false; });
 
   function animate(time) {
     const t = time * 0.001;
     const rect = intro.getBoundingClientRect();
-
     floatingObjects.forEach(obj => {
       obj.x += obj.vx;
       obj.y += obj.vy;
-
       if (hasMouse) {
         const centerX = obj.x + objectSize / 2;
         const centerY = obj.y + objectSize / 2;
         const dx = mouseX - centerX;
         const dy = mouseY - centerY;
         const distance = Math.hypot(dx, dy) || 1;
-
         obj.x += (dx / distance) * 0.35;
         obj.y += (dy / distance) * 0.35;
       }
-
       keepInside(obj, rect);
-
       const offsetX = Math.sin(t * obj.speed + obj.phase) * obj.wobbleX;
       const offsetY = Math.cos(t * obj.speed + obj.phase) * obj.wobbleY;
       const rotate = Math.sin(t * obj.speed + obj.phase) * 5;
-
-      obj.el.style.transform =
-        `translate3d(${obj.x + offsetX}px, ${obj.y + offsetY}px, 0) rotate(${rotate}deg)`;
+      obj.el.style.transform = `translate3d(${obj.x + offsetX}px, ${obj.y + offsetY}px, 0) rotate(${rotate}deg)`;
     });
-
     requestAnimationFrame(animate);
   }
-
   requestAnimationFrame(animate);
 
   window.addEventListener('resize', () => {
     const forbidden = getForbiddenZone();
-
     floatingObjects.forEach(obj => {
       const candidate = { x: obj.x, y: obj.y, w: objectSize, h: objectSize };
       if (intersects(candidate, forbidden)) {
@@ -1025,7 +950,6 @@ function startGame() {
   gameInterval = setInterval(() => {
     time--;
     timerDisplay.textContent = 'Zeit: ' + time + 's';
-
     if (time <= 0) {
       clearInterval(gameInterval);
       clearInterval(moveInterval);
@@ -1039,35 +963,21 @@ function startGame() {
 startBtn.addEventListener('click', startGame);
 
 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
 if (!isMobile) {
-  const portfolioImages = document.querySelectorAll('.portfolio-slider img');
-  portfolioImages.forEach(img => {
-    img.setAttribute('loading', 'lazy');
-  });
+  document.querySelectorAll('.portfolio-slider img').forEach(img => img.setAttribute('loading', 'lazy'));
 }
 
 (function () {
   function openFromHash() {
     const page = (window.location.hash || '').replace('#', '').trim();
     if (!page) return;
-
     const target = document.getElementById(page);
     if (!target) return;
-
-    const intro = document.getElementById('intro');
-    const header = document.getElementById('main-header');
-    const footer = document.getElementById('main-footer');
-
-    if (intro) intro.style.display = 'none';
-    if (header) header.style.display = 'flex';
-    if (footer) footer.style.display = 'block';
-
-    if (typeof openPage === 'function') {
-      openPage(page);
-    }
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('main-header').style.display = 'flex';
+    document.getElementById('main-footer').style.display = 'block';
+    if (typeof openPage === 'function') openPage(page);
   }
-
   openFromHash();
   document.addEventListener('DOMContentLoaded', openFromHash);
   window.addEventListener('load', openFromHash);
