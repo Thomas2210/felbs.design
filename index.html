@@ -36,73 +36,130 @@ if (window.location.hash) {
 
 body {
   font-family: 'Roboto', sans-serif;
-  color: #000;
-  background-color: #fff;
+  color: #111;
+  background: #ffffff;
 }
 
 /* ====== INTRO ====== */
 #intro {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  background-color:#fff;
-  gap:20px;
-  flex-wrap:wrap;
-  position:relative;
-  overflow:hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, #f5f7fb 0%, #ffffff 45%),
+    linear-gradient(135deg, #ffffff 0%, #f6f8fc 100%);
+  padding: 40px 20px;
+}
+
+#intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(152,168,205,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(152,168,205,0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .floating-layer {
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  pointer-events:none;
-  z-index:1;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .floating-object {
-  position:absolute;
-  width:70px;
-  height:70px;
-  object-fit:contain;
-  opacity:0.22;
-  will-change:transform;
-  user-select:none;
-  pointer-events:none;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08));
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  opacity: 1;
+  will-change: transform;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.10));
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.intro-brand {
+  text-align: center;
+}
+
+.intro-brand img {
+  width: 80px;
+  height: auto;
+  margin: 0 auto 18px auto;
+}
+
+.intro-brand h1 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 0.02em;
+  color: #1b2230;
+  margin-bottom: 10px;
+}
+
+.intro-brand p {
+  font-size: 1rem;
+  color: #5f6b85;
+  max-width: 620px;
+  line-height: 1.6;
 }
 
 .intro-menu {
-  position:relative;
-  z-index:2;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: 18px;
+  width: 100%;
+  max-width: 760px;
 }
 
 .square {
-  background-color:#98a8cd;
-  color:white;
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.5rem;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:150px;
-  height:150px;
-  cursor:pointer;
-  transition:all 0.3s ease;
-  transform-origin:center center;
-  text-transform:capitalize;
-  box-shadow:0 8px 22px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.68);
+  border: 1px solid rgba(152,168,205,0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #1c2433;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  cursor: pointer;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+  transform-origin: center center;
+  text-transform: capitalize;
+  border-radius: 22px;
+  box-shadow:
+    0 10px 30px rgba(27,34,48,0.08),
+    0 2px 10px rgba(27,34,48,0.04);
 }
 
 .square:hover {
-  transform:scale(1.2);
-  background-color:#8794b8;
+  transform: translateY(-6px) scale(1.03);
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(152,168,205,0.45);
+  box-shadow:
+    0 18px 38px rgba(27,34,48,0.12),
+    0 4px 12px rgba(27,34,48,0.06);
 }
 
 /* ====== HEADER / NAV ====== */
@@ -289,23 +346,43 @@ main.active { display:block; }
   .portfolio-slider img,
   .portfolio-slider video { width:calc((100% - 20px)/2); }
 
-  .square { width:130px; height:130px; font-size:1.3rem; }
+  .intro-menu {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    max-width: 520px;
+  }
+
   .steps-container { grid-template-columns:repeat(2, 1fr); }
 }
 
 @media(max-width:768px){
   #intro {
-    flex-direction:column;
-    gap:15px;
-    align-items:center;
+    padding: 30px 16px;
+  }
+
+  .intro-content {
+    gap: 22px;
+  }
+
+  .intro-brand img {
+    width: 64px;
+    margin-bottom: 14px;
+  }
+
+  .intro-brand p {
+    font-size: 0.95rem;
   }
 
   .intro-menu {
-    flex-direction:column;
-    gap:15px;
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    gap: 14px;
   }
 
-  .square { width:130px; height:130px; font-size:1.2rem; }
+  .square {
+    min-height: 110px;
+    font-size: 1.15rem;
+    border-radius: 18px;
+  }
 
   .portfolio-slider img,
   .portfolio-slider video {
@@ -338,10 +415,6 @@ main.active { display:block; }
   .slider-container::-webkit-scrollbar-track {
     background:#ddd;
   }
-
-  .floating-object {
-    opacity:0.16;
-  }
 }
 </style>
 </head>
@@ -351,11 +424,19 @@ main.active { display:block; }
 <div id="intro">
   <div class="floating-layer" id="floating-layer"></div>
 
-  <div class="intro-menu">
-    <div class="square" onclick="showPage('grafik')">Grafik</div>
-    <div class="square" onclick="showPage('print')">Print</div>
-    <div class="square" onclick="showPage('web')">Web</div>
-    <div class="square" onclick="showPage('medien')">Medien</div>
+  <div class="intro-content">
+    <div class="intro-brand">
+      <img src="Bildzeichen.png" alt="felbs.design Bildzeichen">
+      <h1>felbs.design</h1>
+      <p>Grafik-, Print-, Web- und Mediendesign. Kreative Arbeiten, klar präsentiert und modern inszeniert.</p>
+    </div>
+
+    <div class="intro-menu">
+      <div class="square" onclick="showPage('grafik')">Grafik</div>
+      <div class="square" onclick="showPage('print')">Print</div>
+      <div class="square" onclick="showPage('web')">Web</div>
+      <div class="square" onclick="showPage('medien')">Medien</div>
+    </div>
   </div>
 </div>
 
@@ -407,7 +488,6 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
@@ -444,7 +524,6 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
@@ -487,7 +566,6 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
@@ -512,7 +590,6 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
@@ -522,12 +599,10 @@ main.active { display:block; }
             <source src="medien/medien_animation.webm" type="video/webm">
             Dein Browser unterstützt kein WebM-Video 😢
           </video>
-
           <video autoplay loop muted playsinline class="lazy-img">
             <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
             Dein Browser unterstützt kein WebM-Video 😢
           </video>
-
           <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
           <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
           <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
@@ -633,7 +708,7 @@ if (!isTouchDevice) {
   if (!intro || !floatingLayer) return;
 
   const floatingObjects = [];
-  const objectCount = window.innerWidth < 768 ? 10 : 18;
+  const objectCount = window.innerWidth < 768 ? 10 : 16;
 
   let mouseTargetX = 0;
   let mouseTargetY = 0;
@@ -644,30 +719,24 @@ if (!isTouchDevice) {
     return Math.random() * (max - min) + min;
   }
 
-  function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-  }
-
   function createFloatingObject() {
     const el = document.createElement('img');
     el.src = 'Bildzeichen.png';
     el.alt = '';
     el.className = 'floating-object';
 
-    const introRect = intro.getBoundingClientRect();
-    const size = rand(36, 95);
-    const baseX = rand(0, Math.max(40, introRect.width - size));
-    const baseY = rand(0, Math.max(40, introRect.height - size));
-    const depth = rand(0.15, 0.65);
-    const floatRadiusX = rand(8, 26);
-    const floatRadiusY = rand(10, 30);
-    const speed = rand(0.4, 1.2);
-    const rotation = rand(-18, 18);
+    const rect = intro.getBoundingClientRect();
+    const size = 68; /* alle gleich groß */
+    const baseX = rand(0, Math.max(20, rect.width - size));
+    const baseY = rand(0, Math.max(20, rect.height - size));
+    const floatX = rand(10, 22);
+    const floatY = rand(10, 22);
+    const speed = rand(0.55, 1.05);
     const phase = rand(0, Math.PI * 2);
+    const tilt = rand(-8, 8);
 
     el.style.width = size + 'px';
     el.style.height = size + 'px';
-    el.style.opacity = rand(0.10, 0.26).toFixed(2);
 
     floatingLayer.appendChild(el);
 
@@ -676,12 +745,11 @@ if (!isTouchDevice) {
       size,
       baseX,
       baseY,
-      depth,
-      floatRadiusX,
-      floatRadiusY,
+      floatX,
+      floatY,
       speed,
-      rotation,
-      phase
+      phase,
+      tilt
     });
   }
 
@@ -706,22 +774,21 @@ if (!isTouchDevice) {
   function animate(time) {
     const t = time * 0.001;
 
-    mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.04;
-    mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.04;
-
-    const rect = intro.getBoundingClientRect();
+    mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.05;
+    mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.05;
 
     floatingObjects.forEach(obj => {
-      const floatX = Math.sin(t * obj.speed + obj.phase) * obj.floatRadiusX;
-      const floatY = Math.cos(t * obj.speed * 0.9 + obj.phase) * obj.floatRadiusY;
+      const driftX = Math.sin(t * obj.speed + obj.phase) * obj.floatX;
+      const driftY = Math.cos(t * obj.speed + obj.phase) * obj.floatY;
 
-      const parallaxX = mouseCurrentX * 35 * obj.depth;
-      const parallaxY = mouseCurrentY * 22 * obj.depth;
+      const followX = mouseCurrentX * 18;
+      const followY = mouseCurrentY * 12;
 
-      const finalX = clamp(obj.baseX + floatX + parallaxX, -40, rect.width - obj.size + 40);
-      const finalY = clamp(obj.baseY + floatY + parallaxY, -40, rect.height - obj.size + 40);
+      const x = obj.baseX + driftX + followX;
+      const y = obj.baseY + driftY + followY;
+      const rotate = obj.tilt + Math.sin(t * obj.speed + obj.phase) * 4;
 
-      obj.el.style.transform = `translate3d(${finalX}px, ${finalY}px, 0) rotate(${obj.rotation + Math.sin(t + obj.phase) * 6}deg)`;
+      obj.el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotate}deg)`;
     });
 
     requestAnimationFrame(animate);
@@ -732,8 +799,8 @@ if (!isTouchDevice) {
   window.addEventListener('resize', () => {
     const rect = intro.getBoundingClientRect();
     floatingObjects.forEach(obj => {
-      obj.baseX = rand(0, Math.max(40, rect.width - obj.size));
-      obj.baseY = rand(0, Math.max(40, rect.height - obj.size));
+      obj.baseX = rand(0, Math.max(20, rect.width - obj.size));
+      obj.baseY = rand(0, Math.max(20, rect.height - obj.size));
     });
   });
 })();
@@ -785,7 +852,7 @@ function startGame() {
     time--;
     timerDisplay.textContent = 'Zeit: ' + time + 's';
 
-    if (time <= 0) {
+    if(time <= 0){
       clearInterval(gameInterval);
       clearInterval(moveInterval);
       alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
@@ -797,7 +864,7 @@ function startGame() {
 
 startBtn.addEventListener('click', startGame);
 
-/* Lazy loading nur Desktop */
+/* Lazy Loading nur Desktop */
 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
 if (!isMobile) {
