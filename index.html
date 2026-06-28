@@ -309,12 +309,11 @@ main.active { display:block; }
 <div id="intro">
 
   <!-- FLOATING SYMBOLS -->
-<div class="floating-symbol">•</div>
-<div class="floating-symbol">•</div>
-<div class="floating-symbol">•</div>
-<div class="floating-symbol">•</div>
-<div class="floating-symbol">•</div>
-<div class="floating-symbol">•</div>
+<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
+<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
+<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
+<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
+<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
 
   <!-- DEINE BOXEN -->
   <div class="square">Grafik</div>
@@ -770,6 +769,52 @@ function animate(){
 
 animate();
 setInterval(animate, 4000); // alle 4 Sekunden neue Position
+</script>
+
+<script>
+const symbols = document.querySelectorAll(".floating-symbol");
+const intro = document.getElementById("intro");
+
+let mouseX = 0;
+let mouseY = 0;
+
+/* Mausposition tracken */
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function random(min, max){
+  return Math.random() * (max - min) + min;
+}
+
+/* Grundpositionen setzen */
+symbols.forEach(el => {
+  el.style.left = random(0, window.innerWidth) + "px";
+  el.style.top = random(0, window.innerHeight) + "px";
+});
+
+/* Animation Loop */
+function animate(){
+  symbols.forEach(el => {
+    const rect = el.getBoundingClientRect();
+
+    const dx = (mouseX - rect.left) * 0.02;
+    const dy = (mouseY - rect.top) * 0.02;
+
+    const jitterX = random(-10, 10);
+    const jitterY = random(-10, 10);
+
+    el.style.transform = `
+      translate(${dx + jitterX}px, ${dy + jitterY}px)
+      scale(${1 + Math.sin(Date.now() * 0.001) * 0.1})
+    `;
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
 </script>
   
 </body>
