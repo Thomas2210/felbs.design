@@ -59,14 +59,15 @@ body {
   position:relative;   /* 👈 NEU */
   overflow:hidden;     /* 👈 NEU */
 }
-  .floating-symbol{
+.floating-symbol{
   position:absolute;
   font-family:'Ubuntu', sans-serif;
-  font-size:120px;
+  font-size:100px;
   color:#98a8cd;
-  opacity:0.2;
+  opacity:0.25;
   pointer-events:none;
-  animation: float 6s ease-in-out infinite;
+  user-select:none;
+  transition: transform 6s ease-in-out;
 }
 
 /* Positionen */
@@ -308,10 +309,12 @@ main.active { display:block; }
 <div id="intro">
 
   <!-- FLOATING SYMBOLS -->
-  <div class="floating-symbol">•</div>
-  <div class="floating-symbol">•</div>
-  <div class="floating-symbol">•</div>
-  <div class="floating-symbol">•</div>
+<div class="floating-symbol">•</div>
+<div class="floating-symbol">•</div>
+<div class="floating-symbol">•</div>
+<div class="floating-symbol">•</div>
+<div class="floating-symbol">•</div>
+<div class="floating-symbol">•</div>
 
   <!-- DEINE BOXEN -->
   <div class="square">Grafik</div>
@@ -744,7 +747,30 @@ if (!isMobile) {
 })();
 </script>
 
+<script>
+const symbols = document.querySelectorAll(".floating-symbol");
 
+function random(min, max){
+  return Math.random() * (max - min) + min;
+}
+
+function moveSymbol(el){
+  const intro = document.getElementById("intro");
+
+  const x = random(0, intro.clientWidth - 100);
+  const y = random(0, intro.clientHeight - 100);
+  const scale = random(0.8, 1.6);
+
+  el.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+}
+
+function animate(){
+  symbols.forEach(el => moveSymbol(el));
+}
+
+animate();
+setInterval(animate, 4000); // alle 4 Sekunden neue Position
+</script>
   
 </body>
 </html>
