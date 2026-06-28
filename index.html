@@ -1,533 +1,207 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>felbs.design</title>
-<meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt." />
-<link rel="icon" href="Bildzeichen.png" type="image/png">
-
-<script>
-if (window.location.hash) {
-  document.documentElement.classList.add('from-hash');
-}
-</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>felbs.design — Y2K Candy</title>
+<meta name="description" content="Portfolio — farbige, transluzente Y2K-Buttons und Projekte" />
+<link rel="icon" href="Bildzeichen.png" type="image/png" />
 
 <style>
-@font-face {
-  font-family: 'Roboto';
-  src: url('fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/* --- FONTS (lokal wie vorher) --- */
+@font-face{font-family:'Roboto';src:url('fonts/Roboto-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Ubuntu';src:url('fonts/Ubuntu-Medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap;}
 
-@font-face {
-  font-family: 'Ubuntu';
-  src: url('fonts/Ubuntu-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* --- PALETTE / BASE --- */
 :root{
-  --bg1:#08101f;
-  --bg2:#151e40;
-  --text:#f8fbff;
-  --muted:#d8e4ff;
-  --shadow: 0 18px 42px rgba(0,0,0,0.34);
-  --line: rgba(255,255,255,0.22);
+  --bg:#fbfdff;
+  --panel:#ffffffcc;
+  --text:#0d1220;
+  --muted:#58607b;
+  --glass-line: rgba(13,18,32,0.06);
+  --soft-shadow: 0 10px 30px rgba(15,20,35,0.08);
+  --glow: rgba(255,255,255,0.6);
+  /* candy colors (pastell/translucent) */
+  --c-cyan: rgba(133,244,255,0.72);
+  --c-pink: rgba(255,152,200,0.74);
+  --c-lime: rgba(198,255,150,0.70);
+  --c-violet: rgba(200,170,255,0.70);
+  --c-peach: rgba(255,210,180,0.72);
+  --c-aqua: rgba(180,245,230,0.72);
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
-html, body { min-height:100%; }
-
-body {
-  font-family:'Roboto', sans-serif;
+/* --- RESET --- */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Roboto',system-ui,-apple-system,Segoe UI,Arial;
+  background:linear-gradient(180deg,#fcfeff 0%, #f3f8ff 60%);
   color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding-bottom:40px;
+}
+
+/* subtle floating soft color blobs like the moodboard */
+.page-bg-blobs{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
   background:
-    radial-gradient(circle at 15% 15%, rgba(255,0,153,0.18), transparent 16%),
-    radial-gradient(circle at 80% 10%, rgba(0,255,255,0.16), transparent 18%),
-    radial-gradient(circle at 25% 80%, rgba(190,255,0,0.15), transparent 17%),
-    radial-gradient(circle at 82% 76%, rgba(174,110,255,0.15), transparent 18%),
-    linear-gradient(135deg, var(--bg1), var(--bg2) 55%, #201645 100%);
-  overflow-x:hidden;
+    radial-gradient(circle at 12% 18%, rgba(133,244,255,0.30), transparent 12%),
+    radial-gradient(circle at 78% 12%, rgba(255,152,200,0.26), transparent 14%),
+    radial-gradient(circle at 22% 78%, rgba(198,255,150,0.22), transparent 14%),
+    radial-gradient(circle at 80% 78%, rgba(200,170,255,0.20), transparent 14%);
+  filter: blur(10px) saturate(1.05);
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size:34px 34px;
-  opacity:.28;
-  pointer-events:none;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent 92%);
-  z-index:0;
-}
-
-#intro{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  position:relative;
-  overflow:hidden;
-  z-index:1;
-  gap:20px;
-  flex-wrap:wrap;
-}
-
-#intro::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.08), transparent 35%, rgba(0,255,255,0.08), transparent 55%, rgba(255,0,153,0.08), transparent 78%);
-  pointer-events:none;
-}
-
-.floating-layer{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:1;
-}
-
-.floating-object{
-  position:absolute;
-  width:68px;
-  height:68px;
-  object-fit:contain;
-  opacity:0.28;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.18));
-  user-select:none;
-  pointer-events:none;
-  will-change:transform;
-}
-
-.intro-menu{
-  position:relative;
-  z-index:2;
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
-  justify-content:center;
-  align-items:center;
-  padding:22px;
-  border-radius:30px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
-  border:1px solid rgba(255,255,255,0.24);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.45);
-}
-
-.square{
-  position:relative;
-  width:156px;
-  height:156px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  border-radius:30px;
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.45rem;
-  text-transform:capitalize;
-  color:#fff;
-  border:1px solid rgba(255,255,255,0.35);
-  backdrop-filter: blur(14px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.65),
-    inset 0 -16px 20px rgba(255,255,255,0.06),
-    0 14px 34px rgba(0,0,0,0.28);
-  overflow:hidden;
-  transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
-}
-
-.square::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.72) 28%, transparent 40%);
-  opacity:.5;
-  transform: translateX(-34%) skewX(-15deg);
-}
-
-.square::after{
-  content:"";
-  position:absolute;
-  inset:8px;
-  border-radius:24px;
-  border:1px solid rgba(255,255,255,0.18);
-  pointer-events:none;
-}
-
-.square:hover{
-  transform:scale(1.08) rotate(-1deg);
-  filter:saturate(1.12) brightness(1.03);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.72),
-    inset 0 -16px 20px rgba(255,255,255,0.08),
-    0 18px 42px rgba(0,0,0,0.34),
-    0 0 28px rgba(255,255,255,0.14);
-}
-
-.square.grafik{ background: rgba(0, 205, 255, 0.34); }
-.square.print{ background: rgba(255, 84, 192, 0.32); }
-.square.web{ background: rgba(168, 255, 72, 0.28); }
-.square.medien{ background: rgba(155, 106, 255, 0.30); }
-
+/* --- HEADER --- */
 header{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:14px 20px;
-  position:sticky;
-  top:0;
-  z-index:10;
-  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
-  border-bottom:1px solid rgba(255,255,255,0.24);
-  backdrop-filter: blur(18px);
-  box-shadow:0 8px 28px rgba(0,0,0,0.18);
+  position:sticky; top:12px; z-index:20;
+  display:flex; gap:18px; align-items:center; justify-content:center;
+  padding:10px 18px; max-width:1200px; margin:8px auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+  border-radius:20px; border:1px solid var(--glass-line);
+  box-shadow:var(--soft-shadow);
+  backdrop-filter: blur(8px) saturate(1.08);
 }
 
-.logo img{
-  height:54px;
-  width:auto;
-  margin-bottom:10px;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.16));
-}
+.logo img{height:46px; width:auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.06));}
 
-nav ul{
-  list-style:none;
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
+/* nav pills each with its own pastel transparent color */
+nav ul{list-style:none; display:flex; gap:10px; align-items:center; padding:0;margin:0;}
 nav a{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  color:#fff;
-  font-weight:500;
-  font-family:'Ubuntu',sans-serif;
-  padding:10px 16px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.22);
-  background: rgba(255,255,255,0.10);
-  backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
-  transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:8px 14px; border-radius:999px;
+  font-family:'Ubuntu'; font-weight:600; font-size:0.95rem;
+  color:var(--text); text-decoration:none;
+  border:1px solid rgba(13,18,32,0.06);
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 6px 18px rgba(15,20,35,0.04), inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
-nav a:hover,
-nav a.active{
-  transform: translateY(-1px);
-  box-shadow: 0 0 18px rgba(255,255,255,0.16), inset 0 1px 0 rgba(255,255,255,0.42);
+/* per-button pastel tints */
+#nav-grafik{ background: linear-gradient(180deg, rgba(133,244,255,0.85), rgba(133,244,255,0.6)); border-color: rgba(133,244,255,0.24);}
+#nav-print { background: linear-gradient(180deg, rgba(255,152,200,0.88), rgba(255,152,200,0.62)); border-color: rgba(255,152,200,0.22);}
+#nav-web   { background: linear-gradient(180deg, rgba(198,255,150,0.88), rgba(198,255,150,0.62)); border-color: rgba(198,255,150,0.22);}
+#nav-medien{ background: linear-gradient(180deg, rgba(200,170,255,0.88), rgba(200,170,255,0.62)); border-color: rgba(200,170,255,0.22);}
+#nav-kontakt{ background: linear-gradient(180deg, rgba(255,210,180,0.88), rgba(255,210,180,0.6)); border-color: rgba(255,210,180,0.22);}
+
+nav a:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,0.06); }
+
+/* --- INTRO (hero with big colored translucent buttons like your image) --- */
+#intro{
+  display:flex; align-items:center; justify-content:center;
+  min-height:66vh; padding:30px 18px; gap:22px; z-index:10;
 }
 
-#nav-grafik{ background: rgba(0, 205, 255, 0.24); }
-#nav-print{ background: rgba(255, 84, 192, 0.22); }
-#nav-web{ background: rgba(168, 255, 72, 0.20); }
-#nav-medien{ background: rgba(155, 106, 255, 0.22); }
-#nav-kontakt{ background: rgba(255, 196, 84, 0.18); }
-
-main{
-  display:none;
-  min-height:100vh;
-  position:relative;
-  z-index:1;
+.intro-wrap{
+  display:flex; gap:20px; align-items:center; justify-content:center; flex-wrap:wrap;
+  max-width:1100px; width:100%;
 }
 
-main.active{ display:block; }
-
-.text-section{
-  position:relative;
-  max-width:1200px;
-  margin:18px auto 0;
-  padding:34px 22px;
-  border-radius:28px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
-  border:1px solid rgba(255,255,255,0.24);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.35);
-  overflow:hidden;
+/* each tile looks like translucent candy plastic with inner shine */
+.tile{
+  width:160px; height:160px; border-radius:28px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Ubuntu'; font-size:1.2rem; font-weight:600; color:var(--text);
+  position:relative; cursor:pointer; user-select:none;
+  border:1px solid rgba(13,18,32,0.05);
+  box-shadow: 0 12px 30px rgba(15,20,35,0.06), inset 0 6px 18px rgba(255,255,255,0.6);
+  transition: transform .18s ease, box-shadow .18s ease;
+  backdrop-filter: blur(6px) saturate(1.05);
 }
 
-.text-section::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.12), transparent 35%, rgba(0,255,255,0.08), transparent 58%, rgba(255,0,153,0.08), transparent 82%);
-  pointer-events:none;
+/* inner glossy highlight that gives the 'milky plastic' look */
+.tile::before{
+  content:""; position:absolute; inset:6px; border-radius:20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.18));
+  mix-blend-mode: screen; pointer-events:none; opacity:.9;
 }
 
-.text-section h2{
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.8rem;
-  text-align:center;
-  margin-bottom:24px;
+/* subtle top-left specular */
+.tile::after{
+  content:""; position:absolute; left:10px; top:10px; width:70%; height:30%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.05));
+  transform: skewX(-12deg); border-radius:14px; opacity:.9; pointer-events:none;
 }
 
-.text-section h3{
-  font-family:'Ubuntu',sans-serif;
-  font-size:0.92rem;
-  text-align:center;
-  color:var(--muted);
+/* color variants (lighter/milky) */
+.tile.grafik{ background: linear-gradient(180deg, rgba(133,244,255,0.78), rgba(180,245,230,0.45)); }
+.tile.print { background: linear-gradient(180deg, rgba(255,152,200,0.82), rgba(255,210,230,0.42)); }
+.tile.web   { background: linear-gradient(180deg, rgba(198,255,150,0.80), rgba(240,255,220,0.44)); }
+.tile.medien{ background: linear-gradient(180deg, rgba(200,170,255,0.82), rgba(235,220,255,0.44)); }
+
+/* hover / pressed look */
+.tile:hover{ transform: translateY(-6px) scale(1.04); box-shadow: 0 22px 48px rgba(15,20,35,0.08); }
+.tile:active{ transform: translateY(-2px) scale(.995); }
+
+/* label micro text under the tile (optional) */
+.tile-label{ font-size:0.78rem; color:var(--muted); margin-top:10px; text-align:center; }
+
+/* --- MAIN CONTENT PANES --- */
+.container{ max-width:1200px; margin:22px auto; padding:0 18px; z-index:5; position:relative; }
+
+/* info band */
+.info-band{
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,255,0.88));
+  padding:22px; border-radius:18px; border:1px solid var(--glass-line);
+  box-shadow:var(--soft-shadow); text-align:center; margin-bottom:16px;
+  font-family:'Ubuntu'; color:var(--muted);
 }
 
-.portfolio-slider{
-  display:flex;
-  align-items:center;
-  position:relative;
-  gap:10px;
-  padding:20px 10px 28px;
-  max-width:1400px;
-  margin:0 auto;
+/* portfolio slider panels */
+.panel{
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-radius:18px; padding:18px; border:1px solid var(--glass-line);
+  box-shadow: var(--soft-shadow); margin-bottom:22px;
 }
 
-.slider-container{
-  overflow:hidden;
-  flex:1;
-  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.07));
-  border:1px solid rgba(255,255,255,0.24);
-  border-radius:28px;
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow);
+/* gallery items — keep them light */
+.gallery{ display:flex; gap:14px; overflow:auto; padding:10px 6px; }
+.gallery img, .gallery video{
+  width:320px; height:auto; border-radius:12px; border:1px solid rgba(13,18,32,0.04);
+  box-shadow: 0 10px 26px rgba(15,20,35,0.04); background:#fff;
 }
 
-.slider-track{
-  display:flex;
-  gap:20px;
-  scroll-behavior:smooth;
-  cursor:grab;
-  padding:14px;
+/* contact / CTA */
+.contact{
+  display:flex; gap:14px; align-items:center; justify-content:center; flex-wrap:wrap;
+  padding:18px; border-radius:16px; background:linear-gradient(180deg,#fff,#fbfdff);
+  border:1px solid var(--glass-line); box-shadow:var(--soft-shadow);
 }
 
-.slider-track.active{
-  cursor:grabbing;
-}
-
-.portfolio-slider img,
-.portfolio-slider video{
-  flex:0 0 auto;
-  width:calc((100% - 40px)/3);
-  height:auto;
-  object-fit:contain;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.22);
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.20);
-  transition:transform .25s ease, box-shadow .25s ease;
-}
-
-.portfolio-slider img:hover,
-.portfolio-slider video:hover{
-  transform:scale(1.03);
-  box-shadow: 0 0 24px rgba(255,255,255,0.12), 0 12px 30px rgba(0,0,0,0.24);
-}
-
-.arrow{
-  font-size:2rem;
-  border:none;
-  padding:10px 14px;
+/* newsletter button — translucent multi color */
+.newsletter{
+  padding:12px 20px; border-radius:999px; font-family:'Ubuntu'; font-weight:700;
+  color:var(--text); border:1px solid rgba(13,18,32,0.06);
+  background: linear-gradient(90deg, rgba(133,244,255,0.9), rgba(255,152,200,0.9), rgba(198,255,150,0.9));
+  box-shadow: 0 12px 30px rgba(150,170,200,0.07), inset 0 2px 8px rgba(255,255,255,0.6);
   cursor:pointer;
-  z-index:5;
-  user-select:none;
-  border-radius:18px;
-  color:#fff;
-  border:1px solid rgba(255,255,255,0.24);
-  backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.38), 0 10px 22px rgba(0,0,0,0.20);
-  transition:transform .2s ease, box-shadow .2s ease;
 }
 
-.arrow:hover{
-  transform: translateY(-1px);
+/* small utilities */
+.kv{ font-size:0.95rem; color:var(--muted); }
+.center{ text-align:center; }
+
+/* responsive */
+@media(max-width:900px){
+  .tile{ width:138px; height:138px; border-radius:22px;}
+  .gallery img{ width:260px; }
 }
-
-.arrow.left{ background: rgba(0, 205, 255, 0.24); }
-.arrow.right{ background: rgba(255, 84, 192, 0.22); }
-
-#kontakt section{
-  width:100%;
-  max-width:1100px;
-  margin:20px auto;
-  padding:40px 20px;
-  text-align:center;
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
-  border:1px solid rgba(255,255,255,0.24);
-  border-radius:28px;
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow);
-}
-
-#kontakt h2{
-  font-family:'Ubuntu',sans-serif;
-  margin-bottom:20px;
-  font-size:2rem;
-}
-
-#kontakt p{
-  margin:10px 0;
-  color:var(--muted);
-}
-
-#kontakt a{
-  color:#7df9ff;
-  text-decoration:none;
-  font-weight:500;
-}
-
-#kontakt a:hover{ text-decoration:underline; }
-
-.newsletter-btn{
-  display:inline-block;
-  margin-top:15px;
-  padding:12px 22px;
-  border-radius:999px;
-  text-decoration:none;
-  font-family:'Ubuntu',sans-serif;
-  color:#fff;
-  border:1px solid rgba(255,255,255,0.24);
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.38), 0 10px 20px rgba(0,0,0,0.20);
-}
-
-#game-container{
-  max-width:90%;
-  margin:0 auto;
-  position:relative;
-  border-radius:18px;
-  overflow:hidden;
-}
-
-#main-footer{
-  display:none;
-  padding:15px 20px;
-  color:#fff;
-  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.07));
-  border-top:1px solid rgba(255,255,255,0.24);
-  backdrop-filter: blur(18px);
-}
-
-.footer-inner{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
-  flex-wrap:wrap;
-  text-align:center;
-  font-size:0.9rem;
-}
-
-.footer-copy{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-
-.footer-icon{
-  width:16px;
-  height:16px;
-  object-fit:contain;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.16));
-}
-
-.footer-link{
-  color:#7df9ff;
-  text-decoration:underline;
-}
-
-@media(max-width:1024px){
-  .portfolio-slider img,
-  .portfolio-slider video{
-    width:calc((100% - 20px)/2);
-  }
-  .square{
-    width:132px;
-    height:132px;
-    font-size:1.25rem;
-  }
-}
-
-@media(max-width:768px){
-  #intro{
-    flex-direction:column;
-    gap:15px;
-    align-items:center;
-    min-height:100svh;
-  }
-
-  .intro-menu{
-    flex-direction:column;
-    gap:14px;
-    padding:18px;
-  }
-
-  .square{
-    width:132px;
-    height:132px;
-    font-size:1.15rem;
-  }
-
-  .portfolio-slider img,
-  .portfolio-slider video{
-    width:90%;
-    max-width:400px;
-    flex:0 0 auto;
-    margin:auto;
-  }
-
-  nav ul{ gap:8px; }
-
-  .arrow{ display:none; }
-
-  .slider-container{
-    overflow-x:auto;
-    scroll-behavior:smooth;
-  }
-
-  .slider-container::-webkit-scrollbar{ height:6px; }
-  .slider-container::-webkit-scrollbar-thumb{
-    background: linear-gradient(90deg, rgba(0,205,255,0.9), rgba(255,84,192,0.9), rgba(168,255,72,0.9));
-    border-radius:999px;
-  }
-  .slider-container::-webkit-scrollbar-track{
-    background: rgba(255,255,255,0.10);
-  }
-
-  .footer-inner{
-    flex-direction:column;
-    gap:6px;
-  }
+@media(max-width:480px){
+  header{ padding:10px;}
+  .intro-wrap{ gap:14px;}
+  .tile{ width:120px; height:120px; font-size:1rem; border-radius:18px;}
+  .gallery img{ width:90%; max-width:360px; }
 }
 </style>
 </head>
 <body>
 
-<div id="intro">
-  <div class="floating-layer" id="floating-layer"></div>
-  <div class="intro-menu" id="intro-menu">
-    <div class="square grafik" onclick="showPage('grafik')">Grafik</div>
-    <div class="square print" onclick="showPage('print')">Print</div>
-    <div class="square web" onclick="showPage('web')">Web</div>
-    <div class="square medien" onclick="showPage('medien')">Medien</div>
-  </div>
-</div>
+<div class="page-bg-blobs" aria-hidden="true"></div>
 
-<header id="main-header" style="display:none;">
-  <div class="logo"><img src="logo.png" alt="Website-Logo"></div>
+<header>
+  <div class="logo"><img src="logo.png" alt="felbs.design logo"></div>
   <nav>
     <ul>
       <li><a href="#" id="nav-grafik" onclick="openPage('grafik')">Grafik</a></li>
@@ -539,419 +213,205 @@ main.active{ display:block; }
   </nav>
 </header>
 
-<main id="kontakt">
-  <section>
-    <h2>Kontakt</h2>
-    <p><strong>felbs.design</strong></p>
-    <p>Thomas Felber</p>
-    <p>Email: <a href="#" onclick="sendMail(); return false;">thomas@felbsdesign.at</a></p>
-    <br>
-    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank" rel="noopener noreferrer">@felbs.design</a></p>
-    <p>Website: <a href="https://www.felbsdesign.at" target="_blank" rel="noopener noreferrer">felbsdesign.at</a></p>
-    <br>
-    <a href="#" class="newsletter-btn" onclick="newsletterMail(); return false;">für Newsletter anmelden</a>
-  </section>
+<section id="intro" aria-label="Start">
+  <div class="intro-wrap">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <button class="tile grafik" onclick="showPage('grafik')">Grafik</button>
+      <div class="tile-label">buntes Grafik-Portfolio</div>
+    </div>
 
-  <section style="padding:20px 0; text-align:center; background-color:transparent;">
-    <h2>Klick das Bildzeichen!</h2>
-    <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
-    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:1px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.06); backdrop-filter:blur(10px);"></div>
-    <p>Punkte: <span id="score">0</span></p>
-    <button id="start-btn" style="padding:10px 20px; background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.22); cursor:pointer; border-radius:999px; font-family:'Ubuntu',sans-serif;">Spiel starten</button>
-    <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
-  </section>
-</main>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <button class="tile print" onclick="showPage('print')">Print</button>
+      <div class="tile-label">transparente Print-Projekte</div>
+    </div>
 
-<main id="grafik">
-  <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-  </section>
-  <div style="padding:20px;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
-      <div class="slider-container" id="container-grafik">
-        <div class="slider-track" id="track-grafik">
-          <img src="grafik/grafik1.webp" alt="Grafik1" class="lazy-img">
-          <img src="grafik/grafik2.webp" alt="Grafik2" class="lazy-img">
-          <img src="grafik/grafik3.webp" alt="Grafik3" class="lazy-img">
-          <img src="grafik/grafik4.webp" alt="Grafik4" class="lazy-img">
-          <img src="grafik/grafik5.webp" alt="Grafik5" class="lazy-img">
-          <img src="grafik/grafik6.webp" alt="Grafik6" class="lazy-img">
-          <img src="grafik/grafik7.webp" alt="Grafik7" class="lazy-img">
-          <img src="grafik/grafik8.webp" alt="Grafik8" class="lazy-img">
-          <img src="grafik/grafik9.webp" alt="Grafik9" class="lazy-img">
-          <img src="grafik/grafik10.webp" alt="Grafik10" class="lazy-img">
-          <img src="grafik/grafik11.webp" alt="Grafik11" class="lazy-img">
-          <img src="grafik/grafik12.webp" alt="Grafik12" class="lazy-img">
-          <img src="grafik/grafik13.webp" alt="Grafik13" class="lazy-img">
-          <img src="grafik/grafik14.webp" alt="Grafik14" class="lazy-img">
-          <img src="grafik/grafik15.webp" alt="Grafik15" class="lazy-img">
-          <img src="grafik/grafik16.webp" alt="Grafik16" class="lazy-img">
-          <img src="grafik/grafik17.webp" alt="Grafik17" class="lazy-img">
-          <img src="grafik/grafik18.webp" alt="Grafik18" class="lazy-img">
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('grafik')">&#10095;</button>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <button class="tile web" onclick="showPage('web')">Web</button>
+      <div class="tile-label">helles Web-Design</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <button class="tile medien" onclick="showPage('medien')">Medien</button>
+      <div class="tile-label">Animationen & Videos</div>
     </div>
   </div>
-</main>
+</section>
 
-<main id="print">
-  <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-  </section>
-  <div style="padding:20px;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
-      <div class="slider-container" id="container-print">
-        <div class="slider-track" id="track-print">
-          <img src="print/Weihnachten1.webp" alt="Print1" class="lazy-img">
-          <img src="print/Weihnachten2.webp" alt="Print2" class="lazy-img">
-          <img src="print/print1.webp" alt="Print3" class="lazy-img">
-          <img src="print/print222.webp" alt="Print4" class="lazy-img">
-          <img src="print/print2.webp" alt="Print5" class="lazy-img">
-          <img src="print/print3.webp" alt="Print6" class="lazy-img">
-          <img src="print/print4.webp" alt="Print7" class="lazy-img">
-          <img src="print/print5.webp" alt="Print8" class="lazy-img">
-          <img src="print/print6.webp" alt="Print9" class="lazy-img">
-          <img src="print/print7.webp" alt="Print10" class="lazy-img">
-          <img src="print/print8.webp" alt="Print11" class="lazy-img">
-          <img src="print/print888.webp" alt="Print12" class="lazy-img">
-          <img src="print/print9.webp" alt="Print13" class="lazy-img">
-          <img src="print/print10.webp" alt="Print14" class="lazy-img">
-          <img src="print/print11.webp" alt="Print15" class="lazy-img">
-          <img src="print/print12.webp" alt="Print16" class="lazy-img">
-          <img src="print/print13.webp" alt="Print17" class="lazy-img">
-          <img src="print/print14.webp" alt="Print18" class="lazy-img">
-          <img src="print/print15.webp" alt="Print19" class="lazy-img">
-          <img src="print/print16.webp" alt="Print20" class="lazy-img">
-          <img src="print/print17.webp" alt="Print21" class="lazy-img">
-          <img src="print/print18.webp" alt="Print22" class="lazy-img">
-          <img src="print/print19.webp" alt="Print23" class="lazy-img">
-          <img src="print/print20.webp" alt="Print24" class="lazy-img">
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('print')">&#10095;</button>
-    </div>
+<main class="container" id="content">
+  <!-- info band -->
+  <div class="info-band">
+    <div class="kv">Professionelles Grafik-, Print- und Webdesign — farbig, transluzent, Y2K‑inspiriert.</div>
   </div>
-</main>
 
-<main id="web">
-  <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-  </section>
-  <div style="padding:20px;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
-      <div class="slider-container" id="container-web">
-        <div class="slider-track" id="track-web">
-          <img src="web/web2.webp" alt="Web1" class="lazy-img">
-          <img src="web/web1.webp" alt="Web2" class="lazy-img">
-          <img src="web/web3.webp" alt="Web3" class="lazy-img">
-          <img src="web/web4.webp" alt="Web4" class="lazy-img">
-          <img src="web/web5.webp" alt="Web5" class="lazy-img">
-          <img src="web/web6.webp" alt="Web6" class="lazy-img">
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('web')">&#10095;</button>
+  <!-- GRAFIK -->
+  <section id="grafik" class="panel" style="display:none;">
+    <h2 class="center">Grafik</h2>
+    <p class="center kv">Persönliches Portfolio (Präsentationszwecke).</p>
+    <div class="gallery" aria-hidden="false">
+      <!-- Platzhalterbilder: ersetze Pfade durch deine Bilder -->
+      <img src="grafik/grafik1.webp" alt="Grafik 1">
+      <img src="grafik/grafik2.webp" alt="Grafik 2">
+      <img src="grafik/grafik3.webp" alt="Grafik 3">
     </div>
-  </div>
-</main>
-
-<main id="medien">
-  <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-  <div style="padding:20px;">
-    <div class="portfolio-slider">
-      <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
-      <div class="slider-container" id="container-medien">
-        <div class="slider-track" id="track-medien">
-          <video autoplay loop muted playsinline class="lazy-img">
-            <source src="medien/medien_animation.webm" type="video/webm">
-          </video>
-          <video autoplay loop muted playsinline class="lazy-img">
-            <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
-          </video>
-          <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
-          <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
-          <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
-          <img src="medien/medien5.webp" alt="Fotobücher" class="lazy-img">
-          <img src="medien/medien7.webp" alt="noch vieles mehr" class="lazy-img">
-        </div>
-      </div>
-      <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
+
+  <!-- PRINT -->
+  <section id="print" class="panel" style="display:none;">
+    <h2 class="center">Print</h2>
+    <p class="center kv">Print‑Projekte, Verpackungen, Poster.</p>
+    <div class="gallery">
+      <img src="print/print1.webp" alt="Print 1">
+      <img src="print/print2.webp" alt="Print 2">
+      <img src="print/print3.webp" alt="Print 3">
     </div>
-  </div>
+  </section>
+
+  <!-- WEB -->
+  <section id="web" class="panel" style="display:none;">
+    <h2 class="center">Web</h2>
+    <p class="center kv">Web‑Design & UI.</p>
+    <div class="gallery">
+      <img src="web/web1.webp" alt="Web 1">
+      <img src="web/web2.webp" alt="Web 2">
+      <img src="web/web3.webp" alt="Web 3">
+    </div>
+  </section>
+
+  <!-- MEDIEN -->
+  <section id="medien" class="panel" style="display:none;">
+    <h2 class="center">Medien</h2>
+    <p class="center kv">Animation, Video, Podcast‑Begleitung.</p>
+    <div class="gallery">
+      <video autoplay loop muted playsinline><source src="medien/medien_animation.webm" type="video/webm"></video>
+      <img src="medien/medien2.webp" alt="Medien 1">
+      <img src="medien/medien3.webp" alt="Medien 2">
+    </div>
+  </section>
+
+  <!-- KONTAKT UND SPIEL -->
+  <section id="kontakt" class="panel" style="display:none;">
+    <h2 class="center">Kontakt</h2>
+    <p class="center kv"><strong>felbs.design</strong> — Thomas Felber</p>
+    <p class="center kv">Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
+    <div class="contact" style="margin-top:12px;">
+      <div>
+        <p class="kv">Instagram</p>
+        <p><a href="https://www.instagram.com/felbs.design" target="_blank" rel="noopener">@felbs.design</a></p>
+      </div>
+      <div>
+        <p class="kv">Website</p>
+        <p><a href="https://www.felbsdesign.at" target="_blank" rel="noopener">felbsdesign.at</a></p>
+      </div>
+      <div>
+        <button class="newsletter" onclick="newsletterMail()">für Newsletter anmelden</button>
+      </div>
+    </div>
+
+    <!-- Minispiel -->
+    <div style="margin-top:18px; text-align:center;">
+      <h3>Klick das Bildzeichen!</h3>
+      <p class="kv">Klicke so oft wie möglich auf das Bild in 10 Sekunden.</p>
+      <div id="game-container" style="width:320px;height:320px;margin:12px auto;border-radius:12px;background:#fff;border:1px solid rgba(13,18,32,0.04);box-shadow:0 8px 24px rgba(15,20,35,0.06);position:relative;"></div>
+      <p>Punkte: <span id="score">0</span></p>
+      <button id="start-btn" class="newsletter" style="margin-top:8px;padding:10px 18px;">Spiel starten</button>
+      <p id="timer" class="kv">Zeit: 10s</p>
+    </div>
+  </section>
 </main>
 
-<footer id="main-footer">
-  <div class="footer-inner">
-    <span class="footer-copy">
-      <img src="Bildzeichen.png" alt="" class="footer-icon">
-      &copy; 2026 felbs.design – Thomas Felber
-    </span>
-    <a href="#" class="footer-link" onclick="openPage('kontakt'); return false;">Kontakt/Impressum</a>
+<footer style="max-width:1200px;margin:18px auto;padding:12px 18px;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid rgba(13,18,32,0.04);box-shadow:var(--soft-shadow);text-align:center;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+    <img src="Bildzeichen.png" alt="" style="width:20px;height:20px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.06));">
+    <div style="font-size:0.95rem;color:var(--muted)">&copy; 2026 felbs.design – Thomas Felber</div>
   </div>
 </footer>
 
 <script>
+/* --- Simple navigation / hash support --- */
 function showPage(page){
   document.getElementById('intro').style.display = 'none';
-  document.getElementById('main-header').style.display = 'flex';
-  document.getElementById('main-footer').style.display = 'block';
-  openPage(page);
+  document.querySelector('header').scrollIntoView({behavior:'smooth'});
+  document.querySelectorAll('main, section.panel, section#kontakt, section#grafik, section#print, section#web, section#medien').forEach(n=>n.style.display='none');
+  const el = document.getElementById(page);
+  if(el) el.style.display = 'block';
+  document.getElementById('main-header')?.scrollIntoView;
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  const nav = document.getElementById('nav-'+page);
+  if(nav) nav.classList.add('active');
 }
 
-function openPage(page){
-  document.querySelectorAll('main').forEach(m => m.classList.remove('active'));
-  const target = document.getElementById(page);
-  if (target) target.classList.add('active');
-  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-  const navLink = document.getElementById('nav-' + page);
-  if (navLink) navLink.classList.add('active');
-}
+function openPage(page){ showPage(page); window.location.hash = page; }
 
-function sendMail() {
-  window.location.href = 'mailto:thomas@felbsdesign.at';
-}
-
-function newsletterMail() {
+function newsletterMail(){
   const recipient = 'thomas@felbsdesign.at';
   const subject = encodeURIComponent('Anmeldung zum Newsletter');
-  const body = encodeURIComponent('Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nMit freundlichen Grüßen\n[Dein Name]');
+  const body = encodeURIComponent('Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nViele Grüße\n');
   window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
 }
 
-function slideLeft(section){
-  const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
-}
-
-function slideRight(section){
-  const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
-}
-
-const sliders = document.querySelectorAll('.slider-container');
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-if (!isTouchDevice) {
-  sliders.forEach(container => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      container.classList.add('active');
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-      e.preventDefault();
-    });
-
-    container.addEventListener('mouseleave', () => {
-      isDown = false;
-      container.classList.remove('active');
-    });
-
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.classList.remove('active');
-    });
-
-    container.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      container.scrollLeft = scrollLeft - walk;
-    });
-  });
-} else {
-  sliders.forEach(container => {
-    container.style.scrollSnapType = 'x mandatory';
-    container.style.overflowX = 'auto';
-    container.style.scrollBehavior = 'smooth';
-    container.style.webkitOverflowScrolling = 'touch';
-  });
-}
-
-(function () {
-  const intro = document.getElementById('intro');
-  const floatingLayer = document.getElementById('floating-layer');
-  const introMenu = document.getElementById('intro-menu');
-  if (!intro || !floatingLayer || !introMenu) return;
-
-  const floatingObjects = [];
-  const objectCount = window.innerWidth < 768 ? 10 : 16;
-  const objectSize = 68;
-  let mouseX = 0, mouseY = 0, hasMouse = false;
-
-  function rand(min, max) { return Math.random() * (max - min) + min; }
-  function intersects(a, b) {
-    return !(a.x + a.w < b.x || a.x > b.x + b.w || a.y + a.h < b.y || a.y > b.y + b.h);
+/* --- Floating intro blobs (just a light animation) --- */
+(function(){
+  const blobs = document.querySelector('.page-bg-blobs');
+  if(!blobs) return;
+  let t=0;
+  function anim(){
+    t+=0.01;
+    blobs.style.transform = `translateY(${Math.sin(t)*6}px)`;
+    requestAnimationFrame(anim);
   }
-  function getForbiddenZone() {
-    const introRect = intro.getBoundingClientRect();
-    const menuRect = introMenu.getBoundingClientRect();
-    return {
-      x: menuRect.left - introRect.left - 40,
-      y: menuRect.top - introRect.top - 40,
-      w: menuRect.width + 80,
-      h: menuRect.height + 80
-    };
-  }
-  function getSafePosition(size) {
-    const rect = intro.getBoundingClientRect();
-    const forbidden = getForbiddenZone();
-    for (let i = 0; i < 300; i++) {
-      const x = rand(0, Math.max(0, rect.width - size));
-      const y = rand(0, Math.max(0, rect.height - size));
-      const candidate = { x, y, w: size, h: size };
-      if (!intersects(candidate, forbidden)) return { x, y };
-    }
-    return { x: 0, y: 0 };
-  }
-  function createFloatingObject() {
-    const el = document.createElement('img');
-    el.src = 'Bildzeichen.png';
-    el.alt = '';
-    el.className = 'floating-object';
-    const pos = getSafePosition(objectSize);
-    el.style.width = objectSize + 'px';
-    el.style.height = objectSize + 'px';
-    floatingLayer.appendChild(el);
-    floatingObjects.push({
-      el,
-      x: pos.x,
-      y: pos.y,
-      vx: rand(-0.15, 0.15),
-      vy: rand(-0.15, 0.15),
-      wobbleX: rand(8, 18),
-      wobbleY: rand(8, 18),
-      phase: rand(0, Math.PI * 2),
-      speed: rand(0.5, 1.0)
-    });
-  }
-  function keepInside(obj, rect) {
-    if (obj.x < 0) obj.x = 0;
-    if (obj.y < 0) obj.y = 0;
-    if (obj.x > rect.width - objectSize) obj.x = rect.width - objectSize;
-    if (obj.y > rect.height - objectSize) obj.y = rect.height - objectSize;
-  }
-  for (let i = 0; i < objectCount; i++) createFloatingObject();
-
-  intro.addEventListener('mousemove', (e) => {
-    const rect = intro.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-    hasMouse = true;
-  });
-  intro.addEventListener('mouseleave', () => { hasMouse = false; });
-
-  function animate(time) {
-    const t = time * 0.001;
-    const rect = intro.getBoundingClientRect();
-    floatingObjects.forEach(obj => {
-      obj.x += obj.vx;
-      obj.y += obj.vy;
-      if (hasMouse) {
-        const centerX = obj.x + objectSize / 2;
-        const centerY = obj.y + objectSize / 2;
-        const dx = mouseX - centerX;
-        const dy = mouseY - centerY;
-        const distance = Math.hypot(dx, dy) || 1;
-        obj.x += (dx / distance) * 0.35;
-        obj.y += (dy / distance) * 0.35;
-      }
-      keepInside(obj, rect);
-      const offsetX = Math.sin(t * obj.speed + obj.phase) * obj.wobbleX;
-      const offsetY = Math.cos(t * obj.speed + obj.phase) * obj.wobbleY;
-      const rotate = Math.sin(t * obj.speed + obj.phase) * 5;
-      obj.el.style.transform = `translate3d(${obj.x + offsetX}px, ${obj.y + offsetY}px, 0) rotate(${rotate}deg)`;
-    });
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
+  requestAnimationFrame(anim);
 })();
 
+/* --- Mini game --- */
 const startBtn = document.getElementById('start-btn');
 const gameContainer = document.getElementById('game-container');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
+let score=0, timeLeft=10, moveInterval, gameInterval;
 
-let score = 0;
-let time = 10;
-let moveInterval, gameInterval;
-
-function startGame() {
-  score = 0;
-  time = 10;
-  scoreDisplay.textContent = score;
-  timerDisplay.textContent = 'Zeit: ' + time + 's';
-  startBtn.disabled = true;
-
+function startGame(){
+  score=0; timeLeft=10;
+  scoreDisplay.textContent=score;
+  timerDisplay.textContent='Zeit: '+timeLeft+'s';
+  startBtn.disabled=true;
   const img = document.createElement('img');
-  img.src = 'Bildzeichen.png';
-  img.style.width = '50px';
-  img.style.height = '50px';
-  img.style.position = 'absolute';
-  img.style.cursor = 'pointer';
+  img.src='Bildzeichen.png';
+  img.style.width='56px'; img.style.height='56px'; img.style.position='absolute'; img.style.cursor='pointer';
   gameContainer.appendChild(img);
-
-  function moveImage() {
-    const maxX = gameContainer.clientWidth - 50;
-    const maxY = gameContainer.clientHeight - 50;
-    const x = Math.floor(Math.random() * maxX);
-    const y = Math.floor(Math.random() * maxY);
-    img.style.left = x + 'px';
-    img.style.top = y + 'px';
+  function moveImage(){
+    const maxX = gameContainer.clientWidth - 56;
+    const maxY = gameContainer.clientHeight - 56;
+    const x = Math.floor(Math.random()*Math.max(1,maxX));
+    const y = Math.floor(Math.random()*Math.max(1,maxY));
+    img.style.left = x+'px'; img.style.top = y+'px';
   }
-
-  img.addEventListener('click', () => {
-    score++;
-    scoreDisplay.textContent = score;
-    moveImage();
+  img.addEventListener('click', ()=>{
+    score++; scoreDisplay.textContent=score; moveImage();
   });
-
   moveImage();
-  moveInterval = setInterval(moveImage, 1500);
-
-  gameInterval = setInterval(() => {
-    time--;
-    timerDisplay.textContent = 'Zeit: ' + time + 's';
-    if (time <= 0) {
-      clearInterval(gameInterval);
-      clearInterval(moveInterval);
+  moveInterval = setInterval(moveImage, 1200);
+  gameInterval = setInterval(()=>{
+    timeLeft--; timerDisplay.textContent='Zeit: '+timeLeft+'s';
+    if(timeLeft<=0){
+      clearInterval(gameInterval); clearInterval(moveInterval);
       alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
-      gameContainer.removeChild(img);
-      startBtn.disabled = false;
+      if(img.parentNode) img.parentNode.removeChild(img);
+      startBtn.disabled=false;
     }
-  }, 1000);
+  },1000);
 }
-
 startBtn.addEventListener('click', startGame);
 
-const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-if (!isMobile) {
-  document.querySelectorAll('.portfolio-slider img').forEach(img => img.setAttribute('loading', 'lazy'));
+/* lazy load images on non-mobile */
+if(!/Mobi|Android/i.test(navigator.userAgent)){
+  document.querySelectorAll('.gallery img').forEach(img=>img.loading='lazy');
 }
 
-(function () {
-  function openFromHash() {
-    const page = (window.location.hash || '').replace('#', '').trim();
-    if (!page) return;
-    const target = document.getElementById(page);
-    if (!target) return;
-    document.getElementById('intro').style.display = 'none';
-    document.getElementById('main-header').style.display = 'flex';
-    document.getElementById('main-footer').style.display = 'block';
-    if (typeof openPage === 'function') openPage(page);
-  }
-  openFromHash();
-  document.addEventListener('DOMContentLoaded', openFromHash);
-  window.addEventListener('load', openFromHash);
-  window.addEventListener('hashchange', openFromHash);
+/* open from hash on load */
+(function(){
+  const page = (location.hash||'').replace('#','').trim();
+  if(page) showPage(page);
+  window.addEventListener('hashchange', ()=> showPage((location.hash||'').replace('#','')));
 })();
 </script>
 
