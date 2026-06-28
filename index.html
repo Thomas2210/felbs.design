@@ -290,6 +290,19 @@ main.active {
   text-decoration:underline;
 }
 
+.newsletter-btn {
+  color:#fff;
+  background-color:#98a8cd;
+  padding:10px 20px;
+  border-radius:5px;
+  text-decoration:none;
+  font-family:'Ubuntu',sans-serif;
+  display:inline-block;
+  margin-top:15px;
+  border:none;
+  cursor:pointer;
+}
+
 /* ====== MINISPIEL ====== */
 #game-container {
   max-width:90%;
@@ -459,14 +472,16 @@ main.active {
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
     <p>Thomas Felber</p>
-    <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
+    <p>
+      Email:
+      <a href="#" onclick="sendMail(); return false;">thomas@felbsdesign.at</a>
+    </p>
     <br>
     <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank" rel="noopener noreferrer">@felbs.design</a></p>
     <p>Website: <a href="https://www.felbsdesign.at" target="_blank" rel="noopener noreferrer">felbsdesign.at</a></p>
     <br>
 
-    <a href="mailto:thomas@felbsdesign.at?subject=Anmeldung%20zum%20Newsletter&body=Hallo%20Thomas,%0D%0A%0D%0Aich%20möchte%20mich%20für%20den%20Newsletter%20anmelden.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A[Dein%20Name]"
-       style="color:#fff; background-color:#98a8cd; padding:10px 20px; border-radius:5px; text-decoration:none; font-family:'Ubuntu',sans-serif; display:inline-block; margin-top:15px;">
+    <a href="#" class="newsletter-btn" onclick="newsletterMail(); return false;">
       für Newsletter anmelden
     </a>
   </section>
@@ -627,7 +642,7 @@ main.active {
       <img src="Bildzeichen.png" alt="" class="footer-icon">
       &copy; 2026 felbs.design – Thomas Felber
     </span>
-    <a href="#" class="footer-link" onclick="openPage('kontakt')">Kontakt/Impressum</a>
+    <a href="#" class="footer-link" onclick="openPage('kontakt'); return false;">Kontakt/Impressum</a>
   </div>
 </footer>
 
@@ -653,6 +668,21 @@ function openPage(page){
 
   const navLink = document.getElementById('nav-' + page);
   if (navLink) navLink.classList.add('active');
+}
+
+/* Mail-Funktionen */
+function sendMail() {
+  const recipient = 'thomas@felbsdesign.at';
+  window.location.href = 'mailto:' + recipient;
+}
+
+function newsletterMail() {
+  const recipient = 'thomas@felbsdesign.at';
+  const subject = encodeURIComponent('Anmeldung zum Newsletter');
+  const body = encodeURIComponent(
+    'Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nMit freundlichen Grüßen\n[Dein Name]'
+  );
+  window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
 }
 
 /* Pfeil-Scroll */
