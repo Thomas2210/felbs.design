@@ -33,6 +33,7 @@ if (window.location.hash) {
 
 /* ====== BASISSTILE ====== */
 * { margin:0; padding:0; box-sizing:border-box; }
+
 body {
   font-family: 'Roboto', sans-serif;
   color: #000;
@@ -65,7 +66,7 @@ body {
   width:68px;
   height:68px;
   object-fit:contain;
-  opacity:0.28;
+  opacity:0.22;
   will-change:transform;
   user-select:none;
   pointer-events:none;
@@ -94,9 +95,14 @@ body {
   cursor:pointer;
   transition:all 0.3s ease;
   transform-origin:center center;
-  text-transform: capitalize;
+  text-transform:capitalize;
+  box-shadow:0 8px 22px rgba(0,0,0,0.08);
 }
-.square:hover { transform:scale(1.2); background-color:#8794b8; }
+
+.square:hover {
+  transform:scale(1.2);
+  background-color:#8794b8;
+}
 
 /* ====== HEADER / NAV ====== */
 header {
@@ -110,7 +116,13 @@ header {
   top:0;
   z-index:10;
 }
-.logo img { height:50px; width:auto; margin-bottom:10px; }
+
+.logo img {
+  height:50px;
+  width:auto;
+  margin-bottom:10px;
+}
+
 nav ul {
   list-style:none;
   display:flex;
@@ -118,6 +130,7 @@ nav ul {
   justify-content:center;
   flex-wrap:wrap;
 }
+
 nav a {
   text-decoration:none;
   color:#000;
@@ -126,11 +139,24 @@ nav a {
   padding:6px 12px;
   transition:all 0.3s ease;
 }
-nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
+
+nav a:hover,
+nav a.active {
+  background-color:#98a8cd;
+  color:white;
+}
 
 /* ====== CONTENT SECTIONS ====== */
-main { display:none; padding:0; min-height:100vh; position:relative; }
-main.active { display:block; }
+main {
+  display:none;
+  padding:0;
+  min-height:100vh;
+  position:relative;
+}
+
+main.active {
+  display:block;
+}
 
 /* ====== BLAUER BALKEN MIT TEXT ====== */
 .text-section {
@@ -139,18 +165,21 @@ main.active { display:block; }
   color:white;
   line-height:1.5;
 }
+
 .text-section h2 {
   font-family:'Ubuntu',sans-serif;
   font-size:1.8rem;
   text-align:center;
   margin-bottom:30px;
 }
+
 .text-section h3 {
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 0px;
+  font-family:'Ubuntu',sans-serif;
+  font-size:0.9rem;
+  text-align:center;
+  margin-bottom:0;
 }
+
 .steps-container {
   display:grid;
   grid-template-columns:repeat(4, 1fr);
@@ -159,12 +188,14 @@ main.active { display:block; }
   margin:0 auto;
   text-align:left;
 }
+
 .steps-container .step p {
   margin:0;
   font-family:'Roboto', sans-serif;
 }
+
 .steps-container .step-title {
-  font-family: 'Ubuntu', sans-serif;
+  font-family:'Ubuntu', sans-serif;
   font-weight:500;
   display:block;
   margin-bottom:5px;
@@ -178,30 +209,44 @@ main.active { display:block; }
   gap:10px;
   padding:20px 10px;
 }
-.slider-container { overflow:hidden; flex:1; }
-.slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
-.slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
+
+.slider-container {
+  overflow:hidden;
+  flex:1;
+}
+
+.slider-track {
+  display:flex;
+  gap:20px;
+  scroll-behavior:smooth;
+  cursor:grab;
+}
+
+.slider-track.active {
+  cursor:grabbing;
+  cursor:-webkit-grabbing;
+}
 
 /* ====== MEDIA ELEMENTE IM SLIDER ====== */
 .portfolio-slider img,
 .portfolio-slider video {
-  flex: 0 0 auto;
-  width: calc((100% - 40px)/3);
-  height: auto;
-  object-fit: contain;
-  border-radius: 4px;
-  transition: transform 0.3s ease;
+  flex:0 0 auto;
+  width:calc((100% - 40px)/3);
+  height:auto;
+  object-fit:contain;
+  border-radius:4px;
+  transition:transform 0.3s ease;
 }
 
 .portfolio-slider img:hover,
 .portfolio-slider video:hover {
-  transform: scale(1.03);
+  transform:scale(1.03);
 }
 
 /* ====== Pfeile ====== */
 .arrow {
   font-size:2rem;
-  background: rgba(0,0,0,0.3);
+  background:rgba(0,0,0,0.3);
   color:#fff;
   border:none;
   padding:10px;
@@ -210,7 +255,10 @@ main.active { display:block; }
   border-radius:0%;
   user-select:none;
 }
-.arrow:hover { background: rgba(0,0,0,0.6); }
+
+.arrow:hover {
+  background:rgba(0,0,0,0.6);
+}
 
 /* ====== KONTAKT ====== */
 #kontakt section {
@@ -220,40 +268,57 @@ main.active { display:block; }
   text-align:center;
   color:#000;
 }
+
 #kontakt h2 {
   font-family:'Ubuntu',sans-serif;
   margin-bottom:20px;
   font-size:2rem;
 }
+
 #kontakt p {
   margin:10px 0;
   font-size:1rem;
 }
+
 #kontakt a {
   color:#98a8cd;
   text-decoration:none;
   font-weight:500;
 }
-#kontakt a:hover { text-decoration:underline; }
+
+#kontakt a:hover {
+  text-decoration:underline;
+}
 
 /* ====== MINISPIEL ====== */
-#game-container { max-width:90%; margin:0 auto; position:relative; }
+#game-container {
+  max-width:90%;
+  margin:0 auto;
+  position:relative;
+}
 
 /* ====== FOOTER ====== */
 #main-footer {
   background-color:#98a8cd;
   padding:15px 20px;
-  text-align:center;
-  font-size:0.9rem;
   color:white;
   display:none;
+}
+
+.footer-inner {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  text-align:center;
+  font-size:0.9rem;
 }
 
 .footer-copy {
   display:inline-flex;
   align-items:center;
   gap:8px;
-  margin-right:10px;
 }
 
 .footer-icon {
@@ -261,21 +326,52 @@ main.active { display:block; }
   height:16px;
   object-fit:contain;
   filter: brightness(0) invert(1);
-  vertical-align:middle;
+  flex-shrink:0;
+}
+
+.footer-link {
+  color:white;
+  text-decoration:underline;
+  display:inline-flex;
+  align-items:center;
 }
 
 /* ====== RESPONSIVE ====== */
 @media(max-width:1024px){
   .portfolio-slider img,
-  .portfolio-slider video { width:calc((100% - 20px)/2); }
-  .square { width:130px; height:130px; font-size:1.3rem; }
-  .steps-container { grid-template-columns:repeat(2, 1fr); }
+  .portfolio-slider video {
+    width:calc((100% - 20px)/2);
+  }
+
+  .square {
+    width:130px;
+    height:130px;
+    font-size:1.3rem;
+  }
+
+  .steps-container {
+    grid-template-columns:repeat(2, 1fr);
+  }
 }
 
 @media(max-width:768px){
-  #intro { flex-direction: column; gap:15px; align-items: center; }
-  .intro-menu { flex-direction: column; gap:15px; }
-  .square { width:130px; height:130px; font-size:1.2rem; }
+  #intro {
+    flex-direction:column;
+    gap:15px;
+    align-items:center;
+  }
+
+  .intro-menu {
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .square {
+    width:130px;
+    height:130px;
+    font-size:1.2rem;
+  }
+
   .portfolio-slider img,
   .portfolio-slider video {
     width:90%;
@@ -283,26 +379,48 @@ main.active { display:block; }
     flex:0 0 auto;
     margin:auto;
   }
-  header { flex-direction:column; }
-  nav ul { gap:10px; }
-  .steps-container { grid-template-columns:1fr; }
 
-  .arrow { display:none; }
+  header {
+    flex-direction:column;
+  }
+
+  nav ul {
+    gap:10px;
+  }
+
+  .steps-container {
+    grid-template-columns:1fr;
+  }
+
+  .arrow {
+    display:none;
+  }
 
   .slider-container {
-    overflow-x: auto;
-    scroll-behavior: smooth;
+    overflow-x:auto;
+    scroll-behavior:smooth;
   }
 
   .slider-container::-webkit-scrollbar {
-    height: 6px;
+    height:6px;
   }
+
   .slider-container::-webkit-scrollbar-thumb {
-    background: #98a8cd;
-    border-radius: 3px;
+    background:#98a8cd;
+    border-radius:3px;
   }
+
   .slider-container::-webkit-scrollbar-track {
-    background: #ddd;
+    background:#ddd;
+  }
+
+  .floating-object {
+    opacity:0.16;
+  }
+
+  .footer-inner {
+    flex-direction:column;
+    gap:6px;
   }
 }
 </style>
@@ -341,11 +459,10 @@ main.active { display:block; }
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
     <p>Thomas Felber</p>
-    <p></p>
     <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
     <br>
-    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
-    <p>Website: <a href="https://www.felbsdesign.at" target="_blank">felbsdesign.at</a></p>
+    <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank" rel="noopener noreferrer">@felbs.design</a></p>
+    <p>Website: <a href="https://www.felbsdesign.at" target="_blank" rel="noopener noreferrer">felbsdesign.at</a></p>
     <br>
 
     <a href="mailto:thomas@felbsdesign.at?subject=Anmeldung%20zum%20Newsletter&body=Hallo%20Thomas,%0D%0A%0D%0Aich%20möchte%20mich%20für%20den%20Newsletter%20anmelden.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A[Dein%20Name]"
@@ -370,6 +487,7 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
@@ -406,6 +524,7 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
@@ -448,6 +567,7 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
@@ -472,6 +592,7 @@ main.active { display:block; }
     <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
@@ -481,10 +602,12 @@ main.active { display:block; }
             <source src="medien/medien_animation.webm" type="video/webm">
             Dein Browser unterstützt kein WebM-Video 😢
           </video>
+
           <video autoplay loop muted playsinline class="lazy-img">
             <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
             Dein Browser unterstützt kein WebM-Video 😢
           </video>
+
           <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
           <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
           <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
@@ -499,44 +622,51 @@ main.active { display:block; }
 
 <!-- FOOTER -->
 <footer id="main-footer">
-  <span class="footer-copy">
-    <img src="Bildzeichen.png" alt="" class="footer-icon">
-    &copy; 2026 felbs.design – Thomas Felber
-  </span>
-  <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
+  <div class="footer-inner">
+    <span class="footer-copy">
+      <img src="Bildzeichen.png" alt="" class="footer-icon">
+      &copy; 2026 felbs.design – Thomas Felber
+    </span>
+    <a href="#" class="footer-link" onclick="openPage('kontakt')">Kontakt/Impressum</a>
+  </div>
 </footer>
 
 <script>
 /* Intro → Seite */
 function showPage(page){
-  document.getElementById('intro').style.display='none';
-  document.getElementById('main-header').style.display='flex';
-  document.getElementById('main-footer').style.display='block';
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('main-header').style.display = 'flex';
+  document.getElementById('main-footer').style.display = 'block';
   openPage(page);
 }
 
 /* Menü → Seite */
 function openPage(page){
-  const mains=document.querySelectorAll('main');
-  mains.forEach(m=>m.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-  const links=document.querySelectorAll('nav a');
-  links.forEach(a=>a.classList.remove('active'));
-  const navLink=document.getElementById('nav-'+page);
-  if(navLink) navLink.classList.add('active');
+  const mains = document.querySelectorAll('main');
+  mains.forEach(m => m.classList.remove('active'));
+
+  const target = document.getElementById(page);
+  if (target) target.classList.add('active');
+
+  const links = document.querySelectorAll('nav a');
+  links.forEach(a => a.classList.remove('active'));
+
+  const navLink = document.getElementById('nav-' + page);
+  if (navLink) navLink.classList.add('active');
 }
 
 /* Pfeil-Scroll */
 function slideLeft(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
-}
-function slideRight(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
+  const container = document.getElementById('container-' + section);
+  container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
 }
 
-/* Drag-Scroll nur für Desktop – Touchgeräte nutzen natives Scrollen */
+function slideRight(section){
+  const container = document.getElementById('container-' + section);
+  container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
+}
+
+/* Drag-Scroll nur für Desktop */
 const sliders = document.querySelectorAll('.slider-container');
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -553,14 +683,17 @@ if (!isTouchDevice) {
       scrollLeft = container.scrollLeft;
       e.preventDefault();
     });
+
     container.addEventListener('mouseleave', () => {
       isDown = false;
       container.classList.remove('active');
     });
+
     container.addEventListener('mouseup', () => {
       isDown = false;
       container.classList.remove('active');
     });
+
     container.addEventListener('mousemove', (e) => {
       if (!isDown) return;
       const x = e.pageX - container.offsetLeft;
@@ -737,12 +870,14 @@ const startBtn = document.getElementById('start-btn');
 const gameContainer = document.getElementById('game-container');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
+
 let score = 0;
 let time = 10;
 let moveInterval, gameInterval;
 
 function startGame() {
-  score = 0; time = 10;
+  score = 0;
+  time = 10;
   scoreDisplay.textContent = score;
   timerDisplay.textContent = 'Zeit: ' + time + 's';
   startBtn.disabled = true;
@@ -776,7 +911,8 @@ function startGame() {
   gameInterval = setInterval(() => {
     time--;
     timerDisplay.textContent = 'Zeit: ' + time + 's';
-    if(time <= 0){
+
+    if (time <= 0) {
       clearInterval(gameInterval);
       clearInterval(moveInterval);
       alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
@@ -787,9 +923,8 @@ function startGame() {
 }
 
 startBtn.addEventListener('click', startGame);
-</script>
 
-<script>
+/* Lazy loading nur Desktop */
 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
 if (!isMobile) {
@@ -798,37 +933,33 @@ if (!isMobile) {
     img.setAttribute('loading', 'lazy');
   });
 }
-</script>
 
-<script>
+/* Hash-Navigation */
 (function () {
   function openFromHash() {
-    const page = (window.location.hash || "")
-      .replace("#", "")
-      .trim();
-
+    const page = (window.location.hash || '').replace('#', '').trim();
     if (!page) return;
 
     const target = document.getElementById(page);
     if (!target) return;
 
-    const intro = document.getElementById("intro");
-    const header = document.getElementById("main-header");
-    const footer = document.getElementById("main-footer");
+    const intro = document.getElementById('intro');
+    const header = document.getElementById('main-header');
+    const footer = document.getElementById('main-footer');
 
-    if (intro) intro.style.display = "none";
-    if (header) header.style.display = "flex";
-    if (footer) footer.style.display = "block";
+    if (intro) intro.style.display = 'none';
+    if (header) header.style.display = 'flex';
+    if (footer) footer.style.display = 'block';
 
-    if (typeof openPage === "function") {
+    if (typeof openPage === 'function') {
       openPage(page);
     }
   }
 
   openFromHash();
-  document.addEventListener("DOMContentLoaded", openFromHash);
-  window.addEventListener("load", openFromHash);
-  window.addEventListener("hashchange", openFromHash);
+  document.addEventListener('DOMContentLoaded', openFromHash);
+  window.addEventListener('load', openFromHash);
+  window.addEventListener('hashchange', openFromHash);
 })();
 </script>
 
