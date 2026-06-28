@@ -65,7 +65,7 @@ body {
   width:68px;
   height:68px;
   object-fit:contain;
-  opacity:1;
+  opacity:0.28;
   will-change:transform;
   user-select:none;
   pointer-events:none;
@@ -298,7 +298,7 @@ main.active { display:block; }
 <div id="intro">
   <div class="floating-layer" id="floating-layer"></div>
 
-  <div class="intro-menu">
+  <div class="intro-menu" id="intro-menu">
     <div class="square" onclick="showPage('grafik')">Grafik</div>
     <div class="square" onclick="showPage('print')">Print</div>
     <div class="square" onclick="showPage('web')">Web</div>
@@ -563,19 +563,59 @@ if (!isTouchDevice) {
 (function () {
   const intro = document.getElementById('intro');
   const floatingLayer = document.getElementById('floating-layer');
+  const introMenu = document.getElementById('intro-menu');
 
-  if (!intro || !floatingLayer) return;
+  if (!intro || !floatingLayer || !introMenu) return;
 
   const floatingObjects = [];
   const objectCount = window.innerWidth < 768 ? 10 : 16;
+  const objectSize = 68;
 
-  let mouseTargetX = 0;
-  let mouseTargetY = 0;
-  let mouseCurrentX = 0;
-  let mouseCurrentY = 0;
+  let mouseX = 0;
+  let mouseY = 0;
+  let hasMouse = false;
 
   function rand(min, max) {
     return Math.random() * (max - min) + min;
+  }
+
+  function intersects(a, b) {
+    return !(
+      a.x + a.w < b.x ||
+      a.x > b.x + b.w ||
+      a.y + a.h < b.y ||
+      a.y > b.y + b.h
+    );
+  }
+
+  function getForbiddenZone() {
+    const introRect = intro.getBoundingClientRect();
+    const menuRect = introMenu.getBoundingClientRect();
+
+    return {
+      x: menuRect.left - introRect.left - 40,
+      y: menuRect.top - introRect.top - 40,
+      w: menuRect.width + 80,
+      h: menuRect.height + 80
+    };
+  }
+
+  function getSafePosition(size) {
+    const rect = intro.getBoundingClientRect();
+    const forbidden = getForbiddenZone();
+
+    for (let i = 0; i < 300; i++) {
+      const x = rand(0, Math.max(0, rect.width - size));
+      const y = rand(0, Math.max(0, rect.height - size));
+
+      const candidate = { x, y, w: size, h: size };
+
+      if (!intersects(candidate, forbidden)) {
+        return { x, y };
+      }
+    }
+
+    return { x: 0, y: 0 };
   }
 
   function createFloatingObject() {
@@ -584,32 +624,31 @@ if (!isTouchDevice) {
     el.alt = '';
     el.className = 'floating-object';
 
-    const rect = intro.getBoundingClientRect();
-    const size = 68;
-    const baseX = rand(0, Math.max(20, rect.width - size));
-    const baseY = rand(0, Math.max(20, rect.height - size));
-    const floatX = rand(10, 22);
-    const floatY = rand(10, 22);
-    const speed = rand(0.55, 1.05);
-    const phase = rand(0, Math.PI * 2);
-    const tilt = rand(-8, 8);
+    const pos = getSafePosition(objectSize);
 
-    el.style.width = size + 'px';
-    el.style.height = size + 'px';
+    el.style.width = objectSize + 'px';
+    el.style.height = objectSize + 'px';
 
     floatingLayer.appendChild(el);
 
     floatingObjects.push({
       el,
-      size,
-      baseX,
-      baseY,
-      floatX,
-      floatY,
-      speed,
-      phase,
-      tilt
+      x: pos.x,
+      y: pos.y,
+      vx: rand(-0.15, 0.15),
+      vy: rand(-0.15, 0.15),
+      wobbleX: rand(6, 16),
+      wobbleY: rand(6, 16),
+      phase: rand(0, Math.PI * 2),
+      speed: rand(0.5, 1.0)
     });
+  }
+
+  function keepInside(obj, rect) {
+    if (obj.x < 0) obj.x = 0;
+    if (obj.y < 0) obj.y = 0;
+    if (obj.x > rect.width - objectSize) obj.x = rect.width - objectSize;
+    if (obj.y > rect.height - objectSize) obj.y = rect.height - objectSize;
   }
 
   for (let i = 0; i < objectCount; i++) {
@@ -618,36 +657,42 @@ if (!isTouchDevice) {
 
   intro.addEventListener('mousemove', (e) => {
     const rect = intro.getBoundingClientRect();
-    const relX = (e.clientX - rect.left) / rect.width;
-    const relY = (e.clientY - rect.top) / rect.height;
-
-    mouseTargetX = (relX - 0.5) * 2;
-    mouseTargetY = (relY - 0.5) * 2;
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    hasMouse = true;
   });
 
   intro.addEventListener('mouseleave', () => {
-    mouseTargetX = 0;
-    mouseTargetY = 0;
+    hasMouse = false;
   });
 
   function animate(time) {
     const t = time * 0.001;
-
-    mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.05;
-    mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.05;
+    const rect = intro.getBoundingClientRect();
 
     floatingObjects.forEach(obj => {
-      const driftX = Math.sin(t * obj.speed + obj.phase) * obj.floatX;
-      const driftY = Math.cos(t * obj.speed + obj.phase) * obj.floatY;
+      obj.x += obj.vx;
+      obj.y += obj.vy;
 
-      const followX = mouseCurrentX * 18;
-      const followY = mouseCurrentY * 12;
+      if (hasMouse) {
+        const centerX = obj.x + objectSize / 2;
+        const centerY = obj.y + objectSize / 2;
+        const dx = mouseX - centerX;
+        const dy = mouseY - centerY;
+        const distance = Math.hypot(dx, dy) || 1;
 
-      const x = obj.baseX + driftX + followX;
-      const y = obj.baseY + driftY + followY;
-      const rotate = obj.tilt + Math.sin(t * obj.speed + obj.phase) * 4;
+        obj.x += (dx / distance) * 0.35;
+        obj.y += (dy / distance) * 0.35;
+      }
 
-      obj.el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${rotate}deg)`;
+      keepInside(obj, rect);
+
+      const offsetX = Math.sin(t * obj.speed + obj.phase) * obj.wobbleX;
+      const offsetY = Math.cos(t * obj.speed + obj.phase) * obj.wobbleY;
+      const rotate = Math.sin(t * obj.speed + obj.phase) * 5;
+
+      obj.el.style.transform =
+        `translate3d(${obj.x + offsetX}px, ${obj.y + offsetY}px, 0) rotate(${rotate}deg)`;
     });
 
     requestAnimationFrame(animate);
@@ -656,10 +701,15 @@ if (!isTouchDevice) {
   requestAnimationFrame(animate);
 
   window.addEventListener('resize', () => {
-    const rect = intro.getBoundingClientRect();
+    const forbidden = getForbiddenZone();
+
     floatingObjects.forEach(obj => {
-      obj.baseX = rand(0, Math.max(20, rect.width - obj.size));
-      obj.baseY = rand(0, Math.max(20, rect.height - obj.size));
+      const candidate = { x: obj.x, y: obj.y, w: objectSize, h: objectSize };
+      if (intersects(candidate, forbidden)) {
+        const pos = getSafePosition(objectSize);
+        obj.x = pos.x;
+        obj.y = pos.y;
+      }
     });
   });
 })();
