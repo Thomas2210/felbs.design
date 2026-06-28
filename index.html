@@ -249,6 +249,21 @@ main.active { display:block; }
   display:none;
 }
 
+.footer-copy {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-right:10px;
+}
+
+.footer-icon {
+  width:16px;
+  height:16px;
+  object-fit:contain;
+  filter: brightness(0) invert(1);
+  vertical-align:middle;
+}
+
 /* ====== RESPONSIVE ====== */
 @media(max-width:1024px){
   .portfolio-slider img,
@@ -484,7 +499,10 @@ main.active { display:block; }
 
 <!-- FOOTER -->
 <footer id="main-footer">
-  &copy; 2026 felbs.design – Thomas Felber
+  <span class="footer-copy">
+    <img src="Bildzeichen.png" alt="" class="footer-icon">
+    &copy; 2026 felbs.design – Thomas Felber
+  </span>
   <a href="#" style="color:white; text-decoration:underline;" onclick="openPage('kontakt');">Kontakt/Impressum</a>
 </footer>
 
