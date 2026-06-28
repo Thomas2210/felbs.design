@@ -7,14 +7,12 @@
 <meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt.">
 <link rel="icon" href="Bildzeichen.png" type="image/png">
 
-  <script>
-  // Verhindert Intro-Flash bei Direktaufruf mit Hash (#kontakt, #grafik, ...)
-  if (window.location.hash) {
-    document.documentElement.classList.add('from-hash');
-  }
+<script>
+if (window.location.hash) {
+  document.documentElement.classList.add('from-hash');
+}
 </script>
 
-  
 <style>
 /* ====== LOKALE SCHRIFTEN ====== */
 @font-face {
@@ -33,18 +31,14 @@
   font-display: swap;
 }
 
-
 /* ====== BASISSTILE ====== */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { 
-  font-family: 'Roboto', sans-serif; 
-  color: #000; 
-  background-color: #fff; 
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+  background-color: #fff;
 }
-
-
-
-
 
 /* ====== INTRO ====== */
 #intro {
@@ -55,33 +49,40 @@ body {
   background-color:#fff;
   gap:20px;
   flex-wrap:wrap;
-
-  position:relative;   /* 👈 NEU */
-  overflow:hidden;     /* 👈 NEU */
+  position:relative;
+  overflow:hidden;
 }
-.floating-symbol{
+
+.floating-layer {
   position:absolute;
-  font-family:'Ubuntu', sans-serif;
-  font-size:100px;
-  color:#98a8cd;
-  opacity:0.25;
+  inset:0;
+  overflow:hidden;
   pointer-events:none;
+  z-index:1;
+}
+
+.floating-object {
+  position:absolute;
+  width:70px;
+  height:70px;
+  object-fit:contain;
+  opacity:0.22;
+  will-change:transform;
   user-select:none;
-  transition: transform 6s ease-in-out;
+  pointer-events:none;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08));
 }
 
-/* Positionen */
-.floating-symbol:nth-child(1){ top:10%; left:10%; }
-.floating-symbol:nth-child(2){ top:70%; left:20%; }
-.floating-symbol:nth-child(3){ top:30%; right:15%; }
-.floating-symbol:nth-child(4){ bottom:15%; right:25%; }
-
-@keyframes float{
-  0%{ transform:translateY(0); }
-  50%{ transform:translateY(-20px); }
-  100%{ transform:translateY(0); }
+.intro-menu {
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
 }
-  
+
 .square {
   background-color:#98a8cd;
   color:white;
@@ -95,9 +96,14 @@ body {
   cursor:pointer;
   transition:all 0.3s ease;
   transform-origin:center center;
-  text-transform: capitalize;
+  text-transform:capitalize;
+  box-shadow:0 8px 22px rgba(0,0,0,0.08);
 }
-.square:hover { transform:scale(1.2); background-color:#8794b8; }
+
+.square:hover {
+  transform:scale(1.2);
+  background-color:#8794b8;
+}
 
 /* ====== HEADER / NAV ====== */
 header {
@@ -111,7 +117,9 @@ header {
   top:0;
   z-index:10;
 }
+
 .logo img { height:50px; width:auto; margin-bottom:10px; }
+
 nav ul {
   list-style:none;
   display:flex;
@@ -119,6 +127,7 @@ nav ul {
   justify-content:center;
   flex-wrap:wrap;
 }
+
 nav a {
   text-decoration:none;
   color:#000;
@@ -127,7 +136,11 @@ nav a {
   padding:6px 12px;
   transition:all 0.3s ease;
 }
-nav a:hover, nav a.active { background-color:#98a8cd; color:white; }
+
+nav a:hover, nav a.active {
+  background-color:#98a8cd;
+  color:white;
+}
 
 /* ====== CONTENT SECTIONS ====== */
 main { display:none; padding:0; min-height:100vh; position:relative; }
@@ -140,18 +153,21 @@ main.active { display:block; }
   color:white;
   line-height:1.5;
 }
+
 .text-section h2 {
   font-family:'Ubuntu',sans-serif;
   font-size:1.8rem;
   text-align:center;
   margin-bottom:30px;
 }
+
 .text-section h3 {
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 0px;
+  font-family:'Ubuntu',sans-serif;
+  font-size:0.9rem;
+  text-align:center;
+  margin-bottom:0;
 }
+
 .steps-container {
   display:grid;
   grid-template-columns:repeat(4, 1fr);
@@ -160,12 +176,14 @@ main.active { display:block; }
   margin:0 auto;
   text-align:left;
 }
-.steps-container .step p { 
-  margin:0; 
+
+.steps-container .step p {
+  margin:0;
   font-family:'Roboto', sans-serif;
 }
+
 .steps-container .step-title {
-  font-family: 'Ubuntu', sans-serif;
+  font-family:'Ubuntu', sans-serif;
   font-weight:500;
   display:block;
   margin-bottom:5px;
@@ -179,33 +197,41 @@ main.active { display:block; }
   gap:10px;
   padding:20px 10px;
 }
-.slider-container { overflow:hidden; flex:1; }
-.slider-track { display:flex; gap:20px; scroll-behavior: smooth; cursor: grab; }
-.slider-track.active { cursor: grabbing; cursor: -webkit-grabbing; }
 
-  /* ====== MEDIA ELEMENTE IM SLIDER ====== */
+.slider-container { overflow:hidden; flex:1; }
+
+.slider-track {
+  display:flex;
+  gap:20px;
+  scroll-behavior:smooth;
+  cursor:grab;
+}
+
+.slider-track.active {
+  cursor:grabbing;
+  cursor:-webkit-grabbing;
+}
+
+/* ====== MEDIA ELEMENTE IM SLIDER ====== */
 .portfolio-slider img,
 .portfolio-slider video {
-  flex: 0 0 auto;
-  width: calc((100% - 40px)/3);
-
-  height: auto;
-  object-fit: contain;
-  border-radius: 4px;
-  transition: transform 0.3s ease;
+  flex:0 0 auto;
+  width:calc((100% - 40px)/3);
+  height:auto;
+  object-fit:contain;
+  border-radius:4px;
+  transition:transform 0.3s ease;
 }
 
 .portfolio-slider img:hover,
 .portfolio-slider video:hover {
-  transform: scale(1.03);
+  transform:scale(1.03);
 }
-
-
 
 /* ====== Pfeile ====== */
 .arrow {
   font-size:2rem;
-  background: rgba(0,0,0,0.3);
+  background:rgba(0,0,0,0.3);
   color:#fff;
   border:none;
   padding:10px;
@@ -214,7 +240,8 @@ main.active { display:block; }
   border-radius:0%;
   user-select:none;
 }
-.arrow:hover { background: rgba(0,0,0,0.6); }
+
+.arrow:hover { background:rgba(0,0,0,0.6); }
 
 /* ====== KONTAKT ====== */
 #kontakt section {
@@ -224,20 +251,24 @@ main.active { display:block; }
   text-align:center;
   color:#000;
 }
+
 #kontakt h2 {
   font-family:'Ubuntu',sans-serif;
   margin-bottom:20px;
   font-size:2rem;
 }
+
 #kontakt p {
   margin:10px 0;
   font-size:1rem;
 }
+
 #kontakt a {
   color:#98a8cd;
   text-decoration:none;
   font-weight:500;
 }
+
 #kontakt a:hover { text-decoration:underline; }
 
 /* ====== MINISPIEL ====== */
@@ -253,53 +284,64 @@ main.active { display:block; }
   display:none;
 }
 
-  
 /* ====== RESPONSIVE ====== */
 @media(max-width:1024px){
-  .portfolio-slider img { width:calc((100% - 20px)/2); }
+  .portfolio-slider img,
+  .portfolio-slider video { width:calc((100% - 20px)/2); }
+
   .square { width:130px; height:130px; font-size:1.3rem; }
   .steps-container { grid-template-columns:repeat(2, 1fr); }
 }
 
 @media(max-width:768px){
-  #intro { flex-direction: column; gap:15px; align-items: center; }
-  .square { width:130px; height:130px; font-size:1.2rem; }
-  .portfolio-slider img { width:90%; max-width:400px; flex:0 0 auto; margin:auto; }
-  header { flex-direction:column; }
-  nav ul { gap:10px; }
-  .steps-container { grid-template-columns:1fr; }
-  /* Pfeile ausblenden */
-  .arrow {
-    display: none;
+  #intro {
+    flex-direction:column;
+    gap:15px;
+    align-items:center;
   }
 
-  @media(max-width:768px){
+  .intro-menu {
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .square { width:130px; height:130px; font-size:1.2rem; }
+
+  .portfolio-slider img,
   .portfolio-slider video {
     width:90%;
     max-width:400px;
     flex:0 0 auto;
     margin:auto;
   }
-}
 
-  /* Slider scrollbar machen */
+  header { flex-direction:column; }
+  nav ul { gap:10px; }
+  .steps-container { grid-template-columns:1fr; }
+
+  .arrow { display:none; }
+
   .slider-container {
-    overflow-x: auto;
-    scroll-behavior: smooth;
+    overflow-x:auto;
+    scroll-behavior:smooth;
   }
 
-/* Scrollleisten anzeigen */
-.slider-container::-webkit-scrollbar {
-  height: 6px;
-}
-.slider-container::-webkit-scrollbar-thumb {
-  background: #98a8cd;
-  border-radius: 3px;
-}
-.slider-container::-webkit-scrollbar-track {
-  background: #ddd;
-}
+  .slider-container::-webkit-scrollbar {
+    height:6px;
+  }
 
+  .slider-container::-webkit-scrollbar-thumb {
+    background:#98a8cd;
+    border-radius:3px;
+  }
+
+  .slider-container::-webkit-scrollbar-track {
+    background:#ddd;
+  }
+
+  .floating-object {
+    opacity:0.16;
+  }
 }
 </style>
 </head>
@@ -307,20 +349,14 @@ main.active { display:block; }
 
 <!-- INTRO -->
 <div id="intro">
+  <div class="floating-layer" id="floating-layer"></div>
 
-  <!-- FLOATING SYMBOLS -->
-<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
-<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
-<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
-<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
-<div class="floating-symbol"><img src="Bildzeichen.png" /></div>
-
-  <!-- DEINE BOXEN -->
-  <div class="square">Grafik</div>
-  <div class="square">Print</div>
-  <div class="square">Web</div>
-  <div class="square">Medien</div>
-
+  <div class="intro-menu">
+    <div class="square" onclick="showPage('grafik')">Grafik</div>
+    <div class="square" onclick="showPage('print')">Print</div>
+    <div class="square" onclick="showPage('web')">Web</div>
+    <div class="square" onclick="showPage('medien')">Medien</div>
+  </div>
 </div>
 
 <!-- HEADER -->
@@ -338,27 +374,21 @@ main.active { display:block; }
 </header>
 
 <!-- KONTAKT + MINISPIEL -->
-<main id="kontakt" >
+<main id="kontakt">
   <section>
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
     <p>Thomas Felber</p>
-    <p></p>
-  <!-- <p></p>Tel:<a href="tel: 436507283199"> +436507283199</a></p>- -->
-  <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
+    <p>Email: <a href="mailto:thomas@felbsdesign.at">thomas@felbsdesign.at</a></p>
     <br>
     <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank">@felbs.design</a></p>
     <p>Website: <a href="https://www.felbsdesign.at" target="_blank">felbsdesign.at</a></p>
     <br>
-   <!--  <p>Standorte: Linz, Meggenhofen</p>
-  <br>
-    <p>Adresse: Pfarrhofsberg 37, 4714 Meggenhofen</p>
-    <br> -->
-<a href="mailto:thomas@felbsdesign.at?subject=Anmeldung%20zum%20Newsletter&body=Hallo%20Thomas,%0D%0A%0D%0Aich%20möchte%20mich%20für%20den%20Newsletter%20anmelden.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A[Dein%20Name]" 
-   style="color:#fff; background-color:#98a8cd; padding:10px 20px; border-radius:5px; text-decoration:none; font-family:'Ubuntu',sans-serif; display:inline-block; margin-top:15px;">
-  für Newsletter anmelden
-</a>
 
+    <a href="mailto:thomas@felbsdesign.at?subject=Anmeldung%20zum%20Newsletter&body=Hallo%20Thomas,%0D%0A%0D%0Aich%20möchte%20mich%20für%20den%20Newsletter%20anmelden.%0D%0A%0D%0AMit%20freundlichen%20Grüßen%0D%0A[Dein%20Name]"
+       style="color:#fff; background-color:#98a8cd; padding:10px 20px; border-radius:5px; text-decoration:none; font-family:'Ubuntu',sans-serif; display:inline-block; margin-top:15px;">
+      für Newsletter anmelden
+    </a>
   </section>
 
   <section style="padding:20px 0; text-align:center; background-color:#f0f0f0;">
@@ -374,17 +404,10 @@ main.active { display:block; }
 <!-- GRAFIK -->
 <main id="grafik">
   <section class="text-section">
-
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. 
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-   <!-- <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2> -->
-     <!--<div class="steps-container">
-      <div class="step"><p><span class="step-title"></span>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte enthalten eigene Projekte sowie Referenzmaterial und dienen ausschließlich Präsentationszwecken.</p></div>
-      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p></div>
-      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p></div>
-      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
-    </div> -->
   </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
@@ -392,7 +415,7 @@ main.active { display:block; }
         <div class="slider-track" id="track-grafik">
           <img src="grafik/grafik1.webp" alt="Grafik1" class="lazy-img">
           <img src="grafik/grafik2.webp" alt="Grafik2" class="lazy-img">
-          <img src="grafik/grafik3.webp" alt="Grafik3"class="lazy-img" >
+          <img src="grafik/grafik3.webp" alt="Grafik3" class="lazy-img">
           <img src="grafik/grafik4.webp" alt="Grafik4" class="lazy-img">
           <img src="grafik/grafik5.webp" alt="Grafik5" class="lazy-img">
           <img src="grafik/grafik6.webp" alt="Grafik6" class="lazy-img">
@@ -407,87 +430,64 @@ main.active { display:block; }
           <img src="grafik/grafik15.webp" alt="Grafik15" class="lazy-img">
           <img src="grafik/grafik16.webp" alt="Grafik16" class="lazy-img">
           <img src="grafik/grafik17.webp" alt="Grafik17" class="lazy-img">
-          <img src="grafik/grafik18.webp" alt="Grafik17" class="lazy-img">
-         
+          <img src="grafik/grafik18.webp" alt="Grafik18" class="lazy-img">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('grafik')">&#10095;</button>
     </div>
   </div>
-    
 </main>
 
 <!-- PRINT -->
 <main id="print">
-<section class="text-section">
-
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. 
+  <section class="text-section">
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-   <!-- <h2>Von der Idee bis zum fertigen Produkt in 4 Schritten</h2> -->
-   </section>
+  </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
-      
       <div class="slider-container" id="container-print">
         <div class="slider-track" id="track-print">
-           <img src="print/Weihnachten1.webp" alt="Print1" class="lazy-img">
-           <img src="print/Weihnachten2.webp" alt="Print1" class="lazy-img">
-          <img src="print/print1.webp" alt="Print1" class="lazy-img">
-          <img src="print/print222.webp" alt="Print1" class="lazy-img">
-          <img src="print/print2.webp" alt="Print2" class="lazy-img">
-          <img src="print/print3.webp" alt="Print3" class="lazy-img">
-          <img src="print/print4.webp" alt="Print4" class="lazy-img">
-           <img src="print/print5.webp" alt="Print1" class="lazy-img">
-          <img src="print/print6.webp" alt="Print2" class="lazy-img">
-          <img src="print/print7.webp" alt="Print3" class="lazy-img">
-           
-          <img src="print/print8.webp" alt="Print4" class="lazy-img">
-           <img src="print/print888.webp" alt="Print4" class="lazy-img">
-           <img src="print/print9.webp" alt="Print1" class="lazy-img">
-          <img src="print/print10.webp" alt="Print2" class="lazy-img">
-          <img src="print/print11.webp" alt="Print3"class="lazy-img">
-          <img src="print/print12.webp" alt="Print4" class="lazy-img">
-           <img src="print/print13.webp" alt="Print1" class="lazy-img">
-          <img src="print/print14.webp" alt="Print2" class="lazy-img">
-          <img src="print/print15.webp" alt="Print3" class="lazy-img">
-          <img src="print/print16.webp" alt="Print2" class="lazy-img">
-          <img src="print/print17.webp" alt="Print3" class="lazy-img">
-          <img src="print/print18.webp" alt="Print4" class="lazy-img">
-           <img src="print/print19.webp" alt="Print1" class="lazy-img">
-          <img src="print/print20.webp" alt="Print2" class="lazy-img">
- 
-      
+          <img src="print/Weihnachten1.webp" alt="Print1" class="lazy-img">
+          <img src="print/Weihnachten2.webp" alt="Print2" class="lazy-img">
+          <img src="print/print1.webp" alt="Print3" class="lazy-img">
+          <img src="print/print222.webp" alt="Print4" class="lazy-img">
+          <img src="print/print2.webp" alt="Print5" class="lazy-img">
+          <img src="print/print3.webp" alt="Print6" class="lazy-img">
+          <img src="print/print4.webp" alt="Print7" class="lazy-img">
+          <img src="print/print5.webp" alt="Print8" class="lazy-img">
+          <img src="print/print6.webp" alt="Print9" class="lazy-img">
+          <img src="print/print7.webp" alt="Print10" class="lazy-img">
+          <img src="print/print8.webp" alt="Print11" class="lazy-img">
+          <img src="print/print888.webp" alt="Print12" class="lazy-img">
+          <img src="print/print9.webp" alt="Print13" class="lazy-img">
+          <img src="print/print10.webp" alt="Print14" class="lazy-img">
+          <img src="print/print11.webp" alt="Print15" class="lazy-img">
+          <img src="print/print12.webp" alt="Print16" class="lazy-img">
+          <img src="print/print13.webp" alt="Print17" class="lazy-img">
+          <img src="print/print14.webp" alt="Print18" class="lazy-img">
+          <img src="print/print15.webp" alt="Print19" class="lazy-img">
+          <img src="print/print16.webp" alt="Print20" class="lazy-img">
+          <img src="print/print17.webp" alt="Print21" class="lazy-img">
+          <img src="print/print18.webp" alt="Print22" class="lazy-img">
+          <img src="print/print19.webp" alt="Print23" class="lazy-img">
+          <img src="print/print20.webp" alt="Print24" class="lazy-img">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('print')">&#10095;</button>
     </div>
   </div>
-    <!-- <section class="text-section">
-
-   <div class="steps-container">
-      <div class="step"><p><span class="step-title">Idee & Beratung:</span>Du erzählst mir, was du brauchst. Wir klären Ziele, Zielgruppe & Look.</p></div>
-      <div class="step"><p><span class="step-title">Design & Entwürfe:</span>Ich entwerfe kreative Vorschläge. Du wählst deinen Favoriten.</p></div>
-      <div class="step"><p><span class="step-title">Material & Produktion:</span>Ich kümmere mich um Papier, Farben, Veredelungen & Druck.</p></div>
-      <div class="step"><p><span class="step-title">Fertiges Produkt:</span>Dein Design kommt direkt zu dir – fix & fertig, bereit zum Einsatz.</p></div>
-    </div> -->
-
 </main>
 
 <!-- WEB -->
 <main id="web">
   <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. 
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-   <!--
-    <h2>Von der Idee bis zur fertigen Website in 4 Schritten</h2>
-    <div class="steps-container">
-      <div class="step"><p><span class="step-title">Briefing & Konzept:</span>Du erzählst mir, was du brauchst. Wir klären Ziel, Stil und Struktur deiner Website.</p></div>
-      <div class="step"><p><span class="step-title">Design & Umsetzung:</span>Ich gestalte dein Layout und setze alles um. Änderungen sind inklusive, bis alles passt.</p></div>
-      <div class="step"><p><span class="step-title">Launch:</span>Ich kümmere mich um Domain, Einstellungen und Technik – deine Website geht online.</p></div>
-      <div class="step"><p><span class="step-title">Pflege:</span>Ich halte deine Website aktuell und sorge dafür, dass alles läuft.</p></div>
-    </div> -->
   </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
@@ -497,8 +497,8 @@ main.active { display:block; }
           <img src="web/web1.webp" alt="Web2" class="lazy-img">
           <img src="web/web3.webp" alt="Web3" class="lazy-img">
           <img src="web/web4.webp" alt="Web4" class="lazy-img">
-           <img src="web/web5.webp" alt="Web3" class="lazy-img">
-          <img src="web/web6.webp" alt="Web4" class="lazy-img">
+          <img src="web/web5.webp" alt="Web5" class="lazy-img">
+          <img src="web/web6.webp" alt="Web6" class="lazy-img">
         </div>
       </div>
       <button class="arrow right" onclick="slideRight('web')">&#10095;</button>
@@ -508,41 +508,32 @@ main.active { display:block; }
 
 <!-- MEDIEN -->
 <main id="medien">
-    <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. 
+  <section class="text-section">
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
       Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
-   <!--
-    <h2>Von der Idee bis zur fertigen Website in 4 Schritten</h2>
-    <div class="steps-container">
-      <div class="step"><p><span class="step-title">Briefing & Konzept:</span>Du erzählst mir, was du brauchst. Wir klären Ziel, Stil und Struktur deiner Website.</p></div>
-      <div class="step"><p><span class="step-title">Design & Umsetzung:</span>Ich gestalte dein Layout und setze alles um. Änderungen sind inklusive, bis alles passt.</p></div>
-      <div class="step"><p><span class="step-title">Launch:</span>Ich kümmere mich um Domain, Einstellungen und Technik – deine Website geht online.</p></div>
-      <div class="step"><p><span class="step-title">Pflege:</span>Ich halte deine Website aktuell und sorge dafür, dass alles läuft.</p></div>
-    </div> -->
-      </section>
+  </section>
+
   <div style="background-color:#fff; padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
       <div class="slider-container" id="container-medien">
-       
         <div class="slider-track" id="track-medien">
-  
-  <video autoplay loop muted playsinline class="lazy-img">
-    <source src="medien/medien_animation.webm" type="video/webm">
-    Dein Browser unterstützt kein WebM-Video 😢
-  </video>
-  <video autoplay loop muted playsinline class="lazy-img">
-    <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
-    Dein Browser unterstützt kein WebM-Video 😢
-  </video>
-  
-  <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
-  <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
-  <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
-  <img src="medien/medien5.webp" alt="Fotobücher" class="lazy-img">
-  <img src="medien/medien7.webp" alt="noch vieles mehr" class="lazy-img">
-</div>
+          <video autoplay loop muted playsinline class="lazy-img">
+            <source src="medien/medien_animation.webm" type="video/webm">
+            Dein Browser unterstützt kein WebM-Video 😢
+          </video>
 
+          <video autoplay loop muted playsinline class="lazy-img">
+            <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
+            Dein Browser unterstützt kein WebM-Video 😢
+          </video>
+
+          <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
+          <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
+          <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
+          <img src="medien/medien5.webp" alt="Fotobücher" class="lazy-img">
+          <img src="medien/medien7.webp" alt="noch vieles mehr" class="lazy-img">
+        </div>
       </div>
       <button class="arrow right" onclick="slideRight('medien')">&#10095;</button>
     </div>
@@ -558,34 +549,39 @@ main.active { display:block; }
 <script>
 /* Intro → Seite */
 function showPage(page){
-  document.getElementById('intro').style.display='none';
-  document.getElementById('main-header').style.display='flex';
-  document.getElementById('main-footer').style.display='block';
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('main-header').style.display = 'flex';
+  document.getElementById('main-footer').style.display = 'block';
   openPage(page);
 }
 
 /* Menü → Seite */
 function openPage(page){
-  const mains=document.querySelectorAll('main');
-  mains.forEach(m=>m.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-  const links=document.querySelectorAll('nav a');
-  links.forEach(a=>a.classList.remove('active'));
-  const navLink=document.getElementById('nav-'+page);
-  if(navLink) navLink.classList.add('active');
+  const mains = document.querySelectorAll('main');
+  mains.forEach(m => m.classList.remove('active'));
+
+  const target = document.getElementById(page);
+  if (target) target.classList.add('active');
+
+  const links = document.querySelectorAll('nav a');
+  links.forEach(a => a.classList.remove('active'));
+
+  const navLink = document.getElementById('nav-' + page);
+  if (navLink) navLink.classList.add('active');
 }
 
 /* Pfeil-Scroll */
 function slideLeft(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:-container.offsetWidth, behavior:'smooth'});
-}
-function slideRight(section){
-  const container=document.getElementById('container-'+section);
-  container.scrollBy({left:container.offsetWidth, behavior:'smooth'});
+  const container = document.getElementById('container-' + section);
+  container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
 }
 
-/* Drag-Scroll nur für Desktop – Touchgeräte nutzen natives Scrollen */
+function slideRight(section){
+  const container = document.getElementById('container-' + section);
+  container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
+}
+
+/* Drag-Scroll nur für Desktop */
 const sliders = document.querySelectorAll('.slider-container');
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -602,14 +598,17 @@ if (!isTouchDevice) {
       scrollLeft = container.scrollLeft;
       e.preventDefault();
     });
+
     container.addEventListener('mouseleave', () => {
       isDown = false;
       container.classList.remove('active');
     });
+
     container.addEventListener('mouseup', () => {
       isDown = false;
       container.classList.remove('active');
     });
+
     container.addEventListener('mousemove', (e) => {
       if (!isDown) return;
       const x = e.pageX - container.offsetLeft;
@@ -618,7 +617,6 @@ if (!isTouchDevice) {
     });
   });
 } else {
-  // Touchgeräte: einfaches Scrollen aktiv lassen
   sliders.forEach(container => {
     container.style.scrollSnapType = 'x mandatory';
     container.style.overflowX = 'auto';
@@ -627,20 +625,132 @@ if (!isTouchDevice) {
   });
 }
 
+/* ====== FLOATING INTRO OBJECTS ====== */
+(function () {
+  const intro = document.getElementById('intro');
+  const floatingLayer = document.getElementById('floating-layer');
 
+  if (!intro || !floatingLayer) return;
 
+  const floatingObjects = [];
+  const objectCount = window.innerWidth < 768 ? 10 : 18;
+
+  let mouseTargetX = 0;
+  let mouseTargetY = 0;
+  let mouseCurrentX = 0;
+  let mouseCurrentY = 0;
+
+  function rand(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function createFloatingObject() {
+    const el = document.createElement('img');
+    el.src = 'Bildzeichen.png';
+    el.alt = '';
+    el.className = 'floating-object';
+
+    const introRect = intro.getBoundingClientRect();
+    const size = rand(36, 95);
+    const baseX = rand(0, Math.max(40, introRect.width - size));
+    const baseY = rand(0, Math.max(40, introRect.height - size));
+    const depth = rand(0.15, 0.65);
+    const floatRadiusX = rand(8, 26);
+    const floatRadiusY = rand(10, 30);
+    const speed = rand(0.4, 1.2);
+    const rotation = rand(-18, 18);
+    const phase = rand(0, Math.PI * 2);
+
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.opacity = rand(0.10, 0.26).toFixed(2);
+
+    floatingLayer.appendChild(el);
+
+    floatingObjects.push({
+      el,
+      size,
+      baseX,
+      baseY,
+      depth,
+      floatRadiusX,
+      floatRadiusY,
+      speed,
+      rotation,
+      phase
+    });
+  }
+
+  for (let i = 0; i < objectCount; i++) {
+    createFloatingObject();
+  }
+
+  intro.addEventListener('mousemove', (e) => {
+    const rect = intro.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width;
+    const relY = (e.clientY - rect.top) / rect.height;
+
+    mouseTargetX = (relX - 0.5) * 2;
+    mouseTargetY = (relY - 0.5) * 2;
+  });
+
+  intro.addEventListener('mouseleave', () => {
+    mouseTargetX = 0;
+    mouseTargetY = 0;
+  });
+
+  function animate(time) {
+    const t = time * 0.001;
+
+    mouseCurrentX += (mouseTargetX - mouseCurrentX) * 0.04;
+    mouseCurrentY += (mouseTargetY - mouseCurrentY) * 0.04;
+
+    const rect = intro.getBoundingClientRect();
+
+    floatingObjects.forEach(obj => {
+      const floatX = Math.sin(t * obj.speed + obj.phase) * obj.floatRadiusX;
+      const floatY = Math.cos(t * obj.speed * 0.9 + obj.phase) * obj.floatRadiusY;
+
+      const parallaxX = mouseCurrentX * 35 * obj.depth;
+      const parallaxY = mouseCurrentY * 22 * obj.depth;
+
+      const finalX = clamp(obj.baseX + floatX + parallaxX, -40, rect.width - obj.size + 40);
+      const finalY = clamp(obj.baseY + floatY + parallaxY, -40, rect.height - obj.size + 40);
+
+      obj.el.style.transform = `translate3d(${finalX}px, ${finalY}px, 0) rotate(${obj.rotation + Math.sin(t + obj.phase) * 6}deg)`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+
+  window.addEventListener('resize', () => {
+    const rect = intro.getBoundingClientRect();
+    floatingObjects.forEach(obj => {
+      obj.baseX = rand(0, Math.max(40, rect.width - obj.size));
+      obj.baseY = rand(0, Math.max(40, rect.height - obj.size));
+    });
+  });
+})();
 
 /* ====== MINISPIEL ====== */
 const startBtn = document.getElementById('start-btn');
 const gameContainer = document.getElementById('game-container');
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
+
 let score = 0;
 let time = 10;
 let moveInterval, gameInterval;
 
 function startGame() {
-  score = 0; time = 10;
+  score = 0;
+  time = 10;
   scoreDisplay.textContent = score;
   timerDisplay.textContent = 'Zeit: ' + time + 's';
   startBtn.disabled = true;
@@ -674,7 +784,8 @@ function startGame() {
   gameInterval = setInterval(() => {
     time--;
     timerDisplay.textContent = 'Zeit: ' + time + 's';
-    if(time <= 0){
+
+    if (time <= 0) {
       clearInterval(gameInterval);
       clearInterval(moveInterval);
       alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
@@ -685,137 +796,45 @@ function startGame() {
 }
 
 startBtn.addEventListener('click', startGame);
-</script>
 
-  <script>
-// Prüfen, ob das Gerät ein Handy ist
+/* Lazy loading nur Desktop */
 const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
 if (!isMobile) {
-  // Alle Bilder in Portfolio-Slidern auswählen
   const portfolioImages = document.querySelectorAll('.portfolio-slider img');
   portfolioImages.forEach(img => {
     img.setAttribute('loading', 'lazy');
   });
 }
-</script>
-<script>
+
+/* Hash-Navigation */
 (function () {
-
   function openFromHash() {
-    const page = (window.location.hash || "")
-      .replace("#", "")
-      .trim();
-
+    const page = (window.location.hash || '').replace('#', '').trim();
     if (!page) return;
 
     const target = document.getElementById(page);
     if (!target) return;
 
-    // Intro ausblenden
-    const intro = document.getElementById("intro");
-    const header = document.getElementById("main-header");
-    const footer = document.getElementById("main-footer");
+    const intro = document.getElementById('intro');
+    const header = document.getElementById('main-header');
+    const footer = document.getElementById('main-footer');
 
-    if (intro) intro.style.display = "none";
-    if (header) header.style.display = "flex";
-    if (footer) footer.style.display = "block";
+    if (intro) intro.style.display = 'none';
+    if (header) header.style.display = 'flex';
+    if (footer) footer.style.display = 'block';
 
-    // Gewünschte Seite aktivieren
-    if (typeof openPage === "function") {
+    if (typeof openPage === 'function') {
       openPage(page);
     }
   }
 
-  // mehrfach triggern = absolut zuverlässig
   openFromHash();
-  document.addEventListener("DOMContentLoaded", openFromHash);
-  window.addEventListener("load", openFromHash);
-  window.addEventListener("hashchange", openFromHash);
-
-})();
-
-
-
-// mehrfach ausführen = zuverlässig
-  
-  openFromHash();
-  document.addEventListener("DOMContentLoaded", openFromHash);
-  window.addEventListener("load", openFromHash);
-  window.addEventListener("hashchange", openFromHash);
+  document.addEventListener('DOMContentLoaded', openFromHash);
+  window.addEventListener('load', openFromHash);
+  window.addEventListener('hashchange', openFromHash);
 })();
 </script>
 
-<script>
-const symbols = document.querySelectorAll(".floating-symbol");
-
-function random(min, max){
-  return Math.random() * (max - min) + min;
-}
-
-function moveSymbol(el){
-  const intro = document.getElementById("intro");
-
-  const x = random(0, intro.clientWidth - 100);
-  const y = random(0, intro.clientHeight - 100);
-  const scale = random(0.8, 1.6);
-
-  el.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-}
-
-function animate(){
-  symbols.forEach(el => moveSymbol(el));
-}
-
-animate();
-setInterval(animate, 4000); // alle 4 Sekunden neue Position
-</script>
-
-<script>
-const symbols = document.querySelectorAll(".floating-symbol");
-const intro = document.getElementById("intro");
-
-let mouseX = 0;
-let mouseY = 0;
-
-/* Mausposition tracken */
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
-
-function random(min, max){
-  return Math.random() * (max - min) + min;
-}
-
-/* Grundpositionen setzen */
-symbols.forEach(el => {
-  el.style.left = random(0, window.innerWidth) + "px";
-  el.style.top = random(0, window.innerHeight) + "px";
-});
-
-/* Animation Loop */
-function animate(){
-  symbols.forEach(el => {
-    const rect = el.getBoundingClientRect();
-
-    const dx = (mouseX - rect.left) * 0.02;
-    const dy = (mouseY - rect.top) * 0.02;
-
-    const jitterX = random(-10, 10);
-    const jitterY = random(-10, 10);
-
-    el.style.transform = `
-      translate(${dx + jitterX}px, ${dy + jitterY}px)
-      scale(${1 + Math.sin(Date.now() * 0.001) * 0.1})
-    `;
-  });
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-</script>
-  
 </body>
 </html>
