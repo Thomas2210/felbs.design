@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>felbs.design</title>
-<meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt.">
+<meta name="description" content="Professionelles Grafik-, Print- und Webdesign. Kreative Projekte von Idee bis fertigem Produkt." />
 <link rel="icon" href="Bildzeichen.png" type="image/png">
 
 <script>
@@ -14,7 +14,6 @@ if (window.location.hash) {
 </script>
 
 <style>
-/* ====== LOKALE SCHRIFTEN ====== */
 @font-face {
   font-family: 'Roboto';
   src: url('fonts/Roboto-Regular.ttf') format('truetype');
@@ -31,294 +30,368 @@ if (window.location.hash) {
   font-display: swap;
 }
 
-/* ====== BASISSTILE ====== */
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: 'Roboto', sans-serif;
-  color: #000;
-  background-color: #fff;
+:root{
+  --bg:#fbfdff;
+  --text:#0d1220;
+  --muted:#606a86;
+  --line:rgba(13,18,32,0.06);
+  --shadow:0 14px 34px rgba(15,20,35,0.08);
+  --soft:rgba(255,255,255,0.78);
 }
 
-/* ====== INTRO ====== */
-#intro {
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+
+body{
+  font-family:'Roboto',sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(133,244,255,0.30), transparent 14%),
+    radial-gradient(circle at 80% 12%, rgba(255,152,200,0.26), transparent 15%),
+    radial-gradient(circle at 18% 80%, rgba(198,255,150,0.22), transparent 14%),
+    radial-gradient(circle at 82% 78%, rgba(200,170,255,0.22), transparent 15%),
+    linear-gradient(180deg,#ffffff 0%, #f4f9ff 100%);
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:
+    linear-gradient(rgba(13,18,32,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13,18,32,0.035) 1px, transparent 1px);
+  background-size:36px 36px;
+  opacity:.4;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 92%);
+}
+
+#intro{
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
-  background-color:#fff;
-  gap:20px;
-  flex-wrap:wrap;
+  min-height:100vh;
   position:relative;
   overflow:hidden;
+  z-index:1;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
-.floating-layer {
+#intro::after{
+  content:"";
   position:absolute;
   inset:0;
-  overflow:hidden;
+  background:
+    linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.16), transparent 34%, rgba(133,244,255,0.09), transparent 54%, rgba(255,152,200,0.08), transparent 78%);
   pointer-events:none;
+}
+
+.floating-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
   z-index:1;
 }
 
-.floating-object {
+.floating-object{
   position:absolute;
   width:68px;
   height:68px;
   object-fit:contain;
   opacity:0.22;
-  will-change:transform;
+  filter: drop-shadow(0 8px 14px rgba(13,18,32,0.08));
   user-select:none;
   pointer-events:none;
+  will-change:transform;
 }
 
-.intro-menu {
+.intro-menu{
   position:relative;
   z-index:2;
   display:flex;
-  gap:20px;
+  gap:18px;
   flex-wrap:wrap;
   justify-content:center;
   align-items:center;
+  padding:22px;
 }
 
-.square {
-  background-color:#98a8cd;
-  color:white;
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.5rem;
+.square{
+  position:relative;
+  width:160px;
+  height:160px;
   display:flex;
-  justify-content:center;
   align-items:center;
-  width:150px;
-  height:150px;
+  justify-content:center;
   cursor:pointer;
-  transition:all 0.3s ease;
-  transform-origin:center center;
+  border-radius:30px;
+  font-family:'Ubuntu',sans-serif;
+  font-size:1.45rem;
+  font-weight:500;
+  color:rgba(13,18,32,0.88);
   text-transform:capitalize;
-  box-shadow:0 8px 22px rgba(0,0,0,0.08);
+  border:1px solid rgba(255,255,255,0.72);
+  backdrop-filter: blur(6px) saturate(1.05);
+  box-shadow:
+    0 14px 28px rgba(15,20,35,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -18px 24px rgba(255,255,255,0.12);
+  transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
+  overflow:hidden;
 }
 
-.square:hover {
-  transform:scale(1.2);
-  background-color:#8794b8;
+.square::before{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:8px;
+  width:78%;
+  height:28%;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.08));
+  opacity:.92;
+  transform: skewX(-12deg);
+  pointer-events:none;
 }
 
-/* ====== HEADER / NAV ====== */
-header {
-  background-color:#ffffff;
+.square::after{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+  pointer-events:none;
+}
+
+.square:hover{
+  transform: translateY(-4px) scale(1.05);
+  filter:saturate(1.05) brightness(1.02);
+  box-shadow:
+    0 20px 40px rgba(15,20,35,0.11),
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -20px 26px rgba(255,255,255,0.12);
+}
+
+.square.grafik{ background: linear-gradient(180deg, rgba(133,244,255,0.80), rgba(221,255,250,0.48)); }
+.square.print { background: linear-gradient(180deg, rgba(255,152,200,0.82), rgba(255,232,242,0.50)); }
+.square.web   { background: linear-gradient(180deg, rgba(198,255,150,0.82), rgba(244,255,223,0.52)); }
+.square.medien{ background: linear-gradient(180deg, rgba(200,170,255,0.82), rgba(239,230,255,0.52)); }
+
+header{
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:15px 20px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  padding:14px 20px;
+  box-shadow:0 8px 24px rgba(15,20,35,0.08);
   position:sticky;
   top:0;
   z-index:10;
+  backdrop-filter: blur(8px);
+  border-bottom:1px solid rgba(13,18,32,0.05);
 }
 
-.logo img {
+.logo img{
   height:50px;
   width:auto;
   margin-bottom:10px;
 }
 
-nav ul {
+nav ul{
   list-style:none;
   display:flex;
-  gap:20px;
+  gap:10px;
   justify-content:center;
   flex-wrap:wrap;
 }
 
-nav a {
+nav a{
   text-decoration:none;
-  color:#000;
+  color:rgba(13,18,32,0.9);
   font-weight:500;
   font-family:'Ubuntu',sans-serif;
-  padding:6px 12px;
-  transition:all 0.3s ease;
+  padding:9px 15px;
+  border-radius:999px;
+  border:1px solid rgba(13,18,32,0.05);
+  box-shadow: 0 8px 18px rgba(15,20,35,0.05), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
 }
 
 nav a:hover,
-nav a.active {
-  background-color:#98a8cd;
-  color:white;
+nav a.active{
+  transform:translateY(-2px);
+  filter:brightness(1.02);
 }
 
-/* ====== CONTENT SECTIONS ====== */
-main {
+#nav-grafik{ background: linear-gradient(180deg, rgba(133,244,255,0.92), rgba(133,244,255,0.58)); }
+#nav-print{ background: linear-gradient(180deg, rgba(255,152,200,0.92), rgba(255,152,200,0.58)); }
+#nav-web{ background: linear-gradient(180deg, rgba(198,255,150,0.92), rgba(198,255,150,0.58)); }
+#nav-medien{ background: linear-gradient(180deg, rgba(200,170,255,0.92), rgba(200,170,255,0.58)); }
+#nav-kontakt{ background: linear-gradient(180deg, rgba(255,210,180,0.92), rgba(255,210,180,0.58)); }
+
+main{
   display:none;
-  padding:0;
   min-height:100vh;
   position:relative;
+  z-index:1;
 }
 
-main.active {
-  display:block;
-}
+main.active{ display:block; }
 
-/* ====== BLAUER BALKEN MIT TEXT ====== */
-.text-section {
-  background-color:#98a8cd;
-  padding:40px 20px;
-  color:white;
-  line-height:1.5;
-}
-
-.text-section h2 {
-  font-family:'Ubuntu',sans-serif;
-  font-size:1.8rem;
-  text-align:center;
-  margin-bottom:30px;
-}
-
-.text-section h3 {
-  font-family:'Ubuntu',sans-serif;
-  font-size:0.9rem;
-  text-align:center;
-  margin-bottom:0;
-}
-
-.steps-container {
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:20px;
+.text-section{
+  position:relative;
   max-width:1200px;
-  margin:0 auto;
-  text-align:left;
+  margin:18px auto 0;
+  padding:34px 22px;
+  border-radius:28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,252,255,0.88));
+  border:1px solid rgba(13,18,32,0.05);
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
-.steps-container .step p {
-  margin:0;
-  font-family:'Roboto', sans-serif;
-}
-
-.steps-container .step-title {
-  font-family:'Ubuntu', sans-serif;
+.text-section h3{
+  font-family:'Ubuntu',sans-serif;
+  font-size:0.92rem;
+  text-align:center;
+  color:var(--muted);
   font-weight:500;
-  display:block;
-  margin-bottom:5px;
 }
 
-/* ====== PORTFOLIO SLIDER ====== */
-.portfolio-slider {
+.portfolio-slider{
   display:flex;
   align-items:center;
   position:relative;
   gap:10px;
-  padding:20px 10px;
+  padding:20px 10px 28px;
+  max-width:1400px;
+  margin:0 auto;
 }
 
-.slider-container {
+.slider-container{
   overflow:hidden;
   flex:1;
+  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(250,252,255,0.9));
+  border:1px solid rgba(13,18,32,0.05);
+  border-radius:28px;
+  box-shadow:var(--shadow);
 }
 
-.slider-track {
+.slider-track{
   display:flex;
   gap:20px;
   scroll-behavior:smooth;
   cursor:grab;
+  padding:14px;
 }
 
-.slider-track.active {
+.slider-track.active{
   cursor:grabbing;
-  cursor:-webkit-grabbing;
 }
 
-/* ====== MEDIA ELEMENTE IM SLIDER ====== */
 .portfolio-slider img,
-.portfolio-slider video {
+.portfolio-slider video{
   flex:0 0 auto;
   width:calc((100% - 40px)/3);
   height:auto;
   object-fit:contain;
-  border-radius:4px;
-  transition:transform 0.3s ease;
+  border-radius:20px;
+  border:1px solid rgba(13,18,32,0.04);
+  box-shadow: 0 10px 26px rgba(15,20,35,0.05);
+  background:#fff;
+  transition:transform .2s ease, box-shadow .2s ease;
 }
 
 .portfolio-slider img:hover,
-.portfolio-slider video:hover {
-  transform:scale(1.03);
+.portfolio-slider video:hover{
+  transform:scale(1.02);
+  box-shadow: 0 14px 30px rgba(15,20,35,0.07);
 }
 
-/* ====== Pfeile ====== */
-.arrow {
+.arrow{
   font-size:2rem;
-  background:rgba(0,0,0,0.3);
-  color:#fff;
   border:none;
-  padding:10px;
+  padding:10px 14px;
   cursor:pointer;
   z-index:5;
-  border-radius:0%;
   user-select:none;
+  border-radius:18px;
+  color:rgba(13,18,32,0.88);
+  border:1px solid rgba(255,255,255,0.7);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 22px rgba(15,20,35,0.07);
 }
 
-.arrow:hover {
-  background:rgba(0,0,0,0.6);
-}
+.arrow.left{ background: linear-gradient(180deg, rgba(133,244,255,0.88), rgba(221,255,250,0.58)); }
+.arrow.right{ background: linear-gradient(180deg, rgba(255,152,200,0.88), rgba(255,232,242,0.58)); }
 
-/* ====== KONTAKT ====== */
-#kontakt section {
+#kontakt section{
   width:100%;
-  background-color:#ffffff;
+  max-width:1100px;
+  margin:20px auto;
   padding:40px 20px;
   text-align:center;
-  color:#000;
+  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(250,252,255,0.9));
+  border:1px solid rgba(13,18,32,0.05);
+  border-radius:28px;
+  box-shadow:var(--shadow);
 }
 
-#kontakt h2 {
+#kontakt h2{
   font-family:'Ubuntu',sans-serif;
   margin-bottom:20px;
   font-size:2rem;
 }
 
-#kontakt p {
+#kontakt p{
   margin:10px 0;
-  font-size:1rem;
+  color:var(--muted);
 }
 
-#kontakt a {
-  color:#98a8cd;
+#kontakt a{
+  color:#1890a8;
   text-decoration:none;
   font-weight:500;
 }
 
-#kontakt a:hover {
-  text-decoration:underline;
-}
+#kontakt a:hover{ text-decoration:underline; }
 
-.newsletter-btn {
-  color:#fff;
-  background-color:#98a8cd;
-  padding:10px 20px;
-  border-radius:5px;
-  text-decoration:none;
-  font-family:'Ubuntu',sans-serif;
+.newsletter-btn{
   display:inline-block;
   margin-top:15px;
-  border:none;
+  padding:12px 22px;
+  border-radius:999px;
+  text-decoration:none;
+  font-family:'Ubuntu',sans-serif;
+  color:rgba(13,18,32,0.9);
+  border:1px solid rgba(13,18,32,0.05);
+  background: linear-gradient(90deg, rgba(133,244,255,0.92), rgba(255,152,200,0.92), rgba(198,255,150,0.92));
+  box-shadow: 0 12px 28px rgba(15,20,35,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
   cursor:pointer;
 }
 
-/* ====== MINISPIEL ====== */
-#game-container {
+#game-container{
   max-width:90%;
   margin:0 auto;
   position:relative;
+  border-radius:18px;
+  overflow:hidden;
 }
 
-/* ====== FOOTER ====== */
-#main-footer {
-  background-color:#98a8cd;
-  padding:15px 20px;
-  color:white;
+#main-footer{
   display:none;
+  padding:15px 20px;
+  color:rgba(13,18,32,0.9);
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,252,255,0.88));
+  border-top:1px solid rgba(13,18,32,0.05);
+  box-shadow:0 -8px 24px rgba(15,20,35,0.05);
 }
 
-.footer-inner {
+.footer-inner{
   display:flex;
   justify-content:center;
   align-items:center;
@@ -328,110 +401,82 @@ main.active {
   font-size:0.9rem;
 }
 
-.footer-copy {
+.footer-copy{
   display:inline-flex;
   align-items:center;
   gap:8px;
 }
 
-.footer-icon {
+.footer-icon{
   width:16px;
   height:16px;
   object-fit:contain;
-  filter: brightness(0) invert(1);
-  flex-shrink:0;
 }
 
-.footer-link {
-  color:white;
+.footer-link{
+  color:#1890a8;
   text-decoration:underline;
-  display:inline-flex;
-  align-items:center;
 }
 
-/* ====== RESPONSIVE ====== */
 @media(max-width:1024px){
   .portfolio-slider img,
-  .portfolio-slider video {
+  .portfolio-slider video{
     width:calc((100% - 20px)/2);
   }
-
-  .square {
-    width:130px;
-    height:130px;
-    font-size:1.3rem;
-  }
-
-  .steps-container {
-    grid-template-columns:repeat(2, 1fr);
+  .square{
+    width:132px;
+    height:132px;
+    font-size:1.25rem;
   }
 }
 
 @media(max-width:768px){
-  #intro {
+  #intro{
     flex-direction:column;
     gap:15px;
     align-items:center;
+    min-height:100svh;
   }
 
-  .intro-menu {
+  .intro-menu{
     flex-direction:column;
-    gap:15px;
+    gap:14px;
+    padding:18px;
   }
 
-  .square {
+  .square{
     width:130px;
     height:130px;
-    font-size:1.2rem;
+    font-size:1.15rem;
   }
 
   .portfolio-slider img,
-  .portfolio-slider video {
+  .portfolio-slider video{
     width:90%;
     max-width:400px;
     flex:0 0 auto;
     margin:auto;
   }
 
-  header {
-    flex-direction:column;
-  }
+  nav ul{ gap:8px; }
 
-  nav ul {
-    gap:10px;
-  }
+  .arrow{ display:none; }
 
-  .steps-container {
-    grid-template-columns:1fr;
-  }
-
-  .arrow {
-    display:none;
-  }
-
-  .slider-container {
+  .slider-container{
     overflow-x:auto;
     scroll-behavior:smooth;
   }
 
-  .slider-container::-webkit-scrollbar {
-    height:6px;
+  .slider-container::-webkit-scrollbar{ height:6px; }
+  .slider-container::-webkit-scrollbar-thumb{
+    background: linear-gradient(90deg, rgba(133,244,255,0.9), rgba(255,152,200,0.9), rgba(198,255,150,0.9));
+    border-radius:999px;
+  }
+  .slider-container::-webkit-scrollbar-track{
+    background: rgba(13,18,32,0.06);
   }
 
-  .slider-container::-webkit-scrollbar-thumb {
-    background:#98a8cd;
-    border-radius:3px;
-  }
-
-  .slider-container::-webkit-scrollbar-track {
-    background:#ddd;
-  }
-
-  .floating-object {
-    opacity:0.16;
-  }
-
-  .footer-inner {
+  .footer-inner{
     flex-direction:column;
     gap:6px;
   }
@@ -440,19 +485,16 @@ main.active {
 </head>
 <body>
 
-<!-- INTRO -->
 <div id="intro">
   <div class="floating-layer" id="floating-layer"></div>
-
   <div class="intro-menu" id="intro-menu">
-    <div class="square" onclick="showPage('grafik')">Grafik</div>
-    <div class="square" onclick="showPage('print')">Print</div>
-    <div class="square" onclick="showPage('web')">Web</div>
-    <div class="square" onclick="showPage('medien')">Medien</div>
+    <div class="square grafik" onclick="showPage('grafik')">Grafik</div>
+    <div class="square print" onclick="showPage('print')">Print</div>
+    <div class="square web" onclick="showPage('web')">Web</div>
+    <div class="square medien" onclick="showPage('medien')">Medien</div>
   </div>
 </div>
 
-<!-- HEADER -->
 <header id="main-header" style="display:none;">
   <div class="logo"><img src="logo.png" alt="Website-Logo"></div>
   <nav>
@@ -466,44 +508,34 @@ main.active {
   </nav>
 </header>
 
-<!-- KONTAKT + MINISPIEL -->
 <main id="kontakt">
   <section>
     <h2>Kontakt</h2>
     <p><strong>felbs.design</strong></p>
     <p>Thomas Felber</p>
-    <p>
-      Email:
-      <a href="#" onclick="sendMail(); return false;">thomas@felbsdesign.at</a>
-    </p>
+    <p>Email: <a href="#" onclick="sendMail(); return false;">thomas@felbsdesign.at</a></p>
     <br>
     <p>Instagram: <a href="https://www.instagram.com/felbs.design" target="_blank" rel="noopener noreferrer">@felbs.design</a></p>
     <p>Website: <a href="https://www.felbsdesign.at" target="_blank" rel="noopener noreferrer">felbsdesign.at</a></p>
     <br>
-
-    <a href="#" class="newsletter-btn" onclick="newsletterMail(); return false;">
-      für Newsletter anmelden
-    </a>
+    <a href="#" class="newsletter-btn" onclick="newsletterMail(); return false;">für Newsletter anmelden</a>
   </section>
 
-  <section style="padding:20px 0; text-align:center; background-color:#f0f0f0;">
+  <section style="padding:20px 0; text-align:center; background-color:transparent;">
     <h2>Klick das Bildzeichen!</h2>
     <p>Klicke so oft wie möglich auf das Bild in 10 Sekunden!</p>
-    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:2px solid #98a8cd; background:white;"></div>
+    <div id="game-container" style="position:relative; width:300px; height:300px; margin:0 auto; border:1px solid rgba(13,18,32,0.05); background:#fff;"></div>
     <p>Punkte: <span id="score">0</span></p>
-    <button id="start-btn" style="padding:10px 20px; background:#98a8cd; color:white; border:none; cursor:pointer;">Spiel starten</button>
+    <button id="start-btn" style="padding:10px 20px; background:linear-gradient(90deg, rgba(133,244,255,0.92), rgba(255,152,200,0.92), rgba(198,255,150,0.92)); color:rgba(13,18,32,0.9); border:none; cursor:pointer; border-radius:999px; font-family:'Ubuntu',sans-serif;">Spiel starten</button>
     <p id="timer" style="margin-top:10px;">Zeit: 10s</p>
   </section>
 </main>
 
-<!-- GRAFIK -->
 <main id="grafik">
   <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
-      Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:#fff; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('grafik')">&#10094;</button>
       <div class="slider-container" id="container-grafik">
@@ -533,14 +565,11 @@ main.active {
   </div>
 </main>
 
-<!-- PRINT -->
 <main id="print">
   <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
-      Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:#fff; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('print')">&#10094;</button>
       <div class="slider-container" id="container-print">
@@ -576,14 +605,11 @@ main.active {
   </div>
 </main>
 
-<!-- WEB -->
 <main id="web">
   <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
-      Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:#fff; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('web')">&#10094;</button>
       <div class="slider-container" id="container-web">
@@ -601,28 +627,21 @@ main.active {
   </div>
 </main>
 
-<!-- MEDIEN -->
 <main id="medien">
   <section class="text-section">
-    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten.
-      Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
+    <h3>Diese Website ist ein persönliches Design-Portfolio zur Dokumentation gestalterischer Arbeiten. Inhalte können eigene Projekte sowie Referenzmaterial enthalten und dienen ausschließlich Präsentationszwecken.</h3>
   </section>
-
-  <div style="background-color:#fff; padding:20px;">
+  <div style="padding:20px;">
     <div class="portfolio-slider">
       <button class="arrow left" onclick="slideLeft('medien')">&#10094;</button>
       <div class="slider-container" id="container-medien">
         <div class="slider-track" id="track-medien">
           <video autoplay loop muted playsinline class="lazy-img">
             <source src="medien/medien_animation.webm" type="video/webm">
-            Dein Browser unterstützt kein WebM-Video 😢
           </video>
-
           <video autoplay loop muted playsinline class="lazy-img">
             <source src="medien/medien_bildbearbeitung.webm" type="video/webm">
-            Dein Browser unterstützt kein WebM-Video 😢
           </video>
-
           <img src="medien/medien2.webp" alt="Videoschnitt" class="lazy-img">
           <img src="medien/medien3.webp" alt="Präsentationen" class="lazy-img">
           <img src="medien/medien4.webp" alt="Podcast-Hostings" class="lazy-img">
@@ -635,7 +654,6 @@ main.active {
   </div>
 </main>
 
-<!-- FOOTER -->
 <footer id="main-footer">
   <div class="footer-inner">
     <span class="footer-copy">
@@ -647,345 +665,204 @@ main.active {
 </footer>
 
 <script>
-/* Intro → Seite */
 function showPage(page){
   document.getElementById('intro').style.display = 'none';
   document.getElementById('main-header').style.display = 'flex';
   document.getElementById('main-footer').style.display = 'block';
   openPage(page);
 }
-
-/* Menü → Seite */
 function openPage(page){
-  const mains = document.querySelectorAll('main');
-  mains.forEach(m => m.classList.remove('active'));
-
+  document.querySelectorAll('main').forEach(m => m.classList.remove('active'));
   const target = document.getElementById(page);
   if (target) target.classList.add('active');
-
-  const links = document.querySelectorAll('nav a');
-  links.forEach(a => a.classList.remove('active'));
-
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
   const navLink = document.getElementById('nav-' + page);
   if (navLink) navLink.classList.add('active');
 }
-
-/* Mail-Funktionen */
-function sendMail() {
-  const recipient = 'thomas@felbsdesign.at';
-  window.location.href = 'mailto:' + recipient;
-}
-
-function newsletterMail() {
+function sendMail(){ window.location.href = 'mailto:thomas@felbsdesign.at'; }
+function newsletterMail(){
   const recipient = 'thomas@felbsdesign.at';
   const subject = encodeURIComponent('Anmeldung zum Newsletter');
-  const body = encodeURIComponent(
-    'Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nMit freundlichen Grüßen\n[Dein Name]'
-  );
+  const body = encodeURIComponent('Hallo Thomas,\n\nich möchte mich für den Newsletter anmelden.\n\nMit freundlichen Grüßen\n[Dein Name]');
   window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
 }
-
-/* Pfeil-Scroll */
 function slideLeft(section){
-  const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
+  document.getElementById('container-' + section).scrollBy({ left: -document.getElementById('container-' + section).offsetWidth, behavior: 'smooth' });
 }
-
 function slideRight(section){
-  const container = document.getElementById('container-' + section);
-  container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
+  document.getElementById('container-' + section).scrollBy({ left: document.getElementById('container-' + section).offsetWidth, behavior: 'smooth' });
 }
-
-/* Drag-Scroll nur für Desktop */
 const sliders = document.querySelectorAll('.slider-container');
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-if (!isTouchDevice) {
-  sliders.forEach(container => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      container.classList.add('active');
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-      e.preventDefault();
+if(!isTouchDevice){
+  sliders.forEach(container=>{
+    let isDown=false,startX,scrollLeft;
+    container.addEventListener('mousedown',e=>{
+      isDown=true; container.classList.add('active'); startX=e.pageX-container.offsetLeft; scrollLeft=container.scrollLeft; e.preventDefault();
     });
-
-    container.addEventListener('mouseleave', () => {
-      isDown = false;
-      container.classList.remove('active');
-    });
-
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.classList.remove('active');
-    });
-
-    container.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      container.scrollLeft = scrollLeft - walk;
+    container.addEventListener('mouseleave',()=>{ isDown=false; container.classList.remove('active'); });
+    container.addEventListener('mouseup',()=>{ isDown=false; container.classList.remove('active'); });
+    container.addEventListener('mousemove',e=>{
+      if(!isDown) return;
+      const x=e.pageX-container.offsetLeft;
+      const walk=(x-startX)*1.5;
+      container.scrollLeft=scrollLeft-walk;
     });
   });
-} else {
-  sliders.forEach(container => {
-    container.style.scrollSnapType = 'x mandatory';
-    container.style.overflowX = 'auto';
-    container.style.scrollBehavior = 'smooth';
-    container.style.webkitOverflowScrolling = 'touch';
+}else{
+  sliders.forEach(container=>{
+    container.style.scrollSnapType='x mandatory';
+    container.style.overflowX='auto';
+    container.style.scrollBehavior='smooth';
+    container.style.webkitOverflowScrolling='touch';
   });
 }
+(function(){
+  const intro=document.getElementById('intro');
+  const floatingLayer=document.getElementById('floating-layer');
+  const introMenu=document.getElementById('intro-menu');
+  if(!intro || !floatingLayer || !introMenu) return;
 
-/* ====== FLOATING INTRO OBJECTS ====== */
-(function () {
-  const intro = document.getElementById('intro');
-  const floatingLayer = document.getElementById('floating-layer');
-  const introMenu = document.getElementById('intro-menu');
+  const floatingObjects=[];
+  const objectCount=window.innerWidth<768?10:16;
+  const objectSize=68;
+  let mouseX=0, mouseY=0, hasMouse=false;
 
-  if (!intro || !floatingLayer || !introMenu) return;
-
-  const floatingObjects = [];
-  const objectCount = window.innerWidth < 768 ? 10 : 16;
-  const objectSize = 68;
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let hasMouse = false;
-
-  function rand(min, max) {
-    return Math.random() * (max - min) + min;
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+  function intersects(a,b){ return !(a.x+a.w<b.x || a.x>b.x+b.w || a.y+a.h<b.y || a.y>b.y+b.h); }
+  function getForbiddenZone(){
+    const introRect=intro.getBoundingClientRect();
+    const menuRect=introMenu.getBoundingClientRect();
+    return { x:menuRect.left-introRect.left-40, y:menuRect.top-introRect.top-40, w:menuRect.width+80, h:menuRect.height+80 };
   }
-
-  function intersects(a, b) {
-    return !(
-      a.x + a.w < b.x ||
-      a.x > b.x + b.w ||
-      a.y + a.h < b.y ||
-      a.y > b.y + b.h
-    );
-  }
-
-  function getForbiddenZone() {
-    const introRect = intro.getBoundingClientRect();
-    const menuRect = introMenu.getBoundingClientRect();
-
-    return {
-      x: menuRect.left - introRect.left - 40,
-      y: menuRect.top - introRect.top - 40,
-      w: menuRect.width + 80,
-      h: menuRect.height + 80
-    };
-  }
-
-  function getSafePosition(size) {
-    const rect = intro.getBoundingClientRect();
-    const forbidden = getForbiddenZone();
-
-    for (let i = 0; i < 300; i++) {
-      const x = rand(0, Math.max(0, rect.width - size));
-      const y = rand(0, Math.max(0, rect.height - size));
-
-      const candidate = { x, y, w: size, h: size };
-
-      if (!intersects(candidate, forbidden)) {
-        return { x, y };
-      }
+  function getSafePosition(size){
+    const rect=intro.getBoundingClientRect();
+    const forbidden=getForbiddenZone();
+    for(let i=0;i<300;i++){
+      const x=rand(0,Math.max(0,rect.width-size));
+      const y=rand(0,Math.max(0,rect.height-size));
+      const candidate={x,y,w:size,h:size};
+      if(!intersects(candidate,forbidden)) return {x,y};
     }
-
-    return { x: 0, y: 0 };
+    return {x:0,y:0};
   }
-
-  function createFloatingObject() {
-    const el = document.createElement('img');
-    el.src = 'Bildzeichen.png';
-    el.alt = '';
-    el.className = 'floating-object';
-
-    const pos = getSafePosition(objectSize);
-
-    el.style.width = objectSize + 'px';
-    el.style.height = objectSize + 'px';
-
+  function createFloatingObject(){
+    const el=document.createElement('img');
+    el.src='Bildzeichen.png';
+    el.alt='';
+    el.className='floating-object';
+    const pos=getSafePosition(objectSize);
+    el.style.width=objectSize+'px';
+    el.style.height=objectSize+'px';
     floatingLayer.appendChild(el);
-
-    floatingObjects.push({
-      el,
-      x: pos.x,
-      y: pos.y,
-      vx: rand(-0.15, 0.15),
-      vy: rand(-0.15, 0.15),
-      wobbleX: rand(6, 16),
-      wobbleY: rand(6, 16),
-      phase: rand(0, Math.PI * 2),
-      speed: rand(0.5, 1.0)
-    });
+    floatingObjects.push({ el, x:pos.x, y:pos.y, vx:rand(-0.15,0.15), vy:rand(-0.15,0.15), wobbleX:rand(8,18), wobbleY:rand(8,18), phase:rand(0,Math.PI*2), speed:rand(0.5,1.0) });
   }
-
-  function keepInside(obj, rect) {
-    if (obj.x < 0) obj.x = 0;
-    if (obj.y < 0) obj.y = 0;
-    if (obj.x > rect.width - objectSize) obj.x = rect.width - objectSize;
-    if (obj.y > rect.height - objectSize) obj.y = rect.height - objectSize;
+  function keepInside(obj,rect){
+    if(obj.x<0) obj.x=0;
+    if(obj.y<0) obj.y=0;
+    if(obj.x>rect.width-objectSize) obj.x=rect.width-objectSize;
+    if(obj.y>rect.height-objectSize) obj.y=rect.height-objectSize;
   }
-
-  for (let i = 0; i < objectCount; i++) {
-    createFloatingObject();
-  }
-
-  intro.addEventListener('mousemove', (e) => {
-    const rect = intro.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-    hasMouse = true;
+  for(let i=0;i<objectCount;i++) createFloatingObject();
+  intro.addEventListener('mousemove',e=>{
+    const rect=intro.getBoundingClientRect();
+    mouseX=e.clientX-rect.left;
+    mouseY=e.clientY-rect.top;
+    hasMouse=true;
   });
-
-  intro.addEventListener('mouseleave', () => {
-    hasMouse = false;
-  });
-
-  function animate(time) {
-    const t = time * 0.001;
-    const rect = intro.getBoundingClientRect();
-
-    floatingObjects.forEach(obj => {
+  intro.addEventListener('mouseleave',()=>{ hasMouse=false; });
+  function animate(time){
+    const t=time*0.001;
+    const rect=intro.getBoundingClientRect();
+    floatingObjects.forEach(obj=>{
       obj.x += obj.vx;
       obj.y += obj.vy;
-
-      if (hasMouse) {
-        const centerX = obj.x + objectSize / 2;
-        const centerY = obj.y + objectSize / 2;
-        const dx = mouseX - centerX;
-        const dy = mouseY - centerY;
-        const distance = Math.hypot(dx, dy) || 1;
-
-        obj.x += (dx / distance) * 0.35;
-        obj.y += (dy / distance) * 0.35;
+      if(hasMouse){
+        const centerX=obj.x+objectSize/2;
+        const centerY=obj.y+objectSize/2;
+        const dx=mouseX-centerX;
+        const dy=mouseY-centerY;
+        const distance=Math.hypot(dx,dy)||1;
+        obj.x += (dx/distance)*0.35;
+        obj.y += (dy/distance)*0.35;
       }
-
-      keepInside(obj, rect);
-
-      const offsetX = Math.sin(t * obj.speed + obj.phase) * obj.wobbleX;
-      const offsetY = Math.cos(t * obj.speed + obj.phase) * obj.wobbleY;
-      const rotate = Math.sin(t * obj.speed + obj.phase) * 5;
-
-      obj.el.style.transform =
-        `translate3d(${obj.x + offsetX}px, ${obj.y + offsetY}px, 0) rotate(${rotate}deg)`;
+      keepInside(obj,rect);
+      const offsetX=Math.sin(t*obj.speed+obj.phase)*obj.wobbleX;
+      const offsetY=Math.cos(t*obj.speed+obj.phase)*obj.wobbleY;
+      const rotate=Math.sin(t*obj.speed+obj.phase)*5;
+      obj.el.style.transform=`translate3d(${obj.x+offsetX}px, ${obj.y+offsetY}px, 0) rotate(${rotate}deg)`;
     });
-
     requestAnimationFrame(animate);
   }
-
   requestAnimationFrame(animate);
-
-  window.addEventListener('resize', () => {
-    const forbidden = getForbiddenZone();
-
-    floatingObjects.forEach(obj => {
-      const candidate = { x: obj.x, y: obj.y, w: objectSize, h: objectSize };
-      if (intersects(candidate, forbidden)) {
-        const pos = getSafePosition(objectSize);
-        obj.x = pos.x;
-        obj.y = pos.y;
-      }
-    });
-  });
 })();
+const startBtn=document.getElementById('start-btn');
+const gameContainer=document.getElementById('game-container');
+const scoreDisplay=document.getElementById('score');
+const timerDisplay=document.getElementById('timer');
+let score=0,time=10,moveInterval,gameInterval;
 
-/* ====== MINISPIEL ====== */
-const startBtn = document.getElementById('start-btn');
-const gameContainer = document.getElementById('game-container');
-const scoreDisplay = document.getElementById('score');
-const timerDisplay = document.getElementById('timer');
+function startGame(){
+  score=0; time=10;
+  scoreDisplay.textContent=score;
+  timerDisplay.textContent='Zeit: '+time+'s';
+  startBtn.disabled=true;
 
-let score = 0;
-let time = 10;
-let moveInterval, gameInterval;
-
-function startGame() {
-  score = 0;
-  time = 10;
-  scoreDisplay.textContent = score;
-  timerDisplay.textContent = 'Zeit: ' + time + 's';
-  startBtn.disabled = true;
-
-  const img = document.createElement('img');
-  img.src = 'Bildzeichen.png';
-  img.style.width = '50px';
-  img.style.height = '50px';
-  img.style.position = 'absolute';
-  img.style.cursor = 'pointer';
+  const img=document.createElement('img');
+  img.src='Bildzeichen.png';
+  img.style.width='50px';
+  img.style.height='50px';
+  img.style.position='absolute';
+  img.style.cursor='pointer';
   gameContainer.appendChild(img);
 
-  function moveImage() {
-    const maxX = gameContainer.clientWidth - 50;
-    const maxY = gameContainer.clientHeight - 50;
-    const x = Math.floor(Math.random() * maxX);
-    const y = Math.floor(Math.random() * maxY);
-    img.style.left = x + 'px';
-    img.style.top = y + 'px';
+  function moveImage(){
+    const maxX=gameContainer.clientWidth-50;
+    const maxY=gameContainer.clientHeight-50;
+    const x=Math.floor(Math.random()*Math.max(1,maxX));
+    const y=Math.floor(Math.random()*Math.max(1,maxY));
+    img.style.left=x+'px';
+    img.style.top=y+'px';
   }
 
-  img.addEventListener('click', () => {
+  img.addEventListener('click',()=>{
     score++;
-    scoreDisplay.textContent = score;
+    scoreDisplay.textContent=score;
     moveImage();
   });
 
   moveImage();
-  moveInterval = setInterval(moveImage, 1500);
+  moveInterval=setInterval(moveImage,1500);
 
-  gameInterval = setInterval(() => {
+  gameInterval=setInterval(()=>{
     time--;
-    timerDisplay.textContent = 'Zeit: ' + time + 's';
-
-    if (time <= 0) {
+    timerDisplay.textContent='Zeit: '+time+'s';
+    if(time<=0){
       clearInterval(gameInterval);
       clearInterval(moveInterval);
-      alert('Zeit vorbei! Du hast ' + score + ' Punkte erreicht!');
-      gameContainer.removeChild(img);
-      startBtn.disabled = false;
+      alert('Zeit vorbei! Du hast '+score+' Punkte erreicht!');
+      if(img.parentNode) img.parentNode.removeChild(img);
+      startBtn.disabled=false;
     }
-  }, 1000);
+  },1000);
 }
-
 startBtn.addEventListener('click', startGame);
 
-/* Lazy loading nur Desktop */
-const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
-if (!isMobile) {
-  const portfolioImages = document.querySelectorAll('.portfolio-slider img');
-  portfolioImages.forEach(img => {
-    img.setAttribute('loading', 'lazy');
-  });
+if(!/Mobi|Android/i.test(navigator.userAgent)){
+  document.querySelectorAll('.portfolio-slider img').forEach(img=>img.setAttribute('loading','lazy'));
 }
 
-/* Hash-Navigation */
-(function () {
-  function openFromHash() {
-    const page = (window.location.hash || '').replace('#', '').trim();
-    if (!page) return;
-
-    const target = document.getElementById(page);
-    if (!target) return;
-
-    const intro = document.getElementById('intro');
-    const header = document.getElementById('main-header');
-    const footer = document.getElementById('main-footer');
-
-    if (intro) intro.style.display = 'none';
-    if (header) header.style.display = 'flex';
-    if (footer) footer.style.display = 'block';
-
-    if (typeof openPage === 'function') {
-      openPage(page);
-    }
+(function(){
+  function openFromHash(){
+    const page=(window.location.hash||'').replace('#','').trim();
+    if(!page) return;
+    const target=document.getElementById(page);
+    if(!target) return;
+    document.getElementById('intro').style.display='none';
+    document.getElementById('main-header').style.display='flex';
+    document.getElementById('main-footer').style.display='block';
+    if(typeof openPage==='function') openPage(page);
   }
-
   openFromHash();
   document.addEventListener('DOMContentLoaded', openFromHash);
   window.addEventListener('load', openFromHash);
