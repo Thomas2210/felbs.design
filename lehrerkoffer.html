@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -232,7 +231,7 @@
         <p class="subtitle">Wähle das Fach, für das du Material suchst.</p>
         <div class="btn-group">
           <button class="btn btn-rot" onclick="zeigeDeutsch()">🇩🇪🇦🇹🇨🇭 Deutsch</button>
-          <a class="btn btn-gruen" href="https://www.felbsdesign.at/geographie">🌍📈 Geographie &amp; Wirtschaft</a>
+          <button class="btn btn-gruen" onclick="zeigeGW()">🌍📈 Geographie &amp; Wirtschaft</button>
         </div>
       </div>
 
@@ -244,6 +243,13 @@
           <a class="btn btn-rot" href="https://www.felbsdesign.at/großundkleinschreibung">Groß- und Kleinschreibung</a>
           <!-- Hier können weitere Deutsch-Themen ergänzt werden -->
         </div>
+        <button class="btn-back" onclick="zurueck()">← Zurück zur Fächerwahl</button>
+      </div>
+
+      <!-- SCREEN 3: GW noch in Arbeit -->
+      <div class="screen" id="screen-gw">
+        <h1>🌍📈 Geographie &amp; Wirtschaft</h1>
+        <p class="subtitle">Wir arbeiten daran! 🚧<br>Die Inhalte werden bald verfügbar sein.</p>
         <button class="btn-back" onclick="zurueck()">← Zurück zur Fächerwahl</button>
       </div>
 
@@ -261,8 +267,14 @@
       document.getElementById('screen-deutsch').classList.add('active');
     }
 
+    function zeigeGW() {
+      document.getElementById('screen-fach').classList.remove('active');
+      document.getElementById('screen-gw').classList.add('active');
+    }
+
     function zurueck() {
       document.getElementById('screen-deutsch').classList.remove('active');
+      document.getElementById('screen-gw').classList.remove('active');
       document.getElementById('screen-fach').classList.add('active');
     }
   </script>
