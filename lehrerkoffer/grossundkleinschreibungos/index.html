@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Der Ankerbrunnen von Asteron</title>
+<style>
+  :root{
+    --ink:#2b1d14;
+    --parchment:#f3e6c8;
+    --parchment-dark:#e2cf9f;
+    --wood:#6b4226;
+    --wood-dark:#4a2c18;
+    --accent-gold:#c9a23a;
+    --accent-blue:#3d5a73;
+    --accent-green:#4f7a52;
+    --accent-red:#a8453a;
+    --night:#2a3a2e;
+    --night-light:#324438;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;min-height:100%;
+    font-family:'Courier New',monospace;
+    color:var(--ink);
+    background-color:#111a12;
+    background-image: url('assets/bg_forest.png');
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+  }
+  #game{
+    max-width:760px;margin:0 auto;min-height:100vh;
+    display:flex;flex-direction:column;
+    background-color:#2e4234;
+    background-image: url('assets/bg_main.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    background-blend-mode: multiply;
+    position:relative;
+    /* Spielbereich hebt sich mit Schatten und zartem Rand ab */
+    box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,162,58,0.15);
+  }
+  /* Dunkler Overlay damit Text immer lesbar bleibt */
+  #game::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(160deg,rgba(30,45,32,0.55) 0%,rgba(20,32,22,0.65) 100%);
+    pointer-events:none;
+    z-index:0;
+  }
+  /* Alle direkten Kind-Elemente außer den Modals über den Overlay heben */
+  .screen, #statusbar{ position:relative; z-index:1; }
+  #statusbar{
+    display:flex;flex-direction:column;
+    background:var(--wood-dark);border-bottom:4px solid var(--wood);
+  }
+  #statusbar-top{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 16px 4px;
+  }
+  #statusbar-bottom{
+    display:flex;align-items:center;gap:8px;
+    padding:2px 16px 8px;
+  }
+  #statusbar h1{
+    font-size:1rem;color:var(--accent-gold);margin:0;letter-spacing:1px;white-space:nowrap;
+  }
+  #brunnen-bar-wrap{
+    flex:1;background:#0f161d;border:2px solid var(--accent-gold);
+    height:12px;position:relative;
+  }
+  #brunnen-bar{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,#3d5a73,#7fb3d5);
+    transition:width .6s ease;
+  }
+  .brunnen-label{
+    font-size:.58rem;color:var(--parchment-dark);white-space:nowrap;flex-shrink:0;
+  }
+  .header-btn{
+    font-family:'Courier New',monospace;font-size:.65rem;
+    background:none;border:1px solid var(--accent-gold);color:var(--accent-gold);
+    padding:4px 8px;cursor:pointer;white-space:nowrap;
+  }
+  .header-btn:hover{background:var(--accent-gold);color:var(--wood-dark);}
+  .screen{display:none;flex:1;flex-direction:column;padding:22px 20px;}
+  .screen.active{display:flex;}
+  #screen-title{align-items:center;justify-content:center;text-align:center;gap:18px;}
+  #screen-title h1{
+    font-size:1.7rem;color:var(--accent-gold);text-shadow:3px 3px 0 var(--wood-dark);margin:0;
+  }
+  #screen-title p{max-width:520px;color:var(--parchment-dark);line-height:1.7;font-size:.85rem;}
+  .pixel-btn{
+    font-family:'Courier New',monospace;font-weight:bold;
+    background:var(--wood);color:var(--parchment);
+    border:3px solid var(--wood-dark);
+    box-shadow:3px 3px 0 #000;
+    padding:9px 20px;font-size:.85rem;cursor:pointer;letter-spacing:.5px;
+  }
+  .pixel-btn:hover{background:var(--accent-gold);color:var(--wood-dark);}
+  .pixel-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #000;}
+  .pixel-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .pixel-btn.secondary{background:#1e2e22;border-color:var(--wood);}
+  #screen-story{justify-content:center;gap:20px;}
+  .story-text{
+    background:var(--parchment);border:4px solid var(--wood-dark);
+    box-shadow:0 0 0 3px var(--accent-gold) inset;
+    padding:18px 20px;font-size:.85rem;line-height:1.8;color:var(--ink);
+    min-height:140px;
+  }
+  .story-text .story-title{
+    font-weight:bold;color:var(--wood-dark);font-size:.95rem;
+    margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;
+  }
+  .story-text .story-example{
+    margin-top:10px;background:#fffaf0;border-left:4px solid var(--accent-gold);
+    padding:8px 10px;font-size:.8rem;font-style:italic;color:#5a4a35;
+  }
+  .story-text .story-test{
+    margin-top:10px;background:#eef4f8;border-left:4px solid var(--accent-blue);
+    padding:8px 10px;font-size:.78rem;color:#2e4a5c;
+  }
+  .story-text .story-warning{
+    margin-top:10px;background:#fbeeec;border-left:4px solid var(--accent-red);
+    padding:8px 10px;font-size:.78rem;color:#6e2f27;
+  }
+  .story-actions{display:flex;justify-content:space-between;gap:10px;align-items:center;}
+  .story-progress{font-size:.65rem;color:var(--parchment-dark);}
+  #screen-dorf{gap:16px;}
+  .location-desc{
+    background:var(--parchment);border:4px solid var(--wood-dark);
+    box-shadow:0 0 0 3px var(--accent-gold) inset;
+    padding:16px 18px;font-size:.82rem;line-height:1.75;color:var(--ink);
+  }
+  .location-desc .loc-title{
+    font-weight:bold;color:var(--wood-dark);font-size:.9rem;
+    margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase;
+  }
+  #menu-label{font-size:.7rem;color:var(--parchment-dark);margin-top:4px;}
+  #npc-menu{display:flex;flex-direction:column;gap:8px;}
+  .menu-item{
+    display:flex;align-items:center;gap:10px;
+    background:var(--wood-dark);border:3px solid var(--wood);
+    padding:8px 12px;cursor:pointer;text-align:left;
+  }
+  .menu-item:hover{border-color:var(--accent-gold);}
+  .menu-item .mi-portrait{
+    width:38px;height:38px;flex-shrink:0;border:2px solid var(--ink);
+    background:var(--accent-blue);display:flex;align-items:center;justify-content:center;
+    font-size:1rem;color:#fff;overflow:hidden;
+  }
+  .menu-item .mi-portrait img{width:100%;height:100%;object-fit:cover;}
+  .menu-item .mi-text{flex:1;}
+  .menu-item .mi-name{font-size:.78rem;color:var(--parchment);}
+  .menu-item .mi-status{font-size:.62rem;color:var(--parchment-dark);}
+  .menu-item.healed.mi-name::after{content:" \2713";color:var(--accent-gold);}
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.65);
+    display:none;align-items:flex-end;justify-content:center;z-index:50;padding:18px;
+  }
+  .modal-overlay.active{display:flex;}
+  .dialog-box{
+    width:100%;max-width:680px;background:var(--parchment);
+    border:5px solid var(--wood-dark);box-shadow:0 0 0 3px var(--accent-gold) inset;
+    padding:16px 18px;border-radius:4px;display:flex;gap:14px;
+  }
+  .dialog-portrait{
+    width:72px;height:72px;flex-shrink:0;background:var(--accent-blue);
+    border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;
+    font-size:1.6rem;color:#fff;overflow:hidden;
+  }
+  .dialog-portrait img{width:100%;height:100%;object-fit:cover;}
+  .dialog-content{flex:1;}
+  .dialog-name{font-weight:bold;color:var(--wood-dark);font-size:.82rem;margin-bottom:4px;}
+  .dialog-text{font-size:.78rem;line-height:1.6;color:var(--ink);min-height:70px;}
+  .dialog-actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+  .dialog-progress{font-size:.6rem;color:#7a6a4d;margin-top:6px;}
+  .minigame-box{
+    width:100%;max-width:680px;background:var(--parchment);
+    border:5px solid var(--wood-dark);box-shadow:0 0 0 3px var(--accent-gold) inset;
+    padding:18px;border-radius:4px;
+  }
+  .minigame-title{color:var(--wood-dark);font-size:.9rem;margin:0 0 2px;}
+  .minigame-sub{font-size:.68rem;color:#5a4a35;margin-bottom:4px;}
+  .minigame-round{font-size:.65rem;color:var(--wood-dark);margin-bottom:4px;font-weight:bold;}
+  .minigame-category{
+    display:inline-block;font-size:.62rem;background:var(--accent-gold);color:var(--wood-dark);
+    padding:2px 8px;border-radius:10px;margin-bottom:10px;font-weight:bold;
+  }
+  .minigame-area{
+    background:#fffaf0;border:2px dashed var(--wood);padding:14px;
+    font-size:.9rem;line-height:1.8;margin-bottom:12px;min-height:60px;
+  }
+  .word-token{cursor:pointer;padding:1px 3px;border-radius:3px;}
+  .word-token:hover{background:#ffe9a8;}
+  .word-token.picked-wrong{background:#f3a8a0;}
+  .word-token.picked-right{background:#a8e6a3;}
+  input.rewrite-input{
+    width:100%;font-family:'Courier New',monospace;font-size:.85rem;
+    padding:8px;border:2px solid var(--wood);background:#fffaf0;
+  }
+  .lueckentext-blank-btn{
+    font-family:'Courier New',monospace;border:2px solid var(--wood);background:#fffaf0;
+    padding:4px 10px;margin:2px;cursor:pointer;font-size:.8rem;
+  }
+  .lueckentext-blank-btn:hover{background:#ffe9a8;}
+  .feedback{font-size:.78rem;margin-bottom:10px;min-height:18px;font-weight:bold;}
+  .feedback.ok{color:var(--accent-green);}
+  .feedback.bad{color:var(--accent-red);}
+  #screen-journal{gap:14px;}
+  .journal-entry{
+    background:var(--parchment);border:3px solid var(--wood-dark);
+    padding:12px 14px;font-size:.78rem;line-height:1.6;color:var(--ink);
+  }
+  .journal-entry .je-num{color:var(--wood-dark);font-weight:bold;margin-right:4px;}
+  .journal-empty{color:var(--parchment-dark);font-size:.78rem;font-style:italic;}
+  #screen-rules{gap:14px;}
+  .rule-card{
+    background:var(--parchment);border:3px solid var(--wood-dark);
+    padding:12px 14px;font-size:.78rem;line-height:1.6;color:var(--ink);
+  }
+  .rule-card .rc-title{font-weight:bold;color:var(--wood-dark);margin-bottom:4px;}
+  .rule-card .rc-example{
+    margin-top:6px;background:#fffaf0;border-left:4px solid var(--accent-gold);
+    padding:6px 8px;font-size:.74rem;font-style:italic;color:#5a4a35;
+  }
+  .rule-card .rc-test{
+    margin-top:6px;background:#eef4f8;border-left:4px solid var(--accent-blue);
+    padding:6px 8px;font-size:.72rem;color:#2e4a5c;
+  }
+  .rule-card .rc-warning{
+    margin-top:6px;background:#fbeeec;border-left:4px solid var(--accent-red);
+    padding:6px 8px;font-size:.72rem;color:#6e2f27;
+  }
+  .lock-ring{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+  }
+  .lock-ring-display{
+    width:54px;height:54px;background:#fffaf0;
+    border:3px solid var(--wood-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.7rem;cursor:pointer;user-select:none;
+    box-shadow:2px 2px 0 #000;
+    transition:transform .1s;
+  }
+  .lock-ring-display:hover{transform:translateY(-2px);}
+  .lock-ring-display:active{transform:translateY(0);}
+  .lock-ring-label{font-size:.55rem;color:var(--parchment-dark);}
+  #screen-end{align-items:center;justify-content:center;text-align:center;gap:14px;}
+  #screen-end h2{color:var(--accent-gold);font-size:1.3rem;}
+
+  /* Strahlen */
+  .end-ray{
+    position:absolute;
+    top:50%;left:50%;
+    width:6px;height:200%;
+    background:linear-gradient(transparent,rgba(201,162,58,0.18) 40%,rgba(170,224,255,0.12) 60%,transparent);
+    transform-origin:top center;
+    transform:rotate(var(--a)) translateX(-50%);
+    animation:rayRotate 14s linear infinite;
+  }
+  @keyframes rayRotate{
+    from{transform:rotate(var(--a)) translateX(-50%);}
+    to{transform:rotate(calc(var(--a) + 360deg)) translateX(-50%);}
+  }
+  @keyframes endFadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* ── Pfeil-Spiel ── */
+  .arrow-boxes{display:flex;gap:16px;justify-content:center;margin-bottom:18px;}
+  .arrow-box{
+    width:130px;height:80px;border:3px solid var(--wood-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1rem;font-weight:bold;cursor:pointer;
+    transition:transform .1s, box-shadow .15s;letter-spacing:1px;
+    box-shadow:3px 3px 0 #000;
+  }
+  .arrow-box:hover{transform:translateY(-2px);}
+  .arrow-box.selected{transform:scale(1.06);box-shadow:0 0 0 3px var(--accent-gold),3px 3px 0 #000;}
+  .arrow-box-gross{background:#1e3a5a;color:#7fb3d5;border-color:var(--accent-blue);}
+  .arrow-box-klein{background:#1e3a1e;color:#7fc070;border-color:var(--accent-green);}
+  .arrow-word-chip{
+    display:inline-block;font-size:1.3rem;font-weight:bold;
+    color:var(--ink);background:var(--parchment);
+    border:3px solid var(--wood-dark);padding:8px 24px;
+    box-shadow:3px 3px 0 #000;letter-spacing:1px;
+    transition:transform .25s ease;
+  }
+
+  /* ── Drag & Drop (ALL CAPS Format) ── */
+  .drag-sentence{
+    font-size:1rem;line-height:1.8;text-align:center;
+    margin:10px 0 14px;color:var(--ink);
+  }
+  .drag-drop-zone{
+    display:inline-block;background:#ffe9a8;
+    border:2px dashed var(--wood-dark);padding:2px 10px;
+    cursor:pointer;font-weight:bold;letter-spacing:1px;
+    transition:background .2s,border-color .2s;
+    min-width:60px;text-align:center;
+  }
+  .drag-drop-zone.drag-over-target{background:#c9a23a;color:#fff;border-style:solid;}
+  .drag-options-row{
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .drag-option-chip{
+    display:inline-block;background:var(--parchment);
+    border:2px solid var(--wood);padding:6px 16px;
+    cursor:grab;font-size:.9rem;user-select:none;
+    font-family:'Courier New',monospace;
+    box-shadow:2px 2px 0 #0005;
+    transition:transform .1s;
+  }
+  .drag-option-chip:hover{transform:translateY(-2px);}
+  .drag-option-chip.selected-chip{background:#ffe9a8;border-color:var(--accent-gold);box-shadow:0 0 0 2px var(--accent-gold);}
+  .drag-option-chip.dragging-chip{opacity:.35;}
+  @media (max-width:520px){
+    .dialog-box{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div id="game">
+
+  <div id="statusbar">
+    <div id="statusbar-top">
+      <h1>ASTERON</h1>
+      <div style="flex:1;"></div>
+      <button class="header-btn" onclick="openRules()">Regeln</button>
+      <button class="header-btn" onclick="openJournal()">Tagebuch</button>
+      <button class="header-btn" id="debug-toggle-btn" onclick="promptDebugCode()" title="Einstellungen">⚙</button>
+    </div>
+    <div id="statusbar-bottom">
+      <div id="brunnen-bar-wrap"><div id="brunnen-bar"></div></div>
+      <div class="brunnen-label" id="brunnen-text">Brunnen: instabil (0/5)</div>
+    </div>
+  </div>
+
+  <section id="screen-title" class="screen active">
+    <h1>Der Ankerbrunnen<br>von Asteron</h1>
+    <p>
+      Vor Generationen wollte ein junger Bibliothekar namens Elian etwas bewahren.
+      Man hat ihn aufgehalten. Was dabei kaputtging, ist bis heute nicht repariert.<br><br>
+      Du bist ein Schriftläufer - jemand, der das alte Protokoll noch erahnen kann, ohne
+      es gelernt zu haben. Du kommst nach Asteron. Du weißt nicht warum.<br><br>
+      Finde Elians fünf Zeichen. Repariere den Brunnen. Vollende, was er begann.
+    </p>
+    <button class="pixel-btn" onclick="beginIntro()">Spiel beginnen</button>
+  </section>
+
+  <section id="screen-story" class="screen">
+    <div class="story-text" id="story-text"></div>
+    <div class="story-actions">
+      <div class="story-progress" id="story-progress"></div>
+      <button class="pixel-btn" id="story-next-btn" onclick="advanceStory()">Weiter</button>
+    </div>
+  </section>
+
+  <section id="screen-dorf" class="screen">
+    <div class="location-desc">
+      <div class="loc-title">Dorfplatz von Asteron</div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="flex-shrink:0;text-align:center;">
+          <img id="brunnen-img" src="assets/brunnen_0.png" alt="Der Ankerbrunnen"
+               style="width:110px;height:110px;image-rendering:pixelated;display:block;"
+               onerror="this.style.display='none';document.getElementById('brunnen-svg-fb').style.display='block'">
+          <!-- SVG-Fallback falls kein Bild vorhanden -->
+          <svg id="brunnen-svg-fb" viewBox="0 0 120 140" width="110" height="130"
+               xmlns="http://www.w3.org/2000/svg" style="display:none;image-rendering:pixelated;">
+            <polygon points="8,46 60,10 112,46" fill="#6b4226" stroke="#2b1d14" stroke-width="3"/>
+            <rect x="14" y="44" width="8" height="50" fill="#4a2c18" stroke="#2b1d14" stroke-width="2"/>
+            <rect x="98" y="44" width="8" height="50" fill="#4a2c18" stroke="#2b1d14" stroke-width="2"/>
+            <rect x="12" y="40" width="96" height="8" fill="#6b4226" stroke="#2b1d14" stroke-width="2"/>
+            <ellipse cx="60" cy="44" rx="10" ry="5" fill="#4a2c18" stroke="#2b1d14" stroke-width="2"/>
+            <line x1="60" y1="49" x2="60" y2="76" stroke="#2b1d14" stroke-width="2"/>
+            <rect x="53" y="76" width="14" height="10" rx="2" fill="#c9a23a" stroke="#2b1d14" stroke-width="2"/>
+            <ellipse cx="60" cy="94" rx="44" ry="12" fill="#5a4a35" stroke="#2b1d14" stroke-width="2"/>
+            <rect x="16" y="82" width="88" height="36" fill="#4a2c18" stroke="#2b1d14" stroke-width="2"/>
+            <ellipse cx="60" cy="82" rx="44" ry="12" fill="#6b4226" stroke="#2b1d14" stroke-width="2"/>
+            <ellipse cx="60" cy="83" rx="40" ry="10" fill="#3d5a73" id="brunnen-water"/>
+            <ellipse cx="60" cy="83" rx="28" ry="6" fill="none" stroke="#7fb3d5"
+                     stroke-width="2" opacity="0.5" id="brunnen-glow"/>
+            <ellipse cx="60" cy="118" rx="48" ry="10" fill="#5a4a35" stroke="#2b1d14" stroke-width="2"/>
+            <rect x="12" y="110" width="96" height="8" fill="#6b4226" stroke="#2b1d14" stroke-width="2"/>
+            <ellipse cx="60" cy="130" rx="52" ry="8" fill="#4f7a52" stroke="#2b1d14" stroke-width="2"/>
+          </svg>
+          <!-- Schloss-Button direkt unter dem Brunnen -->
+          <button id="brunnen-repair-btn" onclick="openBrunnenLock()"
+                  style="margin-top:8px;font-family:'Courier New',monospace;font-size:.62rem;
+                         background:linear-gradient(180deg,#3a2c18,#2a1e10);
+                         border:3px solid var(--wood);color:var(--parchment-dark);
+                         padding:6px 10px;cursor:pointer;width:110px;
+                         box-shadow:0 3px 0 #0006,2px 2px 0 var(--wood-dark) inset;
+                         display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <svg viewBox="0 0 24 24" width="22" height="22" style="image-rendering:pixelated;" id="lock-icon">
+              <rect x="5" y="11" width="14" height="10" rx="1" fill="#c9a23a" stroke="#2b1d14" stroke-width="1.5"/>
+              <rect x="9" y="13" width="6" height="4" rx="1" fill="#4a2c18"/>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="#c9a23a" stroke-width="2" stroke-linecap="round" id="lock-shackle"/>
+            </svg>
+            <span id="lock-label">Schloss</span>
+          </button>
+        </div>
+        <div id="loc-text" style="flex:1;"></div>
+      </div>
+    </div>
+    <div id="menu-label">Mit wem möchtest du sprechen?</div>
+    <div id="npc-menu"></div>
+  </section>
+
+  <section id="screen-journal" class="screen">
+    <div class="location-desc">
+      <div class="loc-title">Tagebuch des Schriftläufers</div>
+      <div>Hinweise, die du auf dem Weg gesammelt hast. Jeden Eintrag hinterlässt ein Bewohner - und jeder enthält ein Zeichen.</div>
+    </div>
+    <div id="journal-entries"></div>
+    <button class="pixel-btn secondary" onclick="closeSubScreen()">Zurück zum Dorfplatz</button>
+  </section>
+
+  <section id="screen-rules" class="screen">
+    <div class="location-desc">
+      <div class="loc-title">Das Anker-Protokoll</div>
+      <div>Fünf Fälle, in denen ein Wort großgeschrieben wird.</div>
+    </div>
+    <div id="rules-entries"></div>
+    <button class="pixel-btn secondary" onclick="closeSubScreen()">Zurück zum Dorfplatz</button>
+  </section>
+
+  <section id="screen-end" class="screen" style="padding:0;overflow:hidden;">
+    <!-- Animierter Abschluss-Screen -->
+    <div id="end-scene" style="position:relative;width:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:0;overflow:hidden;">
+
+      <!-- Hintergrundstrahlen (CSS-Animation) -->
+      <div id="end-rays" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
+        <div class="end-ray" style="--a:0deg"></div>
+        <div class="end-ray" style="--a:45deg"></div>
+        <div class="end-ray" style="--a:90deg"></div>
+        <div class="end-ray" style="--a:135deg"></div>
+        <div class="end-ray" style="--a:180deg"></div>
+        <div class="end-ray" style="--a:225deg"></div>
+        <div class="end-ray" style="--a:270deg"></div>
+        <div class="end-ray" style="--a:315deg"></div>
+      </div>
+
+      <!-- Partikel-Canvas -->
+      <canvas id="end-particles" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+
+      <!-- Abschlussbild (optional – ersetze durch eigene Grafik) -->
+      <div style="position:relative;z-index:2;margin-bottom:10px;">
+        <img id="end-brunnen-img" src="assets/brunnen_5.png"
+             style="width:140px;height:140px;image-rendering:pixelated;
+                    filter:drop-shadow(0 0 18px #aae0ff) drop-shadow(0 0 6px #c9a23a);"
+             onerror="this.style.display='none'">
+      </div>
+
+      <!-- Titel -->
+      <h2 id="end-title" style="
+        position:relative;z-index:2;
+        color:var(--accent-gold);font-size:1.4rem;margin:0 0 10px;
+        text-shadow:0 0 12px #c9a23a, 3px 3px 0 var(--wood-dark);
+        opacity:0;animation:endFadeIn .8s .3s forwards;">
+        Der Ankerbrunnen leuchtet wieder.
+      </h2>
+
+      <!-- Typewriter-Text -->
+      <div id="end-typewriter" style="
+        position:relative;z-index:2;
+        max-width:400px;color:var(--parchment);line-height:1.65;
+        font-size:.76rem;text-align:center;min-height:50px;
+        background:rgba(15,25,15,0.65);padding:8px 14px;
+        border:2px solid rgba(201,162,58,0.3);border-radius:3px;
+        margin-bottom:14px;"></div>
+
+      <button class="pixel-btn" style="position:relative;z-index:2;" id="end-restart-btn" onclick="debugReset()">
+        ↺ Neu beginnen
+      </button>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="lock-overlay">
+    <div class="minigame-box" style="max-width:520px;">
+      <h3 class="minigame-title">Das Schloss des Ankerbrunnens</h3>
+      <div class="minigame-sub">Fünf Zeichen. Die Antwort steht in deinem Tagebuch.</div>
+      <div id="lock-rings" style="display:flex;justify-content:center;gap:12px;margin:18px 0;flex-wrap:wrap;"></div>
+      <div class="feedback" id="lock-feedback"></div>
+      <div class="dialog-actions">
+        <button class="pixel-btn" onclick="checkLock()">Schloss öffnen</button>
+        <button class="pixel-btn secondary" onclick="document.getElementById('lock-overlay').classList.remove('active')">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="dialog-overlay">
+    <div class="dialog-box">
+      <div class="dialog-portrait" id="dialog-portrait-img"></div>
+      <div class="dialog-content">
+        <div class="dialog-name" id="dialog-name"></div>
+        <div class="dialog-text" id="dialog-text"></div>
+        <div class="dialog-progress" id="dialog-progress"></div>
+        <div class="dialog-actions" id="dialog-actions"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="minigame-overlay">
+    <div class="minigame-box">
+      <h3 class="minigame-title" id="mg-title"></h3>
+      <div class="minigame-sub" id="mg-sub"></div>
+      <div class="minigame-round" id="mg-round"></div>
+      <div class="minigame-category" id="mg-category"></div>
+      <div class="minigame-area" id="mg-area"></div>
+      <div class="feedback" id="mg-feedback"></div>
+      <div class="dialog-actions" id="mg-actions"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================
+   GLOBAL STATE
+   ========================================================= */
+const state = {
+  healed: {},
+  journal: [],
+  tutorialPassed: false,
+  storyQueue: [],
+  storyIndex: 0,
+  storyOnFinish: null,
+  storyFinishLabel: "Weiter",
+  dialogQueue: [],
+  dialogIndex: 0,
+  dialogNpc: null
+};
+
+let mg = null; // active minigame state: { npc, type, rounds, index }
+
+/* =========================================================
+   INTRO STORY
+   ========================================================= */
+const INTRO_LINES = [
+  "Der Weg nach Asteron führt durch dichten Wald, vorbei an Wegweisern, deren Schrift kaum noch zu entziffern ist. Manche Namen wirken, als hätte man sie absichtlich klein und unscheinbar gehalten.",
+  "Als du das Dorf erreichst, empfängt dich eine merkwürdige Stille. Die Häuser stehen, wie sie immer standen - doch an den Schildern, den Aushängen, den Briefen, die aus den Briefkästen ragen, stimmt etwas nicht.",
+  "Du erinnerst dich nicht genau, warum du hierhergekommen bist. Nur ein Wort hallt in dir nach, immer wieder: Anker.",
+  "Bevor du zum Dorfplatz weitergehst, fällt dir ein altes, halb verblasstes Schild am Wegrand auf. Jemand hat versucht, darauf das Anker-Protokoll zusammenzufassen."
+];
+
+/* =========================================================
+   LEHRSEQUENZ - die 5 Fälle der Großschreibung
+   ========================================================= */
+const LESSON_CARDS = [
+  {
+    title: "1. Der Anfang von einem Satz",
+    text: "Jeder Satz beginnt mit einem großen Buchstaben. Das ist eine feste Regel ohne Ausnahme.",
+    example: "Der Brunnen steht mitten im Dorf. Wer hat das gemacht?"
+  },
+  {
+    title: "2. Nomen (Namenwort)",
+    text: "Ein Nomen - auch Namenwort genannt - ist ein Wort für ein Ding, ein Tier oder einen Menschen. Nomen werden immer großgeschrieben.",
+    test: "Hilfreicher Test (klappt meistens, aber nicht zu 100%): Kannst du 'der', 'die' oder 'das' davorsetzen? Dann ist es oft ein Nomen.",
+    example: "das Haus, die Katze, der Brunnen, die Bewohner."
+  },
+  {
+    title: "3. Eigennamen",
+    text: "Namen von bestimmten Personen und Orten schreibt man auch groß. Sie meinen nicht irgendeine Person, sondern genau eine - das gilt immer.",
+    example: "Anna, Asteron, Wien."
+  },
+  {
+    title: "4a. Verb (Tunwort) wird zum Nomen",
+    text: "Ein Verb - auch Tunwort genannt - sagt, was jemand tut. Wird es aber wie ein Nomen gebraucht, schreibt man es groß. Das nennt man Nominalisierung.",
+    test: "Hilfreicher Test (meistens richtig): Passt ein 'das' direkt davor? Dann handelt es sich oft um ein nominalisiertes Verb.",
+    example: "Das Lesen macht Spaß. Beim Schreiben braucht man Ruhe.",
+    warning: "Aber Achtung: Passt kein 'das' davor, bleibt es meistens klein - 'Ich gehe schwimmen.'"
+  },
+  {
+    title: "4b. Adjektiv (Wiewort) wird zum Nomen",
+    text: "Ein Adjektiv - auch Wiewort genannt - beschreibt, wie etwas ist. Nach Wörtern wie 'etwas', 'nichts' oder 'viel' wird es oft wie ein Nomen gebraucht und dann großgeschrieben.",
+    example: "Sie erlebte etwas Neues. Das Beste kommt noch.",
+    warning: "Aber Achtung: Bezieht sich das Adjektiv noch auf ein Nomen im Satz, bleibt es klein - 'Zwei Brote lagen da, das erste war frisch.'"
+  },
+  {
+    title: "5. Höfliche Anrede",
+    text: "Sprichst du eine Person direkt und höflich an, schreibst du die Anredepronomen 'Sie', 'Ihnen' und 'Ihr' groß - das ist eine feste Regel.",
+    example: "Können Sie mir helfen? Ich danke Ihnen.",
+    warning: "Aber Achtung: Ist mit 'sie' oder 'ihre' eine dritte Person gemeint (keine direkte Anrede), bleibt es klein - 'Die Bäckerin sagt, sie backt das Brot.'"
+  }
+];
+
+/* =========================================================
+   DIE HUETERIN DER SCHRIFT - Tutorial-Charakter, schaltet das Dorf frei
+   ========================================================= */
+const LEHRMEISTERIN = {
+  name: "Die Hüterin der Schrift",
+  img: "assets/npc_lehrmeisterin.png",
+  emoji: "📜",
+  before: [
+    "Warte. Bevor du durchs Dorf läufst, solltest du wissen, was du hier eigentlich tust.",
+    "Ich bin die Hüterin der Schrift - die letzte hier, die das vollständige Anker-Protokoll noch lehren kann.",
+    "Lass mich dir die fünf Regeln zeigen, nach denen ein Wort großgeschrieben wird. Danach prüfe ich, ob du bereit bist."
+  ],
+  farewell: [
+    "Gut gemacht. Du verstehst die Regeln - nicht nur, dass manche Wörter groß werden, sondern auch, dass es eben nicht jedes Wort betrifft.",
+    "Genau dieses Gespür fehlt den Bewohnern von Asteron. Geh jetzt zum Dorfplatz. Sie warten auf dich."
+  ]
+};
+
+const TUTORIAL_ROUNDS = [
+  { template: "___1___ Dorf heißt Asteron.",
+    correct: "Das", options: ["das","Das"], category: "Satzanfang" },
+  { template: "In der Mitte steht ein alter ___1___.",
+    correct: "Brunnen", options: ["brunnen","Brunnen"], category: "Nomen" },
+  { template: "Der Brunnen liegt in ___1___.",
+    correct: "Asteron", options: ["asteron","Asteron"], category: "Eigenname" },
+  { template: "Beim ___1___ braucht man Geduld.",
+    correct: "Schreiben", options: ["schreiben","Schreiben"], category: "Verb wird Nomen" },
+  { template: "Sie erlebte etwas ___1___ in Asteron.",
+    correct: "Neues", options: ["neues","Neues"], category: "Adjektiv wird Nomen" },
+  { template: "Können ___1___ mir helfen?",
+    correct: "Sie", options: ["sie","Sie"], category: "Höfliche Anrede" }
+];
+
+/* =========================================================
+   NPCs
+   ========================================================= */
+const NPCS = [
+  {
+    id: "bäckerin",
+    name: "Die Bäckerin",
+    img: "assets/npc_baeckerin.png",
+    emoji: "\uD83C\uDF5E",
+    before: [
+      "Ach, du bist neu hier, oder? Ich bin die Bäckerin von Asteron - seit zwanzig Jahren back ich hier Brot, jeden Morgen zur gleichen Zeit.",
+      "Aber schau dir mein Rezeptbuch an. Irgendwas stimmt mit den Namen nicht mehr. Sie wirken alle... gleich. Als hätten sie kein Gewicht mehr.",
+      "Kannst du mir helfen, das wieder hinzubekommen?"
+    ],
+    after: [
+      "Verrückt - es fühlt sich wieder richtig an, wenn ich das Rezeptbuch aufschlage.",
+      "Weißt du, meine Großmutter hat mir mal erzählt, früher kannte das jedes Kind im Dorf. Bis zu dem Vorfall am Brunnen. Niemand redet gern darüber.",
+      "Danke, Schriftläufer. Wirklich."
+    ],
+    journalEntry: "Die Großmutter der Bäckerin erwähnte einen Vorfall am Brunnen, über den im Dorf niemand gern spricht.",
+    clueEmoji: "💧",
+    task: "Hilf mir, zwanzig Sätze über den Brunnen zu stabilisieren.",
+    minigame: { type: "rewrite" }
+  },
+  {
+    id: "schüler",
+    name: "Der Schüler",
+    img: "assets/npc_schueler.png",
+    emoji: "\uD83D\uDCD3",
+    before: [
+      "Hey. Du bist der Schriftläufer, oder? Ich hab auf dem Dachboden meiner Oma was gefunden - eine rausgerissene Seite aus einem alten Schulbuch. Hinter einer Dachbalke versteckt.",
+      "Da stehen irgendwelche Regeln. Aber ich kapier sie nicht, weil ich eh nicht mehr merke, wann was groß oder klein sein soll. In der Schule hat uns das nie jemand richtig erklärt.",
+      "Wenn du mir hilfst, check ich danach vielleicht auch, was auf dieser Seite steht."
+    ],
+    after: [
+      "Okay, jetzt ergibt das zumindest ein bisschen Sinn.",
+      "Die Seite kommt aus einem Buch, das laut meiner Oma in der Bibliothek sein sollte. Irgendwer hat sie rausgerissen - schon vor langer Zeit.",
+      "Der Bibliothekar hat komisch reagiert, als ich ihm davon erzählt hab. So ein 'ich weiß mehr als ich sage'-Gesicht. Frag ihn."
+    ],
+    journalEntry: "Der Schüler fand eine herausgerissene Seite aus einem alten Schulbuch - Bruchstücke des ursprünglichen Protokolls, die jemand versteckt hatte. Das Buch, aus dem sie stammt, existiert noch.",
+    clueEmoji: "📖",
+    task: "Hilf mir, die Bruchstellen in zwanzig Sätzen über das Buch zu finden.",
+    minigame: { type: "fehlersuche" }
+  },
+  {
+    id: "bibliothekar",
+    name: "Der Bibliothekar",
+    img: "assets/npc_bibliothekar.png",
+    emoji: "\uD83D\uDCDA",
+    before: [
+      "Ich weiß, wo das vollständige Protokoll ist. Schon seit Jahren.",
+      "Es liegt in einem versiegelten Raum hier in der Bibliothek. Ich habe den Schlüssel - geerbt von meinem Vorgänger, der ihn von seinem geerbt hat. Keiner von uns hat je aufgemacht. Wir hatten Angst. Das ist keine Entschuldigung, nur die Wahrheit.",
+      "Wenn du mir hilfst, meine Abschriften zu stabilisieren, gebe ich dir den Schlüssel. Er nutzt mir nichts, wenn ich ihn nie benutze."
+    ],
+    after: [
+      "Nimm ihn.",
+      "In diesem Raum liegt das vollständige Protokoll - und die Notizbücher von Elian. So hieß er. Der junge Bibliothekar, der den Brunnen reparieren wollte. Er hat nichts zerstört. Er hat versucht zu retten, was der Rat aufgegeben hatte.",
+      "Frag den Bürgermeister nach der Abstimmung. Er wird ausweichen. Lass es ihn trotzdem nicht."
+    ],
+    journalEntry: "Der Bibliothekar übergab den Schlüssel zur versiegelten Kammer. Darin: das vollständige Protokoll und die Aufzeichnungen eines jungen Mannes, der den Brunnen reparieren wollte - und daran gehindert wurde.",
+    clueEmoji: "🔑",
+    task: "Setze in zwanzig Sätzen über das Schloss das richtige Wort ein.",
+    minigame: { type: "lueckentext" }
+  },
+  {
+    id: "bürgermeister",
+    name: "Der Bürgermeister",
+    img: "assets/npc_buergermeister.png",
+    emoji: "\uD83C\uDFDB\uFE0F",
+    before: [
+      "Ich weiß, warum du hier bist. Und ich werde nicht so tun als ob.",
+      "Die Abstimmung war 4 zu 1. Vier Ratsmitglieder für die Einschränkung des Protokolls. Eine Gegenstimme - Elian, der junge Bibliothekar. Ich habe das Protokoll. Es ist versiegelt, aber ich habe es gelesen.",
+      "Wenn du mir hilfst, zeige ich dir, was Elian wirklich vorhatte. Und warum der Rat bis heute nicht offen darüber sprechen will."
+    ],
+    after: [
+      "Elian wollte das vollständige Protokoll permanent in den Brunnen einschreiben. Nicht für sich - für alle. Offen, für jede Generation.",
+      "Der Rat hat ihn aufgehalten. Mitten in dem Prozess. Was dabei entstand - der Schaden, den du hier siehst - war kein Unfall. Es war die direkte Folge dieser Unterbrechung.",
+      "Vier Stimmen gegen eine. Und vier lagen falsch. Das ist das Einzige, was ich dir mit Sicherheit sagen kann."
+    ],
+    journalEntry: "Das Ratsprotokoll zeigt: Abstimmung 4 zu 1. Der junge Bibliothekar wollte das Protokoll in den Brunnen einschreiben - für immer. Der Rat unterbrach ihn. In diesem Moment entstand der Schaden.",
+    clueEmoji: "⚖️",
+    task: "Lenke zwanzig Wörter in die richtige Box.",
+    minigame: { type: "arrow" }
+  },
+  {
+    id: "reisender",
+    name: "Der Reisende",
+    img: "assets/npc_reisender.png",
+    emoji: "\uD83E\uDDED",
+    before: [
+      "Ein Schriftläufer, hier? Dachte, es gibt euch kaum noch.",
+      "Ich bin viel unterwegs. Ich hab Orte gesehen, die das gleiche Problem haben wie Asteron - manche schlimmer. Ich glaube, der Vorfall hier war nicht einzigartig.",
+      "Manche Orte, die ich besucht habe, sind viel schlimmer dran als Asteron - ganze Abschnitte zerfallen dort. Hilfst du mir, ein paar davon zu reparieren?"
+    ],
+    after: [
+      "Sauber. Wenn du das hier stabilisieren kannst, kannst du es vielleicht auch anderswo.",
+      "Aber das, mein Freund, ist eine andere Geschichte - für einen anderen Tag.",
+      "Asteron ist erstmal genug für dich, denke ich."
+    ],
+    journalEntry: "Andere Orte außerhalb Asterons haben ähnliche, teils schlimmere Probleme mit ihren eigenen Anker-Protokollen.",
+    clueEmoji: "🗺️",
+    task: "Ersetze zwanzig großgeschriebene Wörter durch die richtige Form.",
+    minigame: { type: "drag" }
+  }
+];
+
+const ENDING_LINES = [
+  "Das fünfte Zeichen rastet ein. Eine Sekunde passiert gar nichts. Dann beginnt das Wasser aufzuleuchten - nicht golden, nicht dramatisch. Nur klar. Einfach klar, zum ersten Mal seit Generationen.",
+  "Elians Plan war simpel: das vollständige Protokoll in den Brunnen einschreiben, dauerhaft, für alle. Kein Geheimnis. Kein Ratsprivileg. Einfach da - für jeden, der es braucht. Die fünf Zeichen sind die Fragmente, die übrig blieben, als man ihn aufhielt.",
+  "Die Bewohner kommen. Nicht alle auf einmal - erst einer, dann noch einer. Niemand sagt viel. Die Bäckerin hält ihr Rezeptbuch eng. Der Schüler liest laut vor aus der Seite, die seine Oma versteckt hatte. Er liest es richtig.",
+  "Der Bürgermeister hält das versiegelte Ratsprotokoll in der Hand. Lange. Dann liest er die Gegenstimme vor - Elians Stimme, 4 zu 1 überstimmt, jetzt zum ersten Mal laut ausgesprochen.",
+  "Du wirst Asteron bald verlassen. Der Reisende hat dir eine Kopie seiner Karte gegeben. Die Dörfer, die auf Elians Weg liegen, warten. Aber das ist morgen. Heute Nacht leuchtet der Brunnen, und das reicht."
+];
+
+/* =========================================================
+   AUFGABEN-POOLS (je 10 Runden, alle 5 Kategorien gemischt)
+   ========================================================= */
+
+const REWRITE_ROUNDS = [
+  { prompt: "das wasser des ankerbrunnens von asteron war früher klar wie glas.",
+    answer: "Das Wasser des Ankerbrunnens von Asteron war früher klar wie Glas.",
+    hint: "Satzanfang, Nomen und der Eigenname Asteron.", category: "Nomen & Eigennamen" },
+  { prompt: "die bäckerin schöpft jeden morgen frisches wasser für den teig aus dem brunnen.",
+    answer: "Die Bäckerin schöpft jeden Morgen frisches Wasser für den Teig aus dem Brunnen.",
+    hint: "Satzanfang und alle Nomen.", category: "Nomen" },
+  { prompt: "können sie mir sagen, wo das wasser im dorf herkommt?",
+    answer: "Können Sie mir sagen, wo das Wasser im Dorf herkommt?",
+    hint: "Höfliche Anrede und Nomen.", category: "Höfliche Anrede" },
+  { prompt: "das fließen des wassers hörte man früher vom marktplatz aus.",
+    answer: "Das Fließen des Wassers hörte man früher vom Marktplatz aus.",
+    hint: "'Fließen' ist ein nominalisiertes Verb.", category: "Verb wird Nomen" },
+  { prompt: "anna reist von wien nach asteron, weil sie den brunnen sehen möchte.",
+    answer: "Anna reist von Wien nach Asteron, weil sie den Brunnen sehen möchte.",
+    hint: "Eigennamen und Nomen.", category: "Eigennamen & Nomen" },
+  { prompt: "das glänzen des wassers in der sonne war etwas besonderes für die bewohner.",
+    answer: "Das Glänzen des Wassers in der Sonne war etwas Besonderes für die Bewohner.",
+    hint: "'Glänzen' ist nominalisiert, 'Besonderes' ist ein Adjektiv als Nomen nach 'etwas'.", category: "Verb & Adjektiv wird Nomen" },
+  { prompt: "der brunnen von asteron wurde vor generationen von den gründern erbaut.",
+    answer: "Der Brunnen von Asteron wurde vor Generationen von den Gründern erbaut.",
+    hint: "Eigenname und mehrere Nomen.", category: "Nomen & Eigennamen" },
+  { prompt: "ich danke ihnen für ihre auskunft über den alten brunnen.",
+    answer: "Ich danke Ihnen für Ihre Auskunft über den alten Brunnen.",
+    hint: "Zweimal höfliche Anrede, einmal Nomen.", category: "Höfliche Anrede" },
+  { prompt: "das rauschen des wassers beruhigte die bewohner in unruhigen nächten.",
+    answer: "Das Rauschen des Wassers beruhigte die Bewohner in unruhigen Nächten.",
+    hint: "'Rauschen' ist nominalisiert. 'unruhigen' ist ein Adjektiv und bleibt klein.", category: "Verb wird Nomen" },
+  { prompt: "der reisende sagt, ihre quelle sei versiegt - sie solle anderswo suchen.",
+    answer: "Der Reisende sagt, ihre Quelle sei versiegt - sie solle anderswo suchen.",
+    hint: "'ihre' meint hier eine dritte Person, nicht höfliche Anrede - es bleibt klein.", category: "Pronomen bleibt klein" },
+  { prompt: "das wasser fließt heute besonders leise durch den brunnen.",
+    answer: "Das Wasser fließt heute besonders leise durch den Brunnen.",
+    hint: "'leise' ist ein Adjektiv und kein Nomen - es bleibt klein.", category: "Adjektiv bleibt klein" },
+  { prompt: "das schöne am morgen ist die ruhe am brunnen von asteron.",
+    answer: "Das Schöne am Morgen ist die Ruhe am Brunnen von Asteron.",
+    hint: "'Schöne' ist ein Adjektiv, das hier als Nomen steht.", category: "Adjektiv wird Nomen" },
+  { prompt: "der rat spricht von elian, als hätte er nie existiert.",
+    answer: "Der Rat spricht von Elian, als hätte er nie existiert.",
+    hint: "Eigenname und Nomen. 'er' ist ein normales Pronomen - klein.", category: "Eigenname & Nomen" },
+  { prompt: "ich bitte sie, mir ihr vertrauen zu schenken.",
+    answer: "Ich bitte Sie, mir Ihr Vertrauen zu schenken.",
+    hint: "Zweimal höfliche Anrede - 'Sie' und 'Ihr'. Dazu das Nomen 'Vertrauen'.", category: "Höfliche Anrede" },
+  { prompt: "beim abschreiben verliert man manchmal den überblick.",
+    answer: "Beim Abschreiben verliert man manchmal den Überblick.",
+    hint: "'Abschreiben' und 'Überblick' sind beides Nomen.", category: "Verb wird Nomen" },
+  { prompt: "elian wollte nichts geringeres als eine neue ordnung für das dorf.",
+    answer: "Elian wollte nichts Geringeres als eine neue Ordnung für das Dorf.",
+    hint: "'Geringeres' nach 'nichts' ist Adjektiv als Nomen. 'neue' bleibt als Adjektiv klein.", category: "Adjektiv wird Nomen" },
+  { prompt: "die bäckerin sagt, sie könne ohne das wasser des brunnens nicht backen.",
+    answer: "Die Bäckerin sagt, sie könne ohne das Wasser des Brunnens nicht backen.",
+    hint: "'sie' ist hier eine dritte Person - bleibt klein. Zwei Nomen: Wasser, Brunnen.", category: "Nomen & Pronomen klein" },
+  { prompt: "das vergessen der vergangenheit ist manchmal eine form des schutzes.",
+    answer: "Das Vergessen der Vergangenheit ist manchmal eine Form des Schutzes.",
+    hint: "Drei nominalisierte Verben/Nomen: Vergessen, Vergangenheit, Form, Schutzes.", category: "Verb wird Nomen" },
+  { prompt: "können sie mir sagen, ob der schlüssel noch in der bibliothek liegt?",
+    answer: "Können Sie mir sagen, ob der Schlüssel noch in der Bibliothek liegt?",
+    hint: "Höfliche Anrede am Satzanfang, zwei Nomen.", category: "Höfliche Anrede & Nomen" },
+  { prompt: "das im verborgenen gehaltene wissen gehört allen.",
+    answer: "Das im Verborgenen gehaltene Wissen gehört allen.",
+    hint: "'Verborgenen' nach 'im' (in dem) ist substantiviertes Adjektiv.", category: "Adjektiv wird Nomen" }
+];
+
+const FEHLERSUCHE_ROUNDS = [
+  { sentence: ["Der","lehrer","öffnet","das","buch","und","liest","es","laut","vor","."],
+    wrongIndices: [1,4], category: "Nomen" },
+  { sentence: ["die","Schülerin","findet","eine","seite","hinter","dem","Regal","."],
+    wrongIndices: [0,4], category: "Satzanfang & Nomen" },
+  { sentence: ["Anna","liest","die","herausgerissene","seite","zum","ersten","Mal","."],
+    wrongIndices: [4], category: "Nomen" },
+  { sentence: ["Das","lesen","alter","bücher","fällt","ihr","leicht","."],
+    wrongIndices: [1,3], category: "Verb & Nomen" },
+  { sentence: ["Können","sie","mir","das","buch","zeigen","?"],
+    wrongIndices: [1,4], category: "Höfliche Anrede & Nomen" },
+  { sentence: ["er","notiert","sich","etwas","neues","aus","dem","alten","Protokoll","."],
+    wrongIndices: [0,4], category: "Satzanfang & Adjektiv wird Nomen" },
+  { sentence: ["Der","bibliothekar","sagt",",","Er","kenne","jeden","satz","auswendig","."],
+    wrongIndices: [1,4,7], category: "Nomen & Pronomen" },
+  { sentence: ["Beim","schreiben","vergisst","die","Schülerin","alles","andere","."],
+    wrongIndices: [1], category: "Verb wird Nomen" },
+  { sentence: ["Die","bäckerin","liest","das","Buch","so","oft","wie","Sie","kann","."],
+    wrongIndices: [1,8], category: "Nomen & Pronomen bleibt klein" },
+  { sentence: ["Sie","hat","etwas","neues","über","das","protokoll","herausgefunden","."],
+    wrongIndices: [3,6], category: "Adjektiv wird Nomen & Nomen" },
+  { sentence: ["Das","lesen","in","der","bibliothek","fällt","ihr","leicht","."],
+    wrongIndices: [1,4], category: "Verb wird Nomen & Nomen" },
+  { sentence: ["Der","Schüler","findet","etwas","neues","in","dem","alten","buch","."],
+    wrongIndices: [4,8], category: "Adjektiv wird Nomen & Nomen" },
+  { sentence: ["Elian","wollte","das","protokoll","für","alle","zugänglich","machen","."],
+    wrongIndices: [3], category: "Nomen" },
+  { sentence: ["Der","Bibliothekar","sagt",",","Er","habe","nichts","gewusst","."],
+    wrongIndices: [4], category: "Pronomen bleibt klein" },
+  { sentence: ["Das","schreiben","und","das","lesen","gehören","zum","protokoll","."],
+    wrongIndices: [1,4,7], category: "Verb wird Nomen" },
+  { sentence: ["Können","sie","mir","die","Seite","aus","dem","alten","Buch","zeigen","?"],
+    wrongIndices: [1], category: "Höfliche Anrede" },
+  { sentence: ["Anna","findet","das","buch","in","der","bibliothek","von","asteron","."],
+    wrongIndices: [3,6,8], category: "Nomen & Eigenname" },
+  { sentence: ["das","beste","an","diesem","Buch","ist","die","klarheit","der","sprache","."],
+    wrongIndices: [0,1,7,9], category: "Satzanfang & Adjektiv wird Nomen & Nomen" },
+  { sentence: ["Die","Bäckerin","liest","das","Buch","und","Sie","freut","sich","darüber","."],
+    wrongIndices: [6], category: "Pronomen bleibt klein" },
+  { sentence: ["Er","berichtet",",","Elian","habe","das","lesen","sehr","geliebt","."],
+    wrongIndices: [6], category: "Verb wird Nomen" }
+];
+
+const LUECKENTEXT_ROUNDS = [
+  { template: "___1___ Schlüssel liegt seit Generationen in der Bibliothek.",
+    correct: "Der", options: ["der","Der"], category: "Satzanfang" },
+  { template: "Die versiegelte ___1___ wurde seit dem Vorfall nie geöffnet.",
+    correct: "Kammer", options: ["kammer","Kammer"], category: "Nomen" },
+  { template: "Der Schlüssel gehört dem ___1___.",
+    correct: "Bibliothekar", options: ["bibliothekar","Bibliothekar"], category: "Nomen" },
+  { template: "Das ___1___ des Geheimnisses braucht Mut.",
+    correct: "Lüften", options: ["lüften","Lüften"], category: "Verb wird Nomen" },
+  { template: "Können ___1___ mir den Schlüssel zeigen?",
+    correct: "Sie", options: ["sie","Sie"], category: "Höfliche Anrede" },
+  { template: "Das Schloss trägt den Namen ___1___.",
+    correct: "Asteron", options: ["asteron","Asteron"], category: "Eigenname" },
+  { template: "Das ___1___ alter Geheimnisse kostet Überwindung.",
+    correct: "Enthüllen", options: ["enthüllen","Enthüllen"], category: "Verb wird Nomen" },
+  { template: "Hinter der Tür liegt etwas ___1___.",
+    correct: "Wichtiges", options: ["wichtiges","Wichtiges"], category: "Adjektiv wird Nomen" },
+  { template: "Der Bibliothekar sagt, ___1___ öffne die Tür heute noch.",
+    correct: "er", options: ["er","Er"], category: "Pronomen bleibt klein" },
+  { template: "Das Wasser fließt ___1___ durch den Brunnen.",
+    correct: "leise", options: ["leise","Leise"], category: "Adjektiv bleibt klein" },
+  { template: "Das ___1___ des Schlüssels dauerte Generationen.",
+    correct: "Hüten", options: ["hüten","Hüten"], category: "Verb wird Nomen" },
+  { template: "___1___ ist die eigentliche Aufgabe des Bibliothekars.",
+    correct: "Bewahren", options: ["bewahren","Bewahren"], category: "Verb wird Nomen" },
+  { template: "Der Raum wurde von ___1___ selbst versiegelt.",
+    correct: "Elian", options: ["elian","Elian"], category: "Eigenname" },
+  { template: "Ich danke ___1___ für Ihre Offenheit in dieser Sache.",
+    correct: "Ihnen", options: ["ihnen","Ihnen"], category: "Höfliche Anrede" },
+  { template: "Das ___1___ ist kein Zeichen von Schwäche.",
+    correct: "Zugeben", options: ["zugeben","Zugeben"], category: "Verb wird Nomen" },
+  { template: "Die Kammer befindet sich in der Bibliothek von ___1___.",
+    correct: "Asteron", options: ["asteron","Asteron"], category: "Eigenname" },
+  { template: "Das ist im ___1___ bekannt.",
+    correct: "Allgemeinen", options: ["allgemeinen","Allgemeinen"], category: "Adjektiv wird Nomen" },
+  { template: "Die Bäckerin backt, ___1___ freut sich dabei.",
+    correct: "sie", options: ["sie","Sie"], category: "Pronomen bleibt klein" },
+  { template: "Das ___1___ der versiegelten Kammer ist sehr alt.",
+    correct: "Schloss", options: ["schloss","Schloss"], category: "Nomen" },
+  { template: "Das ___1___ war das Einzige, was Elian hinterließ.",
+    correct: "Notizbuch", options: ["notizbuch","Notizbuch"], category: "Nomen" }
+];
+
+/* --- SWIPE: Satz mit einem unterstrichenen Wort, schnelle Entscheidung klein/groß --- */
+const ARROW_ROUNDS = [
+  { word: "rat", context: "Der ___ von Asteron traf sich heute.", shouldCapitalize: true, category: "Nomen" },
+  { word: "abstimmung", context: "Die ___ war 4 zu 1.", shouldCapitalize: true, category: "Nomen" },
+  { word: "sie", context: "Frau Bäckerin, darf ich ___ kurz etwas fragen?", shouldCapitalize: true, category: "Höfliche Anrede" },
+  { word: "entscheiden", context: "Das ___ fiel dem Rat nicht leicht.", shouldCapitalize: true, category: "Verb wird Nomen" },
+  { word: "er", context: "Der Bürgermeister sagt, ___ habe damals mit Nein gestimmt.", shouldCapitalize: false, category: "Pronomen bleibt klein" },
+  { word: "gerechtigkeit", context: "Die ___ wird manchmal erst spät erkannt.", shouldCapitalize: true, category: "Nomen" },
+  { word: "abstimmen", context: "Er geht heute noch ___ im großen Saal.", shouldCapitalize: false, category: "Verb bleibt klein" },
+  { word: "eine", context: "___ Gegenstimme reicht manchmal, um Geschichte zu verändern.", shouldCapitalize: true, category: "Satzanfang" },
+  { word: "ihnen", context: "Ich danke ___ für Ihre Geduld in dieser schwierigen Frage.", shouldCapitalize: true, category: "Höfliche Anrede" },
+  { word: "ihre", context: "Das ist nicht ___ Entscheidung allein - das gehört allen.", shouldCapitalize: false, category: "Pronomen bleibt klein" },
+  { word: "nachdenken", context: "Das ___ hilft manchmal mehr als reden.", shouldCapitalize: true, category: "Verb wird Nomen" },
+  { word: "beschluss", context: "Der ___ des Rates galt als endgültig.", shouldCapitalize: true, category: "Nomen" },
+  { word: "ihre", context: "Ich danke Ihnen für ___ Offenheit.", shouldCapitalize: true, category: "Höfliche Anrede" },
+  { word: "elian", context: "___ wusste, was er tat.", shouldCapitalize: true, category: "Eigenname" },
+  { word: "allgemeinen", context: "Das ist im ___ bekannt.", shouldCapitalize: true, category: "Adjektiv wird Nomen" },
+  { word: "rat", context: "Elian wurde vom ___ aufgehalten.", shouldCapitalize: true, category: "Nomen" },
+  { word: "sie", context: "Herr Bürgermeister, können ___ das bestätigen?", shouldCapitalize: true, category: "Höfliche Anrede" },
+  { word: "schreiben", context: "Er liebte das ___ von Briefen.", shouldCapitalize: true, category: "Verb wird Nomen" },
+  { word: "ihre", context: "Die Hüterin sagt, ___ Zeit sei vorbei.", shouldCapitalize: false, category: "Pronomen bleibt klein" },
+  { word: "gut", context: "Der Rat meinte, er habe das ___ im Sinn.", shouldCapitalize: false, category: "Adjektiv bleibt klein" }
+];
+
+/* --- CHAOS: längere Absätze mit mehreren gemischten Bruchstellen --- */
+const DRAG_ROUNDS = [
+  { sentence: "Der Brunnen ist sehr TIEF.",   target: "TIEF",   correct: "tief",        options: ["tief","Tief"],          category: "Adjektiv bleibt klein" },
+  { sentence: "Das SCHREIBEN fällt ihr leicht.", target: "SCHREIBEN", correct: "Schreiben", options: ["schreiben","Schreiben"], category: "Verb wird Nomen" },
+  { sentence: "Er kommt aus WIEN.",            target: "WIEN",   correct: "Wien",         options: ["wien","Wien"],           category: "Eigenname" },
+  { sentence: "Können SIE mir helfen?",        target: "SIE",    correct: "Sie",          options: ["sie","Sie"],             category: "Höfliche Anrede" },
+  { sentence: "Die Bäckerin sagt, SIE backe jeden Morgen Brot.", target: "SIE", correct: "sie", options: ["sie","Sie"],     category: "Pronomen bleibt klein" },
+  { sentence: "Das VERGESSEN alter Regeln macht Sorgen.",        target: "VERGESSEN", correct: "Vergessen", options: ["vergessen","Vergessen"], category: "Verb wird Nomen" },
+  { sentence: "Der BIBLIOTHEKAR kennt alle Bücher auswendig.",   target: "BIBLIOTHEKAR", correct: "Bibliothekar", options: ["bibliothekar","Bibliothekar"], category: "Nomen" },
+  { sentence: "Der Brunnen plätschert sehr LEISE vor sich hin.", target: "LEISE", correct: "leise", options: ["leise","Leise"], category: "Adjektiv bleibt klein" },
+  { sentence: "Sie erlebte etwas NEUES in Asteron.",            target: "NEUES", correct: "Neues", options: ["neues","Neues"], category: "Adjektiv wird Nomen" },
+  { sentence: "Er geht heute noch SCHWIMMEN im See.",           target: "SCHWIMMEN", correct: "schwimmen", options: ["schwimmen","Schwimmen"], category: "Verb bleibt klein" },
+  { sentence: "Das NACHDENKEN hilft manchmal mehr als reden.", target: "NACHDENKEN", correct: "Nachdenken", options: ["nachdenken","Nachdenken"], category: "Verb wird Nomen" },
+  { sentence: "Elian schrieb JEDEN Abend in sein Notizbuch.", target: "JEDEN", correct: "jeden", options: ["jeden","Jeden"], category: "Adjektiv bleibt klein" },
+  { sentence: "Der Rat traf seine ENTSCHEIDUNG sehr schnell.", target: "ENTSCHEIDUNG", correct: "Entscheidung", options: ["entscheidung","Entscheidung"], category: "Nomen" },
+  { sentence: "Das GUTE an Elians Plan war seine Einfachheit.", target: "GUTE", correct: "Gute", options: ["gute","Gute"], category: "Adjektiv wird Nomen" },
+  { sentence: "Können Sie mir IHR Protokoll zeigen?", target: "IHR", correct: "Ihr", options: ["ihr","Ihr"], category: "Höfliche Anrede" },
+  { sentence: "Der Brunnen steht heute NOCH am Dorfplatz.", target: "NOCH", correct: "noch", options: ["noch","Noch"], category: "Adverb bleibt klein" },
+  { sentence: "Das LÜFTEN des Geheimnisses brauchte Zeit.", target: "LÜFTEN", correct: "Lüften", options: ["lüften","Lüften"], category: "Verb wird Nomen" },
+  { sentence: "Der Bürgermeister sagt, ER habe Recht gehabt.", target: "ER", correct: "er", options: ["er","Er"], category: "Pronomen bleibt klein" },
+  { sentence: "Die Reisenden kommen aus VERSCHIEDENEN Dörfern.", target: "VERSCHIEDENEN", correct: "verschiedenen", options: ["verschiedenen","Verschiedenen"], category: "Adjektiv bleibt klein" },
+  { sentence: "Das ist im ALLGEMEINEN bekannt in Asteron.", target: "ALLGEMEINEN", correct: "Allgemeinen", options: ["allgemeinen","Allgemeinen"], category: "Adjektiv wird Nomen" }
+];
+
+/* =========================================================
+   NAVIGATION / SCREENS
+   ========================================================= */
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(function(s){ s.classList.remove("active"); });
+  document.getElementById(id).classList.add("active");
+  // Hintergrundbild je nach Screen wechseln
+  var dorfScreens = ["screen-dorf","screen-journal","screen-rules","screen-end"];
+  var bg = dorfScreens.indexOf(id) >= 0 ? "url('assets/bg_village.png')" : "url('assets/bg_forest.png')";
+  document.body.style.backgroundImage = bg;
+  if(id === "screen-end") startEndingAnimation();
+}
+
+function beginIntro(){
+  runStory(INTRO_LINES, function(){
+    openLehrmeisterinIntro();
+  }, "Zur Hüterin der Schrift");
+}
+
+function openLehrmeisterinIntro(){
+  state.dialogQueue = LEHRMEISTERIN.before;
+  state.dialogIndex = 0;
+  document.getElementById("dialog-name").textContent = LEHRMEISTERIN.name;
+  document.getElementById("dialog-portrait-img").innerHTML =
+    '<img src="' + LEHRMEISTERIN.img + '" alt="' + LEHRMEISTERIN.name + '" ' +
+    'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{textContent:\'' + LEHRMEISTERIN.emoji + '\',style:\'font-size:1.6rem\'}))">';
+  renderLehrmeisterinIntroLine();
+  document.getElementById("dialog-overlay").classList.add("active");
+}
+
+function renderLehrmeisterinIntroLine(){
+  document.getElementById("dialog-text").textContent = state.dialogQueue[state.dialogIndex];
+  document.getElementById("dialog-progress").textContent =
+    "(" + (state.dialogIndex + 1) + "/" + state.dialogQueue.length + ")";
+  const actions = document.getElementById("dialog-actions");
+  actions.innerHTML = "";
+  const isLastLine = state.dialogIndex === state.dialogQueue.length - 1;
+  const btn = document.createElement("button");
+  btn.className = "pixel-btn";
+  if(!isLastLine){
+    btn.textContent = "Weiter";
+    btn.onclick = function(){ state.dialogIndex++; renderLehrmeisterinIntroLine(); };
+  } else {
+    btn.textContent = "Regeln anhören";
+    btn.onclick = function(){
+      document.getElementById("dialog-overlay").classList.remove("active");
+      runLesson();
+    };
+  }
+  actions.appendChild(btn);
+}
+
+function runLesson(){
+  runStory(LESSON_CARDS, function(){
+    startTutorialQuiz();
+  }, "Zur Einstufungsprüfung");
+}
+
+function runStory(lines, onFinish, finishLabel){
+  state.storyQueue = lines;
+  state.storyIndex = 0;
+  state.storyOnFinish = onFinish;
+  state.storyFinishLabel = finishLabel || "Weiter";
+  showScreen("screen-story");
+  renderStoryLine();
+}
+
+function renderStoryLine(){
+  const item = state.storyQueue[state.storyIndex];
+  const box = document.getElementById("story-text");
+  if(typeof item === "string"){
+    box.innerHTML = item;
+  } else {
+    let html =
+      '<div class="story-title">' + item.title + '</div>' +
+      '<div>' + item.text + '</div>';
+    if(item.test){
+      html += '<div class="story-test">🔍 ' + item.test + '</div>';
+    }
+    html += '<div class="story-example">' + item.example + '</div>';
+    if(item.warning){
+      html += '<div class="story-warning">⚠️ ' + item.warning + '</div>';
+    }
+    box.innerHTML = html;
+  }
+  document.getElementById("story-progress").textContent =
+    (state.storyIndex + 1) + " / " + state.storyQueue.length;
+  const btn = document.getElementById("story-next-btn");
+  btn.textContent = (state.storyIndex === state.storyQueue.length - 1) ? state.storyFinishLabel: "Weiter ▶";
+}
+
+function advanceStory(){
+  state.storyIndex++;
+  if(state.storyIndex >= state.storyQueue.length){
+    const fn = state.storyOnFinish;
+    state.storyOnFinish = null;
+    if(fn) fn();
+    return;
+  }
+  renderStoryLine();
+}
+
+/* =========================================================
+   BRUNNEN STATUS / HUB
+   ========================================================= */
+function updateBrunnenBar(){
+  const healedCount = Object.keys(state.healed).length;
+  const total = NPCS.length;
+  const pct = Math.round((healedCount/total)*100);
+  document.getElementById("brunnen-bar").style.width = pct + "%";
+  let label = "instabil";
+  if(healedCount === total) label = "stabil";
+  else if(healedCount >= Math.ceil(total*0.6)) label = "stabilisierend";
+  else if(healedCount > 0) label = "leicht stabilisierend";
+  document.getElementById("brunnen-text").textContent =
+    "Brunnen: " + label + " (" + healedCount + "/" + total + ")";
+
+  // Brunnen-Bild wechseln je nach Fortschritt
+  var img = document.getElementById("brunnen-img");
+  if(img) img.src = "assets/brunnen_" + Math.min(healedCount, 5) + ".png";
+
+  // SVG-Fallback Wasser-Farben
+  var water = document.getElementById("brunnen-water");
+  var glow  = document.getElementById("brunnen-glow");
+  if(water && glow){
+    var waterColors = ["#3d5a73","#3d6a83","#4d7a93","#5d90a8","#7fb3d5","#aae0ff"];
+    var glowColors  = ["#7fb3d5","#8fc3e5","#9fd3f5","#b0e0ff","#d0f0ff","#e8f8ff"];
+    water.setAttribute("fill", waterColors[Math.min(healedCount, 5)]);
+    glow.setAttribute("stroke", glowColors[Math.min(healedCount, 5)]);
+    glow.setAttribute("opacity", String(0.3 + healedCount * 0.12));
+  }
+
+  // Schloss-Button: offen/geschlossen anzeigen
+  var lockLabel = document.getElementById("lock-label");
+  var lockShackle = document.getElementById("lock-shackle");
+  var lockBtn = document.getElementById("brunnen-repair-btn");
+  if(lockBtn && lockLabel){
+    if(healedCount === total){
+      lockBtn.style.borderColor = "var(--accent-gold)";
+      lockBtn.style.boxShadow = "0 3px 0 #0006, 0 0 8px var(--accent-gold), 2px 2px 0 var(--wood-dark) inset";
+      lockLabel.textContent = "öffnen";
+      lockLabel.style.color = "var(--accent-gold)";
+      if(lockShackle) lockShackle.setAttribute("d","M8 11V9a4 4 0 0 1 8 0");
+    } else {
+      lockLabel.textContent = healedCount + "\u202F/\u202F5";
+      lockLabel.style.color = "var(--parchment-dark)";
+      if(lockShackle) lockShackle.setAttribute("d","M8 11V8a4 4 0 0 1 8 0v3");
+    }
+  }
+}
+
+function brunnenLocText(){
+  const healedCount = Object.keys(state.healed).length;
+  if(healedCount === 0){
+    return "In der Mitte des Platzes plätschert leise der alte Ankerbrunnen. Sein Licht flackert unstet, fast wie ein unsicherer Atemzug. Ein paar Bewohner gehen ihren Aufgaben nach, wirken aber unsicher, als würden sie ständig nach Worten suchen, die ihnen nicht einfallen.";
+  } else if(healedCount < NPCS.length){
+    return "Der Brunnen wirkt ruhiger als zuvor. Du spürst, dass deine Hilfe etwas verändert - " + healedCount + " von " + NPCS.length + " Bewohnern wirken schon klarer, wenn sie sprechen oder schreiben.";
+  } else {
+    return "Der Ankerbrunnen leuchtet ruhig und gleichmäßig. Etwas hat sich im Dorf gelöst. Vielleicht ist es Zeit, dem Bürgermeister noch einmal zu begegnen.";
+  }
+}
+
+function renderHub(){
+  document.getElementById("loc-text").textContent = brunnenLocText();
+  const menu = document.getElementById("npc-menu");
+  menu.innerHTML = "";
+  NPCS.forEach(function(npc){
+    const healed = !!state.healed[npc.id];
+    const item = document.createElement("div");
+    item.className = "menu-item" + (healed? " healed" : "");
+    item.onclick = function(){ openDialogue(npc.id); };
+    item.innerHTML =
+      '<div class="mi-portrait"><img src="' + npc.img + '" alt="' + npc.name + '" ' +
+      'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{textContent:\'' + npc.emoji + '\',style:\'font-size:1.1rem\'}))"></div>' +
+      '<div class="mi-text"><div class="mi-name">' + npc.name + '</div>' +
+      '<div class="mi-status">' + (healed? "Aufgabe gelöst - noch einmal sprechen" : "wirkt unsicher beim Sprechen") + '</div></div>';
+    menu.appendChild(item);
+  });
+  updateBrunnenBar();
+}
+
+/* =========================================================
+   JOURNAL & REGELN (statische Screens)
+   ========================================================= */
+function openJournal(){
+  if(document.getElementById("screen-title").classList.contains("active")) return;
+  const wrap = document.getElementById("journal-entries");
+  wrap.innerHTML = "";
+  if(state.journal.length === 0){
+    wrap.innerHTML = '<div class="journal-empty">Noch keine Einträge. Sprich mit den Bewohnern von Asteron, um mehr zu erfahren.</div>';
+  } else {
+    state.journal.forEach(function(entry, i){
+      const div = document.createElement("div");
+      div.className = "journal-entry";
+      div.innerHTML =
+        '<div style="display:flex;align-items:flex-start;gap:10px;">' +
+        '<div style="font-size:1.6rem;flex-shrink:0;line-height:1;" title="Hinweis für den Brunnen">' + entry.emoji + '</div>' +
+        '<div><span class="je-num">' + (i+1) + '.</span>' + entry.text +
+        '<div style="font-size:.65rem;color:var(--wood-dark);margin-top:4px;">— Dieses Zeichen gehört zum Brunnenschloss.</div></div>' +
+        '</div>';
+      wrap.appendChild(div);
+    });
+    if(state.journal.length < 5){
+      const hint = document.createElement("div");
+      hint.className = "journal-empty";
+      hint.style.marginTop = "10px";
+      hint.textContent = "(" + (5 - state.journal.length) + " Hinweis" + (5 - state.journal.length > 1? "e fehlen" : " fehlt") + " noch - sprich mit weiteren Bewohnern.)";
+      wrap.appendChild(hint);
+    }
+  }
+  showScreen("screen-journal");
+}
+
+function openRules(){
+  if(document.getElementById("screen-title").classList.contains("active")) return;
+  const wrap = document.getElementById("rules-entries");
+  wrap.innerHTML = "";
+  LESSON_CARDS.forEach(function(card){
+    const div = document.createElement("div");
+    div.className = "rule-card";
+    let html =
+      '<div class="rc-title">' + card.title + '</div>' +
+      '<div>' + card.text + '</div>';
+    if(card.test){
+      html += '<div class="rc-test">🔍 ' + card.test + '</div>';
+    }
+    html += '<div class="rc-example">' + card.example + '</div>';
+    if(card.warning){
+      html += '<div class="rc-warning">⚠️ ' + card.warning + '</div>';
+    }
+    div.innerHTML = html;
+    wrap.appendChild(div);
+  });
+  showScreen("screen-rules");
+}
+
+function closeSubScreen(){
+  showScreen("screen-dorf");
+}
+
+/* =========================================================
+   DIALOGUE (multi-line)
+   ========================================================= */
+function getNpc(id){ return NPCS.find(function(n){ return n.id === id; }); }
+
+function openDialogue(id){
+  const npc = getNpc(id);
+  const healed = !!state.healed[id];
+  state.dialogNpc = npc;
+  state.dialogQueue = healed? npc.after: npc.before;
+  state.dialogIndex = 0;
+
+  document.getElementById("dialog-name").textContent = npc.name;
+  document.getElementById("dialog-portrait-img").innerHTML =
+    '<img src="' + npc.img + '" alt="' + npc.name + '" ' +
+    'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{textContent:\'' + npc.emoji + '\',style:\'font-size:1.6rem\'}))">';
+
+  renderDialogueLine();
+  document.getElementById("dialog-overlay").classList.add("active");
+}
+
+function renderDialogueLine(){
+  const npc = state.dialogNpc;
+  const healed = !!state.healed[npc.id];
+  document.getElementById("dialog-text").textContent = state.dialogQueue[state.dialogIndex];
+  document.getElementById("dialog-progress").textContent =
+    "(" + (state.dialogIndex + 1) + "/" + state.dialogQueue.length + ")";
+
+  const actions = document.getElementById("dialog-actions");
+  actions.innerHTML = "";
+  const isLastLine = state.dialogIndex === state.dialogQueue.length - 1;
+
+  if(!isLastLine){
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "pixel-btn";
+    nextBtn.textContent = "Weiter";
+    nextBtn.onclick = function(){ state.dialogIndex++; renderDialogueLine(); };
+    actions.appendChild(nextBtn);
+  } else if(!healed){
+    const taskBtn = document.createElement("button");
+    taskBtn.className = "pixel-btn";
+    taskBtn.textContent = "Aufgabe annehmen";
+    taskBtn.onclick = function(){ closeDialogue(); openMinigame(npc); };
+    actions.appendChild(taskBtn);
+  }
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "pixel-btn secondary";
+  closeBtn.textContent = isLastLine? "Verabschieden" : "Abbrechen";
+  closeBtn.onclick = closeDialogue;
+  actions.appendChild(closeBtn);
+}
+
+function closeDialogue(){
+  document.getElementById("dialog-overlay").classList.remove("active");
+}
+
+/* =========================================================
+   MINIGAMES - 10 Runden je Aufgabentyp
+   ========================================================= */
+function shuffle(arr){
+  return arr.slice().sort(function(){ return Math.random() - 0.5; });
+}
+
+function startTutorialQuiz(){
+  mg = { npc: LEHRMEISTERIN, type: "lueckentext", rounds: TUTORIAL_ROUNDS, index: 0, isTutorial: true };
+  document.getElementById("mg-title").textContent = "Einstufungsprüfung der Hüterin";
+  document.getElementById("mg-sub").textContent = "Zeig, dass du erkennst, wann ein Wort groß und wann es klein bleibt.";
+  renderMgRound();
+  document.getElementById("minigame-overlay").classList.add("active");
+}
+
+function finishTutorial(){
+  closeMinigame();
+  state.tutorialPassed = true;
+  state.dialogQueue = LEHRMEISTERIN.farewell;
+  state.dialogIndex = 0;
+  document.getElementById("dialog-name").textContent = LEHRMEISTERIN.name;
+  document.getElementById("dialog-portrait-img").innerHTML =
+    '<img src="' + LEHRMEISTERIN.img + '" alt="' + LEHRMEISTERIN.name + '" ' +
+    'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{textContent:\'' + LEHRMEISTERIN.emoji + '\',style:\'font-size:1.6rem\'}))">';
+  renderFarewellLine();
+  document.getElementById("dialog-overlay").classList.add("active");
+}
+
+function renderFarewellLine(){
+  document.getElementById("dialog-text").textContent = state.dialogQueue[state.dialogIndex];
+  document.getElementById("dialog-progress").textContent =
+    "(" + (state.dialogIndex + 1) + "/" + state.dialogQueue.length + ")";
+  const actions = document.getElementById("dialog-actions");
+  actions.innerHTML = "";
+  const isLastLine = state.dialogIndex === state.dialogQueue.length - 1;
+  const btn = document.createElement("button");
+  btn.className = "pixel-btn";
+  if(!isLastLine){
+    btn.textContent = "Weiter";
+    btn.onclick = function(){ state.dialogIndex++; renderFarewellLine(); };
+  } else {
+    btn.textContent = "Zum Dorfplatz";
+    btn.onclick = function(){
+      document.getElementById("dialog-overlay").classList.remove("active");
+      renderHub();
+      showScreen("screen-dorf");
+    };
+  }
+  actions.appendChild(btn);
+}
+
+function openMinigame(npc){
+  const type = npc.minigame.type;
+  let pool;
+  if(type === "rewrite") pool = REWRITE_ROUNDS;
+  else if(type === "fehlersuche") pool = FEHLERSUCHE_ROUNDS;
+  else if(type === "lueckentext") pool = LUECKENTEXT_ROUNDS;
+  else if(type === "arrow") pool = ARROW_ROUNDS;
+  else pool = DRAG_ROUNDS;
+
+  mg = { npc: npc, type: type, rounds: pool, index: 0 };
+  document.getElementById("mg-title").textContent = npc.task;
+  document.getElementById("mg-sub").textContent = "Aufgabe von: " + npc.name;
+  renderMgRound();
+  document.getElementById("minigame-overlay").classList.add("active");
+}
+
+function closeMinigame(){
+  document.getElementById("minigame-overlay").classList.remove("active");
+  mg = null;
+}
+
+function renderMgRound(){
+  const r = mg.rounds[mg.index];
+  document.getElementById("mg-round").textContent = "Runde " + (mg.index + 1) + " / " + mg.rounds.length;
+  document.getElementById("mg-category").textContent = "Kategorie: " + r.category;
+  document.getElementById("mg-feedback").textContent = "";
+  document.getElementById("mg-actions").innerHTML = "";
+
+  if(mg.type === "rewrite") renderRewriteRound(r);
+  else if(mg.type === "fehlersuche") renderFehlersucheRound(r);
+  else if(mg.type === "lueckentext") renderLueckentextRound(r);
+  else if(mg.type === "arrow") renderArrowRound(r);
+  else renderDragRound(r);
+}
+
+function nextMgRound(){
+  mg.index++;
+  if(mg.index >= mg.rounds.length){
+    if(mg.isTutorial){
+      finishTutorial();
+      return;
+    }
+    const npc = mg.npc;
+    closeMinigame();
+    markHealed(npc);
+    openDialogue(npc.id);
+  } else {
+    renderMgRound();
+  }
+}
+
+function normalize(s){
+  return s.trim().replace(/\s+/g," ");
+}
+
+/* --- REWRITE --- */
+function renderRewriteRound(r){
+  const area = document.getElementById("mg-area");
+  area.innerHTML =
+    '<p style="margin-top:0;">Instabiler Satz:</p>' +
+    '<p style="font-style:italic;color:#7a6a4d;">' + r.prompt + '</p>' +
+    '<input type="text" class="rewrite-input" id="rewrite-input" placeholder="Schreibe den Satz korrekt verankert...">' +
+    '<p style="font-size:.65rem;color:#8a7a5d;margin-bottom:0;" id="rewrite-hint"></p>';
+  let wrongAttempts = 0;
+  const actions = document.getElementById("mg-actions");
+  const checkBtn = document.createElement("button");
+  checkBtn.className = "pixel-btn";
+  checkBtn.textContent = "Überprüfen";
+  checkBtn.onclick = function(){
+    const val = normalize(document.getElementById("rewrite-input").value);
+    const fb = document.getElementById("mg-feedback");
+    const hintEl = document.getElementById("rewrite-hint");
+    if(val === ""){
+      fb.textContent = "Bitte schreibe zuerst etwas in das Feld.";
+      fb.className = "feedback bad";
+      return;
+    }
+    if(val === normalize(r.answer)){
+      fb.textContent = "Richtig!";
+      fb.className = "feedback ok";
+      setTimeout(nextMgRound, 700);
+    } else {
+      wrongAttempts++;
+      fb.textContent = "Noch nicht stabil. Versuch's nochmal.";
+      fb.className = "feedback bad";
+      if(wrongAttempts >= 3){
+        hintEl.textContent = "Lösung: " + r.answer;
+      } else if(wrongAttempts >= 1){
+        hintEl.textContent = "Tipp: " + r.hint;
+      }
+    }
+  };
+  actions.appendChild(checkBtn);
+  addCloseButton(actions);
+  document.getElementById("rewrite-input").focus();
+}
+
+/* --- FEHLERSUCHE --- */
+function renderFehlersucheRound(r){
+  const area = document.getElementById("mg-area");
+  const picked = new Set();
+  const correct = new Set(r.wrongIndices);
+  area.innerHTML = "<p style='margin-top:0;font-size:.7rem;color:#8a7a5d;'>Klicke alle Wörter an, die nicht richtig geschrieben sind - manche müssten groß, manche müssten klein sein.</p>";
+  const p = document.createElement("p");
+  p.style.margin = "0";
+  r.sentence.forEach(function(word, i){
+    const isPunct = word === "." || word === "," || word === "?";
+    const span = document.createElement("span");
+    span.textContent = word + " ";
+    if(!isPunct){
+      span.className = "word-token";
+      span.onclick = function(){
+        if(picked.has(i)) return;
+        picked.add(i);
+        if(correct.has(i)){
+          span.classList.add("picked-right");
+          checkDone();
+        } else {
+          span.classList.add("picked-wrong");
+          const fb = document.getElementById("mg-feedback");
+          fb.textContent = "Das war kein Fehler. Der Satz wird neu angezeigt - versuch's nochmal.";
+          fb.className = "feedback bad";
+          setTimeout(function(){ renderFehlersucheRound(r); }, 1100);
+        }
+      };
+    }
+    p.appendChild(span);
+  });
+  area.appendChild(p);
+
+  function checkDone(){
+    const fb = document.getElementById("mg-feedback");
+    if(picked.size === correct.size){
+      fb.textContent = "Alle Fehler gefunden!";
+      fb.className = "feedback ok";
+      setTimeout(nextMgRound, 700);
+    }
+  }
+  addCloseButton(document.getElementById("mg-actions"));
+}
+
+/* --- LUECKENTEXT --- */
+function renderLueckentextRound(r){
+  const area = document.getElementById("mg-area");
+  let html = r.template.replace("___1___", '<span id="blank-0" style="border-bottom:2px dotted var(--wood);padding:0 4px;">______</span>');
+  area.innerHTML = '<p>' + html + '</p><div id="blank-options"></div>';
+
+  const optWrap = document.getElementById("blank-options");
+  const shuffled = shuffle(r.options);
+  shuffled.forEach(function(opt){
+    const btn = document.createElement("button");
+    btn.className = "lueckentext-blank-btn";
+    btn.textContent = opt;
+    btn.onclick = function(){
+      document.getElementById("blank-0").textContent = opt;
+      const fb = document.getElementById("mg-feedback");
+      if(opt === r.correct){
+        fb.textContent = "Richtig!";
+        fb.className = "feedback ok";
+        setTimeout(nextMgRound, 700);
+      } else {
+        fb.textContent = "Noch nicht ganz richtig. Wähle erneut.";
+        fb.className = "feedback bad";
+      }
+    };
+    optWrap.appendChild(btn);
+  });
+  addCloseButton(document.getElementById("mg-actions"));
+}
+
+/* --- SWIPE: schnelle Klein/Groß-Entscheidung für ein einzelnes Wort --- */
+/* --- PFEIL-SPIEL: Wort in GROSS oder KLEIN Box lenken --- */
+function renderArrowRound(r){
+  var area = document.getElementById("mg-area");
+  var ctx = r.context.replace("___", '<span style="background:#ffe9a8;padding:1px 5px;font-weight:bold;">' + r.word + '</span>');
+  area.innerHTML =
+    '<p style="margin-top:0;font-size:.7rem;color:#8a7a5d;">Drücke ← / → oder klicke die Box: Gehört das Wort groß oder klein?</p>' +
+    '<div class="arrow-boxes">' +
+      '<div class="arrow-box arrow-box-klein" id="arrow-klein" tabindex="0">klein</div>' +
+      '<div class="arrow-box arrow-box-gross" id="arrow-gross" tabindex="0">GROSS</div>' +
+    '</div>' +
+    '<div style="text-align:center;margin-bottom:10px;">' +
+      '<div class="arrow-word-chip" id="arrow-word">' + r.word + '</div>' +
+    '</div>' +
+    '<p style="text-align:center;font-size:.78rem;color:#5a4a35;margin:0;">' + ctx + '</p>';
+
+  var answered = false;
+
+  function answer(choseCapitalize){
+    if(answered) return;
+    var fb = document.getElementById("mg-feedback");
+    var wordEl = document.getElementById("arrow-word");
+    var boxEl = document.getElementById(choseCapitalize ? "arrow-gross" : "arrow-klein");
+    boxEl.classList.add("selected");
+    if(choseCapitalize === r.shouldCapitalize){
+      wordEl.textContent = choseCapitalize ? capitalize(r.word) : r.word;
+      wordEl.style.color = "var(--accent-green)";
+      fb.textContent = "Richtig!";
+      fb.className = "feedback ok";
+      answered = true;
+      setTimeout(nextMgRound, 750);
+    } else {
+      wordEl.style.color = "var(--accent-red)";
+      fb.textContent = "Nicht richtig - versuch's nochmal.";
+      fb.className = "feedback bad";
+      setTimeout(function(){
+        wordEl.style.color = "";
+        boxEl.classList.remove("selected");
+      }, 600);
+    }
+  }
+
+  document.getElementById("arrow-gross").onclick = function(){ answer(true); };
+  document.getElementById("arrow-klein").onclick = function(){ answer(false); };
+
+  // Tastatursteuerung
+  var keyHandler = function(e){
+    if(e.key === "ArrowRight") answer(true);
+    if(e.key === "ArrowLeft")  answer(false);
+  };
+  document.addEventListener("keydown", keyHandler);
+  // Cleanup beim nächsten Round
+  var origNext = nextMgRound;
+  area._cleanup = function(){ document.removeEventListener("keydown", keyHandler); };
+
+  addCloseButton(document.getElementById("mg-actions"));
+}
+
+function capitalize(word){
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+/* --- DRAG & DROP: Wort in ALL CAPS durch die richtige Form ersetzen --- */
+function renderDragRound(r){
+  var area = document.getElementById("mg-area");
+  var selectedOption = null;
+
+  // Satz mit ALL CAPS Zielwort hervorheben
+  var sentenceHtml = r.sentence.replace(
+    r.target,
+    '<span id="drag-drop-zone" class="drag-drop-zone">' + r.target + '</span>'
+  );
+
+  // Optionen mischen
+  var opts = r.options.slice().sort(function(){ return Math.random() - 0.5; });
+
+  var optsHtml = opts.map(function(o){
+    return '<span class="drag-option-chip" draggable="true" data-word="' + o + '">' + o + '</span>';
+  }).join('');
+
+  area.innerHTML =
+    '<p style="margin-top:0;font-size:.7rem;color:#8a7a5d;">Das großgeschriebene Wort muss ersetzt werden. Ziehe oder klicke das richtige Wort.</p>' +
+    '<p class="drag-sentence">' + sentenceHtml + '</p>' +
+    '<div class="drag-options-row" id="drag-options">' + optsHtml + '</div>';
+
+  var dropZone = document.getElementById("drag-drop-zone");
+  var optionChips = area.querySelectorAll(".drag-option-chip");
+
+  function tryAnswer(word){
+    var fb = document.getElementById("mg-feedback");
+    dropZone.textContent = word;
+    if(word === r.correct){
+      dropZone.style.background = "#a8e6a3";
+      dropZone.style.borderColor = "var(--accent-green)";
+      fb.textContent = "Richtig!";
+      fb.className = "feedback ok";
+      setTimeout(nextMgRound, 750);
+    } else {
+      dropZone.style.background = "#f3a8a0";
+      dropZone.style.borderColor = "var(--accent-red)";
+      fb.textContent = "Nicht richtig - versuch's nochmal.";
+      fb.className = "feedback bad";
+      setTimeout(function(){
+        dropZone.textContent = r.target;
+        dropZone.style.background = "";
+        dropZone.style.borderColor = "";
+        selectedOption = null;
+        optionChips.forEach(function(c){ c.classList.remove("selected-chip"); });
+      }, 700);
+    }
+  }
+
+  // Klick auf Option → auswählen
+  optionChips.forEach(function(chip){
+    chip.addEventListener("click", function(){
+      selectedOption = chip.dataset.word;
+      optionChips.forEach(function(c){ c.classList.remove("selected-chip"); });
+      chip.classList.add("selected-chip");
+    });
+    // Drag start
+    chip.addEventListener("dragstart", function(e){
+      e.dataTransfer.setData("text/plain", chip.dataset.word);
+      chip.classList.add("dragging-chip");
+    });
+    chip.addEventListener("dragend", function(){
+      chip.classList.remove("dragging-chip");
+    });
+  });
+
+  // Klick auf Drop-Zone → platziert ausgewählte Option
+  dropZone.addEventListener("click", function(){
+    if(selectedOption) tryAnswer(selectedOption);
+  });
+
+  // Drag-Drop auf Zone
+  dropZone.addEventListener("dragover", function(e){
+    e.preventDefault();
+    dropZone.classList.add("drag-over-target");
+  });
+  dropZone.addEventListener("dragleave", function(){
+    dropZone.classList.remove("drag-over-target");
+  });
+  dropZone.addEventListener("drop", function(e){
+    e.preventDefault();
+    dropZone.classList.remove("drag-over-target");
+    var word = e.dataTransfer.getData("text/plain");
+    if(word) tryAnswer(word);
+  });
+
+  addCloseButton(document.getElementById("mg-actions"));
+}
+
+function addCloseButton(actions){
+  if(mg && mg.isTutorial) return; // Einstufungsprüfung ist verpflichtend, kein Abbrechen
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "pixel-btn secondary";
+  closeBtn.textContent = "Abbrechen";
+  closeBtn.onclick = closeMinigame;
+  actions.appendChild(closeBtn);
+}
+
+function markHealed(npc){
+  state.healed[npc.id] = true;
+  if(npc.journalEntry && !state.journal.find(function(e){ return e.text === npc.journalEntry; })){
+    state.journal.push({ text: npc.journalEntry, emoji: npc.clueEmoji || "📌" });
+  }
+  renderHub();
+}
+
+/* =========================================================
+   BRUNNEN-SCHLOSS (Emoji-Ringe)
+   ========================================================= */
+var LOCK_EMOJIS = ["💧","📖","🔑","⚖️","🗺️","🕯️","🌿","⭐"];
+var LOCK_TARGET  = ["💧","📖","🔑","⚖️","🗺️"];
+var lockState    = [0,0,0,0,0];
+
+function openBrunnenLock(){
+  var rings = document.getElementById("lock-rings");
+  rings.innerHTML = "";
+  lockState[0]=0;lockState[1]=0;lockState[2]=0;lockState[3]=0;lockState[4]=0;
+  document.getElementById("lock-feedback").textContent = "";
+
+  for(var i=0;i<5;i++){
+    (function(idx){
+      var wrap = document.createElement("div");
+      wrap.className = "lock-ring";
+
+      var up = document.createElement("button");
+      up.className = "pixel-btn secondary";
+      up.style.cssText = "padding:2px 14px;font-size:.75rem;box-shadow:none;";
+      up.textContent = "▲";
+
+      var display = document.createElement("div");
+      display.className = "lock-ring-display";
+      display.textContent = LOCK_EMOJIS[0];
+
+      var down = document.createElement("button");
+      down.className = "pixel-btn secondary";
+      down.style.cssText = "padding:2px 14px;font-size:.75rem;box-shadow:none;";
+      down.textContent = "▼";
+
+      function advance(dir){
+        lockState[idx] = (lockState[idx] + dir + LOCK_EMOJIS.length) % LOCK_EMOJIS.length;
+        display.textContent = LOCK_EMOJIS[lockState[idx]];
+        document.getElementById("lock-feedback").textContent = "";
+      }
+
+      up.onclick   = function(){ advance(1); };
+      down.onclick = function(){ advance(-1); };
+      display.onclick = function(){ advance(1); };
+
+      var label = document.createElement("div");
+      label.className = "lock-ring-label";
+      label.textContent = "Ring " + (idx+1);
+
+      wrap.appendChild(up);
+      wrap.appendChild(display);
+      wrap.appendChild(down);
+      wrap.appendChild(label);
+      rings.appendChild(wrap);
+    })(i);
+  }
+
+  document.getElementById("lock-overlay").classList.add("active");
+}
+
+function checkLock(){
+  var allCorrect = lockState.every(function(stateIdx, i){
+    return LOCK_EMOJIS[stateIdx] === LOCK_TARGET[i];
+  });
+  var fb = document.getElementById("lock-feedback");
+  if(allCorrect){
+    fb.textContent = "Das Schloss öffnet sich... 💧";
+    fb.className = "feedback ok";
+    setTimeout(function(){
+      document.getElementById("lock-overlay").classList.remove("active");
+      runStory(ENDING_LINES, function(){ showScreen("screen-end"); }, "Zum Epilog");
+    }, 1200);
+  } else {
+    fb.textContent = "Das Schloss reagiert nicht. Schau noch einmal ins Tagebuch.";
+    fb.className = "feedback bad";
+  }
+}
+/* =========================================================
+   DEBUG / TEST PANEL
+   ========================================================= */
+var DEBUG_CODE = "asteron23"; // Geheimcode zum Freischalten
+
+function promptDebugCode(){
+  var code = prompt("Entwickler-Code eingeben:");
+  if(!code) return;
+  if(code.toLowerCase() === DEBUG_CODE){
+    var panel = document.getElementById("debug-panel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+    dbgLog("Testmodus aktiviert.");
+  } else {
+    // Kein Feedback bei falschem Code – kein Hinweis für Schüler
+  }
+}
+
+function dbgLog(msg){
+  var el = document.getElementById("debug-log");
+  if(el) el.textContent = "→ " + msg;
+}
+
+function debugSkipIntro(){
+  document.getElementById("dialog-overlay").classList.remove("active");
+  document.getElementById("minigame-overlay").classList.remove("active");
+  document.getElementById("lock-overlay") && document.getElementById("lock-overlay").classList.remove("active");
+  state.tutorialPassed = true;
+  renderHub();
+  showScreen("screen-dorf");
+  dbgLog("Intro + Tutorial übersprungen.");
+}
+
+function debugSkipTutorial(){
+  document.getElementById("dialog-overlay").classList.remove("active");
+  document.getElementById("minigame-overlay").classList.remove("active");
+  state.tutorialPassed = true;
+  renderHub();
+  showScreen("screen-dorf");
+  dbgLog("Tutorial übersprungen, Dorfplatz freigeschaltet.");
+}
+
+function debugHealNext(){
+  var next = NPCS.find(function(n){ return !state.healed[n.id]; });
+  if(!next){ dbgLog("Alle NPCs bereits geheilt."); return; }
+  markHealed(next);
+  dbgLog("Geheilt: " + next.name);
+}
+
+function debugHealAll(){
+  NPCS.forEach(function(npc){ markHealed(npc); });
+  renderHub();
+  showScreen("screen-dorf");
+  dbgLog("Alle 5 NPCs geheilt.");
+}
+
+function debugOpenLock(){
+  if(!document.getElementById("screen-dorf").classList.contains("active")){
+    renderHub(); showScreen("screen-dorf");
+  }
+  openBrunnenLock();
+  dbgLog("Schloss geöffnet.");
+}
+
+function debugReset(){
+  if(!confirm("Wirklich alles zurücksetzen?")) return;
+  state.healed = {};
+  state.journal = [];
+  state.tutorialPassed = false;
+  document.getElementById("dialog-overlay").classList.remove("active");
+  document.getElementById("minigame-overlay").classList.remove("active");
+  var lo = document.getElementById("lock-overlay");
+  if(lo) lo.classList.remove("active");
+  showScreen("screen-title");
+  dbgLog("Zurückgesetzt.");
+}
+/* =========================================================
+   ABSCHLUSS-ANIMATION
+   ========================================================= */
+var END_TEXT = "Du hast alle fünf Zeichen gefunden und den Ankerbrunnen repariert. Das vollständige Protokoll ist zurückgekehrt – nicht weil es die einzig richtige Sprache gibt, sondern weil Asteron sein eigenes System jetzt wieder versteht. Der junge Bibliothekar hätte es sich nicht besser vorstellen können.";
+
+function startEndingAnimation(){
+  // Partikel
+  startEndParticles();
+  // Typewriter nach kurzem Delay
+  setTimeout(function(){
+    typewriterText("end-typewriter", END_TEXT, 28, function(){
+      // Knopf bereits sichtbar
+    });
+  }, 600);
+}
+
+function typewriterText(elId, text, speed, onDone){
+  var el = document.getElementById(elId);
+  if(!el) return;
+  el.textContent = "";
+  var i = 0;
+  function next(){
+    if(i < text.length){
+      el.textContent += text[i++];
+      setTimeout(next, speed);
+    } else if(onDone){
+      setTimeout(onDone, 400);
+    }
+  }
+  next();
+}
+
+function startEndParticles(){
+  var canvas = document.getElementById("end-particles");
+  if(!canvas) return;
+  var scene = document.getElementById("end-scene");
+  canvas.width  = scene.offsetWidth  || 760;
+  canvas.height = scene.offsetHeight || 500;
+  var ctx = canvas.getContext("2d");
+  var particles = [];
+  for(var i = 0; i < 55; i++){
+    particles.push(spawnParticle(canvas.width, canvas.height, true));
+  }
+  var colors = ["#aae0ff","#c9a23a","#7fb3d5","#ffe9a8","#ffffff"];
+  function spawnParticle(w, h, scatter){
+    return {
+      x: w * 0.3 + Math.random() * w * 0.4,
+      y: scatter ? Math.random() * h : h * 0.6 + Math.random() * h * 0.4,
+      size: 1 + Math.random() * 2.5,
+      speed: 0.4 + Math.random() * 1.2,
+      drift: (Math.random() - 0.5) * 0.5,
+      alpha: Math.random(),
+      color: colors[Math.floor(Math.random() * colors.length)],
+      fade: 0.008 + Math.random() * 0.012
+    };
+  }
+  var running = true;
+  function frame(){
+    if(!document.getElementById("screen-end").classList.contains("active")){
+      running = false; return;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(function(p, i){
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(Math.round(p.x), Math.round(p.y), Math.ceil(p.size), Math.ceil(p.size));
+      p.y  -= p.speed;
+      p.x  += p.drift;
+      p.alpha -= p.fade;
+      if(p.alpha <= 0){
+        particles[i] = spawnParticle(canvas.width, canvas.height, false);
+      }
+    });
+    ctx.globalAlpha = 1;
+    if(running) requestAnimationFrame(frame);
+  }
+  frame();
+}
+</script>
+<!-- ═══════════════ DEBUG / TEST PANEL ═══════════════ -->
+<div id="debug-panel" style="
+  display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:760px;
+  background:#0f1a10ee;border-top:3px solid #4a7a2a;
+  padding:10px 14px;z-index:9999;font-family:'Courier New',monospace;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <span style="color:#7fc040;font-size:.7rem;font-weight:bold;">⚙ TESTMODUS</span>
+    <button onclick="document.getElementById('debug-panel').style.display='none'"
+      style="background:none;border:1px solid #4a7a2a;color:#7fc040;font-family:'Courier New',monospace;font-size:.65rem;padding:2px 8px;cursor:pointer;">✕ schließen</button>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="dbg-btn" onclick="debugSkipIntro()">⏩ Intro überspringen</button>
+    <button class="dbg-btn" onclick="debugSkipTutorial()">⏩ Tutorial überspringen</button>
+    <button class="dbg-btn" onclick="debugHealAll()">✓ Alle NPCs heilen</button>
+    <button class="dbg-btn" onclick="debugHealNext()">✓ Nächsten NPC heilen</button>
+    <button class="dbg-btn" onclick="debugOpenLock()">🔓 Schloss öffnen</button>
+    <button class="dbg-btn" onclick="debugReset()">↺ Zurücksetzen</button>
+  </div>
+  <div id="debug-log" style="margin-top:8px;font-size:.6rem;color:#7fc040;min-height:14px;"></div>
+</div>
+<style>
+  .dbg-btn{
+    font-family:'Courier New',monospace;font-size:.65rem;
+    background:#1a2e1a;border:1px solid #4a7a2a;color:#9fdf60;
+    padding:4px 10px;cursor:pointer;
+  }
+  .dbg-btn:hover{background:#2a4a2a;}
+</style>
+</body>
+</html>
