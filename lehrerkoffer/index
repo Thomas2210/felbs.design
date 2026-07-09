@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lehrerkoffer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f9f9f9;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER (wie Lehrerkoffer-Danke-Seite) ── */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    header a.logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #222;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+    }
+
+    header a.logo img {
+      height: 36px;
+      width: auto;
+    }
+
+    header a.instagram {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    header a.instagram:hover {
+      color: #c13584;
+    }
+
+    /* Instagram icon via SVG */
+    header a.instagram::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5' ry='5'/%3E%3Cpath d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z'/%3E%3Cline x1='17.5' y1='6.5' x2='17.51' y2='6.5'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .card h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p.subtitle {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+    }
+
+    /* ── FACH-BUTTONS ── */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      filter: brightness(1.05);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .btn-rot {
+      background: #e02020;
+      color: #fff;
+    }
+
+    .btn-gruen {
+      background: #2a9d2a;
+      color: #fff;
+    }
+
+    .btn-blau {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .btn-gelb {
+      background: #f2b705;
+      color: #222;
+    }
+
+    /* ── ZURÜCK-BUTTON ── */
+    .btn-back {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 0.88rem;
+      cursor: pointer;
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover {
+      color: #222;
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* ── FOOTER (wie Lehrerkoffer) ── */
+    footer {
+      background: #fff;
+      border-top: 1px solid #e0e0e0;
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: #888;
+    }
+
+    footer a {
+      color: #888;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 500px) {
+      .card {
+        padding: 28px 18px;
+      }
+
+      .card h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a class="logo" href="https://www.felbsdesign.at/index.html">
+      <img src="https://www.felbsdesign.at/Lehrerkoffer_logo.png" alt="Lehrerkoffer Logo" onerror="this.style.display='none'" />
+      LEHRERKOFFER
+    </a>
+    <a class="instagram" href="https://www.instagram.com/lehrerkoffer" target="_blank" rel="noopener">
+      Instagram
+    </a>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div class="card">
+
+      <!-- SCREEN 1: Fächerwahl -->
+      <div class="screen active" id="screen-fach">
+        <h1>📚 Wähle dein Fach</h1>
+        <p class="subtitle">Wähle das Fach, für das du Material suchst.</p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-rot" onclick="zeigeDeutsch()">🇩🇪 Deutsch</button>
+          <a class="btn btn-gruen" href="https://www.felbsdesign.at/geographie">🌍 Geographie &amp; Wirtschaft</a>
+        </div>
+      </div>
+
+      <!-- SCREEN 2: Deutsch-Unterthemen -->
+      <div class="screen" id="screen-deutsch">
+        <h1>🇩🇪 Deutsch</h1>
+        <p class="subtitle">Wähle ein Thema:</p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-rot" onclick="zeigeGrossKlein()">Groß- und Kleinschreibung</button>
+          <!-- Hier können weitere Deutsch-Themen ergänzt werden -->
+        </div>
+        <button type="button" class="btn-back" onclick="zurueckZuFach()">← Zurück zur Fächerwahl</button>
+      </div>
+
+      <!-- SCREEN 3: Groß-/Kleinschreibung – Stufenwahl -->
+      <div class="screen" id="screen-stufe">
+        <h1>✏️ Groß- und Kleinschreibung</h1>
+        <p class="subtitle">Für welche Schulstufe suchst du Material?</p>
+        <div class="btn-group">
+          <a class="btn btn-blau" href="https://www.felbsdesign.at/grossundkleinschreibungUS">Unterstufe</a>
+          <a class="btn btn-gelb" href="https://www.felbsdesign.at/grossundkleinschreibungOS">Oberstufe</a>
+        </div>
+        <button type="button" class="btn-back" onclick="zurueckZuDeutsch()">← Zurück zu Deutsch</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © Lehrerkoffer &nbsp;·&nbsp; <a href="https://www.felbsdesign.at/index.html#kontakt">Impressum</a>
+  </footer>
+
+  <script>
+    function zeigeDeutsch() {
+      document.getElementById('screen-fach').classList.remove('active');
+      document.getElementById('screen-deutsch').classList.add('active');
+    }
+
+    function zeigeGrossKlein() {
+      document.getElementById('screen-deutsch').classList.remove('active');
+      document.getElementById('screen-stufe').classList.add('active');
+    }
+
+    function zurueckZuFach() {
+      document.getElementById('screen-deutsch').classList.remove('active');
+      document.getElementById('screen-fach').classList.add('active');
+    }
+
+    function zurueckZuDeutsch() {
+      document.getElementById('screen-stufe').classList.remove('active');
+      document.getElementById('screen-deutsch').classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
