@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -323,9 +324,57 @@
   @media (max-width:520px){
     .dialog-box{flex-direction:column;}
   }
+
+  /* ── Lizenzschloss-Screen ── */
+  #screen-license{
+    position:fixed;inset:0;z-index:9000;
+    background:#1a2a1c;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:18px;padding:30px;
+  }
+  #screen-license.hidden{display:none;}
+  .license-box{
+    background:var(--parchment);border:5px solid var(--wood-dark);
+    box-shadow:0 0 0 3px var(--accent-gold) inset, 0 0 40px rgba(0,0,0,0.8);
+    padding:28px 28px 22px;max-width:380px;width:100%;text-align:center;
+  }
+  .license-title{
+    color:var(--wood-dark);font-size:1rem;font-weight:bold;
+    letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;
+  }
+  .license-sub{
+    font-size:.7rem;color:#5a4a35;margin-bottom:18px;line-height:1.5;
+  }
+  #license-seal{font-size:2.4rem;display:block;margin-bottom:10px;}
+  #license-input{
+    width:100%;font-family:'Courier New',monospace;font-size:.9rem;
+    padding:9px 12px;border:3px solid var(--wood);background:#fffaf0;
+    text-align:center;letter-spacing:2px;margin-bottom:10px;
+  }
+  #license-input:focus{outline:none;border-color:var(--accent-gold);}
+  #license-error{
+    font-size:.7rem;color:var(--accent-red);min-height:16px;margin-bottom:10px;
+  }
+  .license-version{font-size:.58rem;color:#8a7a5d;margin-top:8px;}
+
 </style>
 </head>
 <body>
+
+  <!-- LIZENZ-SCREEN -->
+  <div id="screen-license">
+    <div class="license-box">
+      <span id="license-seal">📜</span>
+      <div class="license-title">Der Ankerbrunnen von Asteron</div>
+      <div class="license-sub">Bitte gib den Lizenzschlüssel ein,<br>um das Spiel zu starten.</div>
+      <input type="password" id="license-input" placeholder="Lizenzschlüssel" autocomplete="off"
+             onkeydown="if(event.key==='Enter')checkLicense()">
+      <div id="license-error"></div>
+      <button class="pixel-btn" onclick="checkLicense()" style="width:100%;">Bestätigen</button>
+      <div class="license-version" id="license-version-label"></div>
+    </div>
+  </div>
+
 <div id="game">
 
   <div id="statusbar">
@@ -1853,6 +1902,50 @@ function startEndParticles(){
   }
   frame();
 }
+
+/* =========================================================
+   LIZENZSCHLÜSSEL
+   ========================================================= */
+var _LK = "QXN0ZXJvbjI2dHdm";
+
+function _b64(s){
+  try{ return btoa(unescape(encodeURIComponent(s))); } catch(e){ return btoa(s); }
+}
+
+function checkLicense(){
+  var val = (document.getElementById("license-input").value || "").trim();
+  var err = document.getElementById("license-error");
+  if(!val){ err.textContent = "Bitte einen Schlüssel eingeben."; return; }
+  if(_b64(val) === _LK){
+    try{ localStorage.setItem("_asl", _LK); } catch(e){}
+    document.getElementById("screen-license").classList.add("hidden");
+    err.textContent = "";
+  } else {
+    err.textContent = "Ungültiger Schlüssel. Bitte wende dich an deine Lehrperson.";
+    document.getElementById("license-input").value = "";
+    document.getElementById("license-input").focus();
+  }
+}
+
+function initLicense(){
+  var label = document.getElementById("license-version-label");
+  if(label) label.textContent = document.title;
+  try{
+    var stored = localStorage.getItem("_asl");
+    if(stored === _LK){
+      document.getElementById("screen-license").classList.add("hidden");
+      return;
+    }
+  } catch(e){}
+  // Lizenz-Screen bleibt sichtbar
+  setTimeout(function(){
+    var inp = document.getElementById("license-input");
+    if(inp) inp.focus();
+  }, 100);
+}
+
+window.addEventListener("DOMContentLoaded", initLicense);
+
 </script>
 <!-- ═══════════════ DEBUG / TEST PANEL ═══════════════ -->
 <div id="debug-panel" style="
