@@ -1700,7 +1700,7 @@ function openBrunnenLock(){
 
       var display = document.createElement("div");
       display.className = "lock-ring-display";
-      display.textContent = LOCK_EMOJIS[0];
+      display.textContent = LOCK_EMOJIS[lockState[idx]];
 
       var down = document.createElement("button");
       down.className = "pixel-btn secondary";
