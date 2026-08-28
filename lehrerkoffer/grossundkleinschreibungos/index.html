@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -218,6 +217,17 @@
   }
   .journal-entry .je-num{color:var(--wood-dark);font-weight:bold;margin-right:4px;}
   .journal-empty{color:var(--parchment-dark);font-size:.78rem;font-style:italic;}
+  .journal-order-box{
+    background:var(--wood-dark);border:3px solid var(--accent-gold);
+    padding:12px 14px;text-align:center;
+  }
+  .journal-order-title{
+    font-size:.68rem;color:var(--parchment-dark);letter-spacing:.5px;
+    text-transform:uppercase;margin-bottom:8px;
+  }
+  .journal-order-emojis{
+    font-size:1.6rem;letter-spacing:10px;
+  }
   #screen-rules{gap:14px;}
   .rule-card{
     background:var(--parchment);border:3px solid var(--wood-dark);
@@ -1176,12 +1186,26 @@ function openJournal(){
   if(document.getElementById("screen-title").classList.contains("active")) return;
   const wrap = document.getElementById("journal-entries");
   wrap.innerHTML = "";
+
+  // Richtige Reihenfolge der Zeichen fürs Schloss - immer sichtbar oben im Tagebuch
+  const orderBox = document.createElement("div");
+  orderBox.className = "journal-order-box";
+  orderBox.innerHTML =
+    '<div class="journal-order-title">Richtige Reihenfolge für das Brunnenschloss</div>' +
+    '<div class="journal-order-emojis">' + LOCK_TARGET.join(" ") + '</div>';
+  wrap.appendChild(orderBox);
+
   if(state.journal.length === 0){
-    wrap.innerHTML = '<div class="journal-empty">Noch keine Einträge. Sprich mit den Bewohnern von Asteron, um mehr zu erfahren.</div>';
+    const empty = document.createElement("div");
+    empty.className = "journal-empty";
+    empty.style.marginTop = "10px";
+    empty.textContent = "Noch keine Einträge. Sprich mit den Bewohnern von Asteron, um mehr zu erfahren.";
+    wrap.appendChild(empty);
   } else {
     state.journal.forEach(function(entry, i){
       const div = document.createElement("div");
       div.className = "journal-entry";
+      div.style.marginTop = "10px";
       div.innerHTML =
         '<div style="display:flex;align-items:flex-start;gap:10px;">' +
         '<div style="font-size:1.6rem;flex-shrink:0;line-height:1;" title="Hinweis für den Brunnen">' + entry.emoji + '</div>' +
