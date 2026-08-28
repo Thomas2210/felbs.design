@@ -1176,7 +1176,7 @@ function renderHub(){
    JOURNAL & REGELN (statische Screens)
    ========================================================= */
 
-/* NEU: Vorschau des bereits bekannten Brunnenschloss-Codes */
+/* Zeigt die Symbole an ihrer korrekten Zielposition, aber erst sobald der jeweilige NPC geheilt wurde - sonst ❔ */
 function renderLockCodePreview(){
   var slots = NPCS.map(function(npc, i){
     var known = !!state.healed[npc.id];
